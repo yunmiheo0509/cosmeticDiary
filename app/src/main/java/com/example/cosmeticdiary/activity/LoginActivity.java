@@ -1,14 +1,17 @@
-package com.example.cosmeticdiary;
+package com.example.cosmeticdiary.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.model.LoginModel;
 import com.example.cosmeticdiary.retrofit.RetrofitHelper;
 import com.example.cosmeticdiary.retrofit.RetrofitService;
@@ -26,11 +29,28 @@ public class LoginActivity extends AppCompatActivity {
 
         final RetrofitService[] retrofitService = new RetrofitService[1];
 
-        setContentView(R.layout.activity_main);
-        Button btnlogin = findViewById(R.id.login_btn);
-        final EditText et_id = findViewById(R.id.id_insert);
-        final EditText et_password = findViewById(R.id.pw_insert);
+        Button btnlogin = findViewById(R.id.btn_login);
+        Button btnregist = findViewById(R.id.btn_resgist);
+        TextView btnfindIdPw = findViewById(R.id.tv_findID);
 
+        final EditText et_id = findViewById(R.id.et_id);
+        final EditText et_password = findViewById(R.id.et_newpw);
+
+        btnregist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnfindIdPw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, FindIdPwActivity.class);
+                startActivity(intent);
+            }
+        });
 
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
