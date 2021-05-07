@@ -1,7 +1,5 @@
 package com.example.cosmeticdiary.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.model.LoginModel;
@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         TextView btnfindIdPw = findViewById(R.id.tv_findID);
 
         final EditText et_id = findViewById(R.id.et_id);
-        final EditText et_password = findViewById(R.id.et_newpw);
+        final EditText et_password = findViewById(R.id.et_pw);
 
         btnregist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,25 +64,31 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
                         if (response.isSuccessful()) {
-                                Log.d("성공", response.message());
-
-                                LoginModel loginModel = response.body();
-
-                                Log.v("code", loginModel.getUserID());
-                                Log.v("success", loginModel.getLoginBy());
-
-                                Toast.makeText(LoginActivity.this, loginModel.getUserID().toString(), Toast.LENGTH_SHORT).show();
+                            Log.d("연결 성공", response.message());
+                            LoginModel loginModel = response.body();
+                            Log.v("code", loginModel.getUserID());
+                            Log.v("success", loginModel.getLoginBy());
+                            if (loginModel.getUserID().equals("200")) {
+                                Toast.makeText(LoginActivity.this, "로그인 되었습니다.".toString(), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
 
 //                                appData.setPREF_LOGIN_ID(loginModel.getUserID());
 //                                appData.setPREF_LOGIN("y");
+                            } else {
+                                Toast.makeText(LoginActivity.this, "아이디와 비밀번호를 확인해주세요"
+                                        , Toast.LENGTH_SHORT).show();
+                                et_password.setText("");
+                                Log.d("ssss", response.message());
+                            }
 
-//                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                                startActivity(intent);
+
+
                         } else if (response.code() == 404) {
-                            Toast.makeText(LoginActivity.this, "아이디와 비밀번호를 확인해주세요"
+                            Toast.makeText(LoginActivity.this, "인터넷 연결을 확인해주세요"
                                     , Toast.LENGTH_SHORT).show();
-                            et_password.setText("");
                             Log.d("ssss", response.message());
+
                         }
                     }
 

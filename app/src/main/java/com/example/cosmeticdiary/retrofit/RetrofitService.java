@@ -10,7 +10,7 @@ import retrofit2.http.POST;
 public interface RetrofitService {
     @FormUrlEncoded
     @POST(Common.LoginURL)
-    Call<LoginModel> getLoginCheck(@Field("email") String userID,
+    Call<LoginModel> getLoginCheck(@Field("id") String userID,
                                    @Field("password") String password);
 //    @GET(Common.LoginURL)
 //    Call<ArrayList<GenderCompositionModel>> getGenderComposition(@Query("pID") int pID);

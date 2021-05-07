@@ -44,17 +44,17 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_register" />
 
     <TextView
-        android:id="@+id/tv_id"
+        android:id="@+id/tv_currentpw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="현재 비밀번호"
         android:textSize="18dp"
-        app:layout_constraintBottom_toTopOf="@+id/et_id"
+        app:layout_constraintBottom_toTopOf="@+id/et_currentpw"
         tools:layout_editor_absoluteX="58dp"
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/et_id"
+        android:id="@+id/et_currentpw"
         android:layout_width="300dp"
         android:layout_height="39dp"
         android:layout_marginStart="56dp"
@@ -95,9 +95,9 @@
         android:layout_marginTop="48dp"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/et_id"
-        app:layout_constraintStart_toStartOf="@+id/et_id"
-        app:layout_constraintTop_toBottomOf="@+id/et_id" />
+        app:layout_constraintEnd_toEndOf="@+id/et_currentpw"
+        app:layout_constraintStart_toStartOf="@+id/et_currentpw"
+        app:layout_constraintTop_toBottomOf="@+id/et_currentpw" />
 
     <TextView
         android:id="@+id/tv_checkpw"
