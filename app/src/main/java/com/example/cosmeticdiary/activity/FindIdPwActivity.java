@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.cosmeticdiary.FindIdPwAdapter;
+import com.example.cosmeticdiary.adapter.FindIdPwAdapter;
 import com.example.cosmeticdiary.R;
 import com.google.android.material.tabs.TabLayout;
 

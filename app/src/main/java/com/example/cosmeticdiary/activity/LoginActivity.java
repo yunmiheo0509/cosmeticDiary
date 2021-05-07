@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         TextView btnfindIdPw = findViewById(R.id.tv_findID);
 
         final EditText et_id = findViewById(R.id.et_id);
-        final EditText et_password = findViewById(R.id.et_password);
+        final EditText et_password = findViewById(R.id.et_newpw);
 
         btnregist.setOnClickListener(new View.OnClickListener() {
             @Override
