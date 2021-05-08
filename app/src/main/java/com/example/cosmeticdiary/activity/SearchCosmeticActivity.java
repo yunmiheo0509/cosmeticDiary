@@ -32,6 +32,6 @@ public class SearchCosmeticActivity extends AppCompatActivity {
         searchCosmeticAdapter = new SearchCosmeticAdapter(cosmeticArray);
         recyclerView.setAdapter(searchCosmeticAdapter);
 
-        cosmeticArray.add(new SearchCosmeticData(R.drawable.ic_launcher_background, "A", "B"));
+        cosmeticArray.add(new SearchCosmeticData(R.drawable.ic_launcher_background, "name", "brand"));
     }
 }

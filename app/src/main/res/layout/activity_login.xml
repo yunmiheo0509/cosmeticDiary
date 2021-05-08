@@ -31,7 +31,6 @@
         app:layout_constraintEnd_toStartOf="@+id/et_id"
         app:layout_constraintTop_toTopOf="@+id/et_id" />
 
-
     <EditText
         android:id="@+id/et_id"
         android:layout_width="168dp"

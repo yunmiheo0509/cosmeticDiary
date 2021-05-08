@@ -22,7 +22,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
@@ -33,7 +33,7 @@
             android:id="@+id/tv_cosmetic_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/tv_date"
             android:layout_marginTop="6dp"
             android:includeFontPadding="false"
             android:text="화장품명"
@@ -43,7 +43,7 @@
             android:id="@+id/tv_brand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/tv_date"
             android:layout_toRightOf="@id/tv_cosmetic_name"
             android:layout_marginTop="6dp"
             android:includeFontPadding="false"
