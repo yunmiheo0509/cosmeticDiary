@@ -66,9 +66,9 @@ public class LoginActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             Log.d("연결 성공", response.message());
                             LoginModel loginModel = response.body();
-                            Log.v("code", loginModel.getUserID());
-                            Log.v("success", loginModel.getLoginBy());
-                            if (loginModel.getUserID().equals("200")) {
+                            Log.v("code", loginModel.getCode());
+                            Log.v("success", loginModel.getSuccess());
+                            if (loginModel.getCode().equals("200")) {
                                 Toast.makeText(LoginActivity.this, "로그인 되었습니다.".toString(), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);

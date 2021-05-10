@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -7,4 +7,29 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="BackBtn">
+        <item name="android:layout_width">34dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginTop">13dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:src">@drawable/back</item>
+    </style>
+
+    <style name="divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:background">#ebebeb</item>
+    </style>
+
+    // 로고 (font 추가)
+    <style name="logo">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:text">Cosmetic Diary</item>
+        <item name="android:textSize">25dp</item>
+    </style>
 </resources>

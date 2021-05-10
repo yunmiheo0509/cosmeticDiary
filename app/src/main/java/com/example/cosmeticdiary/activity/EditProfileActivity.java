@@ -10,36 +10,38 @@ import android.widget.ImageView;
 
 import com.example.cosmeticdiary.R;
 
-public class RegisterActivity extends AppCompatActivity {
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class EditProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_edit_profile);
 
-        ImageView backbtn = findViewById(R.id.iv_back);
-        Button btndupcheck = findViewById(R.id.btn_dupcheck);
+        Button btnchangePw = findViewById(R.id.btn_changepw);
         Button btncomplete = findViewById(R.id.btn_complete);
+        CircleImageView editimg = findViewById(R.id.iv_editimg);
 
-        backbtn.setOnClickListener(new View.OnClickListener() {
+        btnchangePw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                Intent intent = new Intent(EditProfileActivity.this, ChangePwActivity.class);
                 startActivity(intent);
             }
         });
 
-        btndupcheck.setOnClickListener(new View.OnClickListener() {
+        editimg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 중복확인 리
+                // 갤러리 이동
             }
-        });
+       });
 
         btncomplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 회원가입 처리
+                // 버튼 클릭시 데이터 저장처리
             }
         });
     }

@@ -8,15 +8,9 @@
 
     <ImageView
         android:id="@+id/iv_back"
-        android:layout_width="34dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/ic_launcher_background"
+        style="@style/BackBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:clickable="true"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_register"
@@ -47,23 +41,24 @@
         android:id="@+id/tv_currentpw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:text="현재 비밀번호"
         android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/et_currentpw"
-        tools:layout_editor_absoluteX="58dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.178"
+        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/et_currentpw"
         android:layout_width="300dp"
         android:layout_height="39dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginLeft="56dp"
         android:layout_marginTop="92dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/btn_dupcheck"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -74,17 +69,21 @@
         android:text="새 비밀번호"
         android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/et_newpw"
-        tools:layout_editor_absoluteX="58dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_currentpw"
         tools:ignore="MissingConstraints" />
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
+        android:layout_marginBottom="4dp"
         android:text="(알파벳 숫자 혼합 8자 이상)"
         android:textSize="13dp"
         app:layout_constraintBottom_toTopOf="@+id/et_newpw"
+        app:layout_constraintEnd_toEndOf="@+id/tv_currentpw"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/tv_newpw"
         tools:ignore="MissingConstraints" />
 
@@ -106,7 +105,9 @@
         android:text="비밀번호 확인"
         android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/et_checkpw"
-        tools:layout_editor_absoluteX="58dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_newpw"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_newpw"
         tools:ignore="MissingConstraints" />
 
     <EditText
@@ -122,13 +123,14 @@
         app:layout_constraintTop_toBottomOf="@+id/et_newpw" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_complete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:text="완료"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_checkpw"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="164dp" />
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

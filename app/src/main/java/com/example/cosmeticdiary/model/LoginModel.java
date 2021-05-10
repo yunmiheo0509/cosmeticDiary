@@ -16,19 +16,17 @@ public class LoginModel {
         this.success = success;
     }
 
-    public String getUserID() {
+    public String getCode() {
         return code;
     }
 
-    public void setUserID(String userID) {
-        this.code = userID;
-    }
+    public void setCode(String code) { this.code = code; }
 
-    public String getLoginBy() {
+    public String getSuccess() {
         return success;
     }
 
-    public void setLoginBy(String loginBy) {
+    public void setSuccess(String success) {
         this.success = success;
     }
 }
