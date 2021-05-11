@@ -74,6 +74,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
         android:text="로그인"
         app:layout_constraintBottom_toBottomOf="@+id/et_pw"
         app:layout_constraintEnd_toEndOf="parent"

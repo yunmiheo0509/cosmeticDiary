@@ -12,6 +12,18 @@ public interface RetrofitService {
     @POST(Common.LoginURL)
     Call<LoginModel> getLoginCheck(@Field("id") String userID,
                                    @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST(Common.DupCheckURL)
+    Call<LoginModel> getDoubleCheck(@Field("id") String userID);
+
+    @FormUrlEncoded
+    @POST(Common.RegisterURL)
+    Call<LoginModel> getRegister(@Field("id") String userID,
+                                    @Field("password") String password,
+                                    @Field("name") String name,
+                                    @Field("email") String email);
+
 //    @GET(Common.LoginURL)
 //    Call<ArrayList<GenderCompositionModel>> getGenderComposition(@Query("pID") int pID);
 
