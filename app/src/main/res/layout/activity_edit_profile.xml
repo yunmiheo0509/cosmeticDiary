@@ -1,41 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activity.EditProfileActivity">
 
-    <CheckBox
-        android:id="@+id/checkbox_dry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="건성"
-        android:textSize="14dp"
-        app:layout_constraintStart_toStartOf="@+id/tv_skintype"
-        app:layout_constraintTop_toBottomOf="@+id/tv_skintype"
-        tools:ignore="MissingConstraints" />
 
-    <ImageView
-        android:id="@+id/iv_back"
-        style="@style/BackBtn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_editprofile"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:id="@+id/frameLayout_write"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:includeFontPadding="false"
-        android:text="프로필 편집"
-        android:textSize="21dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            style="@style/BackBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_editprofile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:includeFontPadding="false"
+            android:text="프로필 편집"
+            android:textSize="21dp"
+
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/btn_complete"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="10dp"
+            android:text="완료"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.807"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="6dp" />
+    </FrameLayout>
 
     <View
         android:id="@+id/view"
@@ -43,255 +54,270 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_editprofile" />
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout_write" />
 
-    <CheckBox
-        android:id="@+id/checkbox_sensitive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:text="민감성"
-        android:textSize="14dp"
-        app:layout_constraintStart_toEndOf="@+id/checkbox_combination"
-        app:layout_constraintTop_toTopOf="@+id/checkbox_oily"
-        tools:ignore="MissingConstraints" />
-
-    <CheckBox
-        android:id="@+id/checkbox_combination"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:text="복합성"
-        android:textSize="14dp"
-        app:layout_constraintStart_toEndOf="@+id/checkbox_oily"
-        app:layout_constraintTop_toTopOf="@+id/checkbox_sensitive"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/tv_gender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="성별 : "
-        android:textSize="16dp"
-        app:layout_constraintStart_toStartOf="@+id/tv_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name"
-        tools:ignore="MissingConstraints" />
-
-    <RadioButton
-        android:id="@+id/radiobtn_female"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:text="여"
-        android:textSize="16dp"
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_gender"
-        app:layout_constraintTop_toTopOf="@+id/tv_gender"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/tv_age"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="나이 : "
-        android:textSize="16dp"
-        app:layout_constraintStart_toStartOf="@+id/tv_gender"
-        app:layout_constraintTop_toBottomOf="@+id/tv_gender"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/tv_userage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:text="24"
-        android:textSize="16dp"
-        app:layout_constraintStart_toEndOf="@+id/tv_age"
-        app:layout_constraintTop_toTopOf="@+id/tv_age"
-        tools:ignore="MissingConstraints" />
-
-
-    <RadioButton
-        android:id="@+id/radiobtn_male"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:text="남"
-        android:textSize="16dp"
-        app:layout_constraintStart_toEndOf="@+id/radiobtn_female"
-        app:layout_constraintTop_toTopOf="@+id/radiobtn_female"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/tv_skintype"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="피부타입"
-        android:textSize="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.144"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_age" />
-
-    <CheckBox
-        android:id="@+id/checkbox_oily"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:text="지성"
-        android:textSize="14dp"
-        app:layout_constraintStart_toEndOf="@+id/checkbox_dry"
-        app:layout_constraintTop_toTopOf="@+id/checkbox_dry"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/tv_allergy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="알러지"
-        android:textSize="16dp"
-        app:layout_constraintStart_toStartOf="@+id/tv_skintype"
-        app:layout_constraintTop_toBottomOf="@+id/checkbox_dry"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/et_allergy1"
-        android:layout_width="130dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="1"
-        android:textSize="14dp"
-        app:layout_constraintStart_toStartOf="@+id/tv_allergy"
-        app:layout_constraintTop_toBottomOf="@+id/tv_allergy"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-            android:id="@+id/et_allergy3"
-            android:layout_width="130dp"
-            android:layout_height="30dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="3"
-            android:textSize="14dp"
-            app:layout_constraintStart_toStartOf="@+id/et_allergy1"
-            app:layout_constraintTop_toBottomOf="@+id/et_allergy1" />
-
-    <EditText
-        android:id="@+id/et_allergy4"
-        android:layout_width="130dp"
-        android:layout_height="30dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="4"
-        android:textSize="14dp"
-        app:layout_constraintEnd_toEndOf="@+id/et_allergy2"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/et_allergy3"
-        app:layout_constraintTop_toBottomOf="@+id/et_allergy2"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/et_allergy2"
-        android:layout_width="130dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="2"
-        android:textSize="14dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.181"
-        app:layout_constraintStart_toEndOf="@+id/et_allergy1"
-        app:layout_constraintTop_toTopOf="@+id/et_allergy1"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="116dp"
-        android:layout_marginLeft="116dp"
-        android:layout_marginTop="16dp"
-        android:text="이름 : "
-        android:textSize="18dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_changepw"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/btn_complete"
-        android:layout_width="83dp"
-        android:layout_height="43dp"
-        android:text="완료"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.807"
-        app:layout_constraintStart_toEndOf="@+id/tv_editprofile"
-        tools:layout_editor_absoluteY="6dp"
-        tools:ignore="MissingConstraints" />
-
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
         tools:ignore="MissingConstraints">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/iv_profileimg"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/profileimg" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/iv_editimg"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:layout_gravity="bottom|right"
-            android:clickable="true"
-            android:src="@drawable/edit" />
-    </FrameLayout>
+            <CheckBox
+                android:id="@+id/checkbox_dry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="건성"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="@+id/tv_skintype"
+                app:layout_constraintTop_toBottomOf="@+id/tv_skintype"
+                tools:ignore="MissingConstraints" />
 
-    <Button
-        android:id="@+id/btn_changepw"
-        android:layout_width="106dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="20dp"
-        android:text="비밀번호 변경"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+            <CheckBox
+                android:id="@+id/checkbox_sensitive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:text="민감성"
+                android:textSize="14dp"
+                app:layout_constraintStart_toEndOf="@+id/checkbox_combination"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_oily"
+                tools:ignore="MissingConstraints" />
 
-    <EditText
-        android:id="@+id/et_name"
-        android:layout_width="119dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="96dp"
-        android:layout_marginRight="96dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="홍길동"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.235"
-        app:layout_constraintStart_toEndOf="@+id/tv_name"
-        app:layout_constraintTop_toTopOf="@+id/tv_name" />
+            <CheckBox
+                android:id="@+id/checkbox_combination"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:text="복합성"
+                android:textSize="14dp"
+                app:layout_constraintStart_toEndOf="@+id/checkbox_oily"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_sensitive"
+                tools:ignore="MissingConstraints" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tv_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="성별 : "
+                android:textSize="16dp"
+                app:layout_constraintStart_toStartOf="@+id/tv_name"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name"
+                tools:ignore="MissingConstraints" />
+
+            <RadioButton
+                android:id="@+id/radiobtn_female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:text="여"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_gender"
+                app:layout_constraintTop_toTopOf="@+id/tv_gender"
+                app:layout_constraintVertical_bias="0.0"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/tv_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="나이 : "
+                android:textSize="16dp"
+                app:layout_constraintStart_toStartOf="@+id/tv_gender"
+                app:layout_constraintTop_toBottomOf="@+id/tv_gender"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/tv_userage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:text="24"
+                android:textSize="16dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_age"
+                app:layout_constraintTop_toTopOf="@+id/tv_age"
+                tools:ignore="MissingConstraints" />
+
+
+            <RadioButton
+                android:id="@+id/radiobtn_male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:text="남"
+                android:textSize="16dp"
+                app:layout_constraintStart_toEndOf="@+id/radiobtn_female"
+                app:layout_constraintTop_toTopOf="@+id/radiobtn_female"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/tv_skintype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="피부타입"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.144"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_age" />
+
+            <CheckBox
+                android:id="@+id/checkbox_oily"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:text="지성"
+                android:textSize="14dp"
+                app:layout_constraintStart_toEndOf="@+id/checkbox_dry"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_dry"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/tv_allergy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="알러지"
+                android:textSize="16dp"
+                app:layout_constraintStart_toStartOf="@+id/tv_skintype"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_dry"
+                tools:ignore="MissingConstraints" />
+
+            <EditText
+                android:id="@+id/et_allergy1"
+                android:layout_width="130dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="1"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="@+id/tv_allergy"
+                app:layout_constraintTop_toBottomOf="@+id/tv_allergy"
+                tools:ignore="MissingConstraints" />
+
+            <EditText
+                android:id="@+id/et_allergy3"
+                android:layout_width="130dp"
+                android:layout_height="30dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="3"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="@+id/et_allergy1"
+                app:layout_constraintTop_toBottomOf="@+id/et_allergy1" />
+
+            <EditText
+                android:id="@+id/et_allergy4"
+                android:layout_width="130dp"
+                android:layout_height="30dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="4"
+                android:textSize="14dp"
+                app:layout_constraintEnd_toEndOf="@+id/et_allergy2"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/et_allergy3"
+                app:layout_constraintTop_toBottomOf="@+id/et_allergy2"
+                tools:ignore="MissingConstraints" />
+
+            <EditText
+                android:id="@+id/et_allergy2"
+                android:layout_width="130dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="2"
+                android:textSize="14dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.181"
+                app:layout_constraintStart_toEndOf="@+id/et_allergy1"
+                app:layout_constraintTop_toTopOf="@+id/et_allergy1"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="116dp"
+                android:layout_marginLeft="116dp"
+                android:layout_marginTop="16dp"
+                android:text="이름 : "
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_changepw"
+                tools:ignore="MissingConstraints" />
+
+
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_profileimg"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/profileimg" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_editimg"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_gravity="bottom|right"
+                    android:clickable="true"
+                    android:src="@drawable/edit" />
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/btn_changepw"
+                android:layout_width="106dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="20dp"
+                android:text="비밀번호 변경"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="119dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="96dp"
+                android:layout_marginRight="96dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="홍길동"
+                android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.235"
+                app:layout_constraintStart_toEndOf="@+id/tv_name"
+                app:layout_constraintTop_toTopOf="@+id/tv_name" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>

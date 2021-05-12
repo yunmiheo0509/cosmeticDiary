@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,25 +8,32 @@
     android:orientation="vertical"
     tools:context=".activity.RegisterActivity">
 
-    <ImageView
-        android:id="@+id/iv_back"
-        style="@style/BackBtn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_register"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:id="@+id/frameLayout_write"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:includeFontPadding="false"
-        android:text="회원가입"
-        android:textSize="21dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            style="@style/BackBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:includeFontPadding="false"
+            android:text="회원가입"
+            android:textSize="21dp" />
+    </FrameLayout>
 
     <View
         android:id="@+id/view"
@@ -33,177 +41,196 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_register" />
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout_write" />
 
-    <TextView
-        android:id="@+id/tv_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="아이디"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/et_id"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.16"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/et_id"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="80dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/tv_id"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/btn_dupcheck"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginRight="52dp"
-        android:text="중복확인"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/et_id"
-        app:layout_constraintTop_toTopOf="@+id/et_id"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/tv_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="비밀번호"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/et_password"
-        app:layout_constraintStart_toStartOf="@+id/tv_id"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:text="(알파벳 숫자 혼합 8자 이상)"
-        android:textSize="13dp"
-        app:layout_constraintBottom_toTopOf="@+id/et_password"
-        app:layout_constraintEnd_toEndOf="@+id/tv_id"
-        app:layout_constraintHorizontal_bias="0.023"
-        app:layout_constraintStart_toEndOf="@+id/tv_password"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/et_password"
-        android:layout_width="270dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="48dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/btn_dupcheck"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/et_id"
-        app:layout_constraintTop_toBottomOf="@+id/et_id" />
-
-    <TextView
-        android:id="@+id/tv_checkpw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="비밀번호 확인"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/et_checkpw"
-        app:layout_constraintEnd_toEndOf="@+id/tv_password"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_password"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/et_checkpw"
-        android:layout_width="270dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="50dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/et_password"
-        app:layout_constraintStart_toStartOf="@+id/et_password"
-        app:layout_constraintTop_toBottomOf="@+id/et_password" />
-
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="이름(닉네임)"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/et_name"
-        app:layout_constraintEnd_toEndOf="@+id/tv_checkpw"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_checkpw"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/et_name"
-        android:layout_width="270dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="50dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/et_checkpw"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/et_checkpw"
-        app:layout_constraintTop_toBottomOf="@+id/et_checkpw" />
-
-    <EditText
-        android:id="@+id/et_email"
-        android:layout_width="270dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="50dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="@+id/et_name"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/et_name"
-        app:layout_constraintTop_toBottomOf="@+id/et_name" />
-
-    <TextView
-        android:id="@+id/tv_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="이메일"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/et_email"
-        app:layout_constraintEnd_toEndOf="@+id/tv_name"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_name"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/btn_complete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="완료"
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_email"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        tools:ignore="MissingConstraints">
 
-    <TextView
-        android:id="@+id/tv_passwordCheckMsg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="비밀번호를 입력해주세요"
-        android:textColor="@android:color/holo_red_dark"
-        app:layout_constraintBottom_toTopOf="@+id/et_checkpw"
-        app:layout_constraintStart_toEndOf="@+id/tv_checkpw" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="MissingConstraints">
 
-    <TextView
-        android:id="@+id/tv_idCheckMsg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="중복확인 버튼을 눌러주세요"
-        android:textColor="@android:color/holo_red_dark"
-        app:layout_constraintBottom_toTopOf="@+id/et_id"
-        app:layout_constraintStart_toEndOf="@+id/tv_id" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tv_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="아이디"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/et_id"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.16"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <EditText
+                android:id="@+id/et_id"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="50dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="@+id/tv_id"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <Button
+                android:id="@+id/btn_dupcheck"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginEnd="52dp"
+                android:layout_marginRight="52dp"
+                android:text="중복확인"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/et_id"
+                app:layout_constraintTop_toTopOf="@+id/et_id"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/tv_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="비밀번호"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/et_password"
+                app:layout_constraintStart_toStartOf="@+id/tv_id"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:text="(알파벳 숫자 혼합 8자 이상)"
+                android:textSize="13dp"
+                app:layout_constraintBottom_toTopOf="@+id/et_password"
+                app:layout_constraintEnd_toEndOf="@+id/tv_id"
+                app:layout_constraintHorizontal_bias="0.023"
+                app:layout_constraintStart_toEndOf="@+id/tv_password"
+                tools:ignore="MissingConstraints" />
+
+            <EditText
+                android:id="@+id/et_password"
+                android:layout_width="270dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="48dp"
+                android:ems="10"
+                android:inputType="textPassword"
+                app:layout_constraintEnd_toEndOf="@+id/btn_dupcheck"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/et_id"
+                app:layout_constraintTop_toBottomOf="@+id/et_id" />
+
+            <TextView
+                android:id="@+id/tv_checkpw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="비밀번호 확인"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/et_checkpw"
+                app:layout_constraintEnd_toEndOf="@+id/tv_password"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/tv_password"
+                tools:ignore="MissingConstraints" />
+
+            <EditText
+                android:id="@+id/et_checkpw"
+                android:layout_width="270dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="50dp"
+                android:ems="10"
+                android:inputType="textPassword"
+                app:layout_constraintEnd_toEndOf="@+id/et_password"
+                app:layout_constraintStart_toStartOf="@+id/et_password"
+                app:layout_constraintTop_toBottomOf="@+id/et_password" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이름(닉네임)"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/et_name"
+                app:layout_constraintEnd_toEndOf="@+id/tv_checkpw"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/tv_checkpw"
+                tools:ignore="MissingConstraints" />
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="270dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="50dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="@+id/et_checkpw"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/et_checkpw"
+                app:layout_constraintTop_toBottomOf="@+id/et_checkpw" />
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="270dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="50dp"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                app:layout_constraintEnd_toEndOf="@+id/et_name"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/et_name"
+                app:layout_constraintTop_toBottomOf="@+id/et_name" />
+
+            <TextView
+                android:id="@+id/tv_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이메일"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/et_email"
+                app:layout_constraintEnd_toEndOf="@+id/tv_name"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/tv_name"
+                tools:ignore="MissingConstraints" />
+
+            <Button
+                android:id="@+id/btn_complete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="완료"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_email"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/tv_passwordCheckMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="비밀번호를 입력해주세요"
+                android:textColor="@android:color/holo_red_dark"
+                app:layout_constraintBottom_toTopOf="@+id/et_checkpw"
+                app:layout_constraintStart_toEndOf="@+id/tv_checkpw" />
+
+            <TextView
+                android:id="@+id/tv_idCheckMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="중복확인 버튼을 눌러주세요"
+                android:textColor="@android:color/holo_red_dark"
+                app:layout_constraintBottom_toTopOf="@+id/et_id"
+                app:layout_constraintStart_toEndOf="@+id/tv_id" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
