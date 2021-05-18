@@ -1,6 +1,8 @@
 package com.example.cosmeticdiary.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cosmeticdiary.DialogCheckIdPw;
 import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.model.LoginModel;
 import com.example.cosmeticdiary.retrofit.RetrofitHelper;
@@ -21,6 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+    private DialogCheckIdPw dialogCheckIdPw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +80,10 @@ public class LoginActivity extends AppCompatActivity {
 //                                appData.setPREF_LOGIN_ID(loginModel.getUserID());
 //                                appData.setPREF_LOGIN("y");
                             } else {
-                                Toast.makeText(LoginActivity.this, "아이디와 비밀번호를 확인해주세요"
-                                        , Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(LoginActivity.this, "아이디와 비밀번호를 확인해주세요"
+//                                        , Toast.LENGTH_SHORT).show();
+                                dialogCheckIdPw = new DialogCheckIdPw(LoginActivity.this, dialogListener);
+                                dialogCheckIdPw.show();
                                 et_password.setText("");
                                 Log.d("ssss", response.message());
                             }
@@ -100,4 +106,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    //다이얼로그창
+    private View.OnClickListener dialogListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(getApplicationContext(), "확인버튼이 눌렸습니다.",Toast.LENGTH_SHORT).show();
+            dialogCheckIdPw.dismiss();
+        }
+    };
 }

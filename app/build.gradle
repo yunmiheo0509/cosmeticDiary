@@ -45,4 +45,8 @@ dependencies {
 
     // CircleImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // Fab button
+    //noinspection GradleCompatible
+    implementation 'com.android.support:design:26.1.0'
 }
