@@ -1,6 +1,10 @@
 package com.example.cosmeticdiary.retrofit;
 
 import com.example.cosmeticdiary.model.LoginModel;
+import com.example.cosmeticdiary.model.SearchCosmeticModel;
+import com.example.cosmeticdiary.model.SearchCosmeticResult;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -23,6 +27,10 @@ public interface RetrofitService {
                                     @Field("password") String password,
                                     @Field("name") String name,
                                     @Field("email") String email);
+
+    @FormUrlEncoded
+    @POST(Common.SearchCosmeticURL)
+    Call<SearchCosmeticResult> getSearchCosmetic(@Field("name") String name);
 
 //    @GET(Common.LoginURL)
 //    Call<ArrayList<GenderCompositionModel>> getGenderComposition(@Query("pID") int pID);
