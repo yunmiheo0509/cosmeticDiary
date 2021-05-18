@@ -1,9 +1,5 @@
 package com.example.cosmeticdiary.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,9 +7,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.SearchCosmeticData;
+import com.example.cosmeticdiary.adapter.RecyclerAdapter;
 import com.example.cosmeticdiary.adapter.SearchCosmeticAdapter;
 import com.example.cosmeticdiary.model.SearchCosmeticModel;
 import com.example.cosmeticdiary.model.SearchCosmeticResult;
@@ -21,6 +23,7 @@ import com.example.cosmeticdiary.retrofit.RetrofitHelper;
 import com.example.cosmeticdiary.retrofit.RetrofitService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,8 +34,10 @@ public class SearchCosmeticActivity extends AppCompatActivity {
     private SearchCosmeticAdapter searchCosmeticAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-
+    RecyclerAdapter recyclerAdapter;
     final RetrofitService[] retrofitService = new RetrofitService[1];
+    SearchCosmeticResult dataList;
+    List<SearchCosmeticModel> dataInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,15 +87,26 @@ public class SearchCosmeticActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             Log.d("연결 성공", response.message());
                             SearchCosmeticResult searchCosmeticResult = response.body();
-                            Log.v("검색", searchCosmeticResult.toString());
-//                            if (searchCosmeticModel.getCode().equals("200")) {
-//                                Toast.makeText(LoginActivity.this, "로그인 되었습니다.".toString(), Toast.LENGTH_SHORT).show();
-//                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                                startActivity(intent);
+                            Log.d("검색", searchCosmeticResult.toString());
+                            dataList = response.body();
+                            dataInfo = dataList.results;
+                            if (response.body().getCode().equals("200")) {
+                                recyclerAdapter = new RecyclerAdapter(getApplicationContext(), dataInfo);
+                                recyclerView.setAdapter(recyclerAdapter);
+                                Log.d("받아온거  확인", dataInfo.toString());
+                            } else {
+                                dataInfo.clear();
+                                recyclerAdapter = new RecyclerAdapter(getApplicationContext(), dataInfo);
+                                recyclerView.setAdapter(recyclerAdapter);
+                                Log.d("받아온거 없는경우다", dataInfo.toString());
+                                Toast.makeText(SearchCosmeticActivity.this, "검색결과없음", Toast.LENGTH_SHORT).show();
+                            }
+
                         } else {
                             Log.d("ssss", response.message());
                         }
                     }
+
                     @Override
                     public void onFailure(Call<SearchCosmeticResult> call, Throwable t) {
                         Log.d("ssss", t.getMessage());
@@ -99,6 +115,6 @@ public class SearchCosmeticActivity extends AppCompatActivity {
             }
         });
 
-        cosmeticArray.add(new SearchCosmeticData(R.drawable.ic_launcher_background, "name", "brand"));
+//        cosmeticArray.add(new SearchCosmeticData(R.drawable.ic_launcher_background, "name", "brand"));
     }
 }

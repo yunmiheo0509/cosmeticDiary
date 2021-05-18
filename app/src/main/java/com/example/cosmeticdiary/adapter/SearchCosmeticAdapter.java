@@ -34,7 +34,7 @@ public class SearchCosmeticAdapter extends RecyclerView.Adapter<SearchCosmeticAd
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         // Item을 하나, 하나 보여주는(bind 되는) 함수입니다.
 //        holder.onBind(listData.get(position));
-        holder.img.setImageResource(searchCosmeticData.get(position).getImg());
+//        holder.img.setImageResource(searchCosmeticData.get(position).getImg());
         holder.name.setText(searchCosmeticData.get(position).getName());
         holder.brand.setText(searchCosmeticData.get(position).getBrand());
     }
@@ -67,7 +67,7 @@ public class SearchCosmeticAdapter extends RecyclerView.Adapter<SearchCosmeticAd
         }
 
         void onBind(SearchCosmeticData data) {
-            img.setImageResource(data.getImg());
+//            img.setImageResource(data.getImg());
             name.setText(data.getName());
             brand.setText(data.getBrand());
         }

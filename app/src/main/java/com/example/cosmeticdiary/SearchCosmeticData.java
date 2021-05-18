@@ -1,19 +1,19 @@
 package com.example.cosmeticdiary;
 
 public class SearchCosmeticData {
-    private int img;
+    private String img;
     private String name;
     private String brand;
 
-    public SearchCosmeticData(int img, String name, String brand) {
+    public SearchCosmeticData(String img, String name, String brand) {
         this.img = img;
         this.name = name;
         this.brand = brand;
     }
 
-    public int getImg() { return img; }
+    public String getImg() { return img; }
 
-    public void setImg(int img) {
+    public void setImg(String img) {
         this.img = img;
     }
 
