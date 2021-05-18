@@ -23,6 +23,9 @@ public interface RetrofitService {
                                     @Field("password") String password,
                                     @Field("name") String name,
                                     @Field("email") String email);
+    @FormUrlEncoded
+    @POST(Common.SearchCosmeticURL)
+    Call<LoginModel> getSearchCosmetic(@Field("name") String name);
 
 //    @GET(Common.LoginURL)
 //    Call<ArrayList<GenderCompositionModel>> getGenderComposition(@Query("pID") int pID);
