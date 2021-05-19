@@ -1,0 +1,33 @@
+package com.example.cosmeticdiary;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+
+public class DialogCheckDelete extends Dialog {
+    private TextView tvOk;
+    private TextView tvCancel;
+
+    private View.OnClickListener dialogListener;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.dialog_check_delete);
+
+        tvCancel = findViewById(R.id.tv_cancel);
+        tvOk = findViewById(R.id.tv_ok);
+
+        tvCancel.setOnClickListener(dialogListener);
+        tvOk.setOnClickListener(dialogListener);
+    }
+
+    public DialogCheckDelete(@NonNull Context context, View.OnClickListener dialogListener) {
+        super(context);
+        this.dialogListener = dialogListener;
+    }
+}

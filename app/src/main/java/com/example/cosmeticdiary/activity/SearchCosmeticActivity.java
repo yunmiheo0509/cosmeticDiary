@@ -1,5 +1,9 @@
 package com.example.cosmeticdiary.activity;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,10 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.SearchCosmeticData;
@@ -34,6 +34,7 @@ public class SearchCosmeticActivity extends AppCompatActivity {
     private SearchCosmeticAdapter searchCosmeticAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+
     RecyclerAdapter recyclerAdapter;
     final RetrofitService[] retrofitService = new RetrofitService[1];
     SearchCosmeticResult dataList;
@@ -106,7 +107,6 @@ public class SearchCosmeticActivity extends AppCompatActivity {
                             Log.d("ssss", response.message());
                         }
                     }
-
                     @Override
                     public void onFailure(Call<SearchCosmeticResult> call, Throwable t) {
                         Log.d("ssss", t.getMessage());

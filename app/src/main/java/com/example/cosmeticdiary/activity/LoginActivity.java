@@ -88,8 +88,6 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d("ssss", response.message());
                             }
 
-
-
                         } else if (response.code() == 404) {
                             Toast.makeText(LoginActivity.this, "인터넷 연결을 확인해주세요"
                                     , Toast.LENGTH_SHORT).show();
@@ -111,7 +109,6 @@ public class LoginActivity extends AppCompatActivity {
     private View.OnClickListener dialogListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Toast.makeText(getApplicationContext(), "확인버튼이 눌렸습니다.",Toast.LENGTH_SHORT).show();
             dialogCheckIdPw.dismiss();
         }
     };

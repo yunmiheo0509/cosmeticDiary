@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.cosmeticdiary.FindIdFragment;
-import com.example.cosmeticdiary.FindPwFragment;
+import com.example.cosmeticdiary.fragment.FindIdFragment;
+import com.example.cosmeticdiary.fragment.FindPwFragment;
 
 import java.util.ArrayList;
 

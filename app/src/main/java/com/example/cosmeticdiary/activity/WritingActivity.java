@@ -17,9 +17,12 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.example.cosmeticdiary.DialogCheckDelete;
+import com.example.cosmeticdiary.DialogCheckLogout;
 import com.example.cosmeticdiary.R;
 
 public class WritingActivity extends AppCompatActivity {
+    private DialogCheckDelete dialogCheckDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +134,8 @@ public class WritingActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     // 팝업창 확인 후 삭제
-                    Toast.makeText(WritingActivity.this, "삭제", Toast.LENGTH_SHORT).show();
+                    dialogCheckDelete = new DialogCheckDelete(WritingActivity.this, dialogListener);
+                    dialogCheckDelete.show();
                 }
             });
         }
@@ -143,6 +147,19 @@ public class WritingActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
+
+    //다이얼로그창
+    private View.OnClickListener dialogListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.tv_ok:
+                    // 로그아웃 진행
+                    Toast.makeText(WritingActivity.this, "삭제", Toast.LENGTH_SHORT).show();
+                case R.id.tv_cancel:
+                    dialogCheckDelete.dismiss();
+            }
+        }
+    };
 }
