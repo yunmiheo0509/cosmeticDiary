@@ -1,9 +1,5 @@
 package com.example.cosmeticdiary.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,16 +9,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.cosmeticdiary.R;
-import com.example.cosmeticdiary.SearchCosmeticData;
-import com.example.cosmeticdiary.adapter.RecyclerAdapter;
-import com.example.cosmeticdiary.adapter.SearchCosmeticAdapter;
+import com.example.cosmeticdiary.adapter.SearchCosmeticRecyclerAdapter;
 import com.example.cosmeticdiary.model.SearchCosmeticModel;
 import com.example.cosmeticdiary.model.SearchCosmeticResult;
 import com.example.cosmeticdiary.retrofit.RetrofitHelper;
 import com.example.cosmeticdiary.retrofit.RetrofitService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -30,12 +27,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SearchCosmeticActivity extends AppCompatActivity {
-    private ArrayList<SearchCosmeticData> cosmeticArray;
-    private SearchCosmeticAdapter searchCosmeticAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
 
-    RecyclerAdapter recyclerAdapter;
+    SearchCosmeticRecyclerAdapter recyclerAdapter;
     final RetrofitService[] retrofitService = new RetrofitService[1];
     SearchCosmeticResult dataList;
     List<SearchCosmeticModel> dataInfo;
@@ -69,11 +64,6 @@ public class SearchCosmeticActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        cosmeticArray = new ArrayList<>();
-
-        searchCosmeticAdapter = new SearchCosmeticAdapter(cosmeticArray);
-        recyclerView.setAdapter(searchCosmeticAdapter);
-
         //검색 실행
         imgsearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,12 +82,12 @@ public class SearchCosmeticActivity extends AppCompatActivity {
                             dataList = response.body();
                             dataInfo = dataList.results;
                             if (response.body().getCode().equals("200")) {
-                                recyclerAdapter = new RecyclerAdapter(getApplicationContext(), dataInfo);
+                                recyclerAdapter = new SearchCosmeticRecyclerAdapter(getApplicationContext(), dataInfo);
                                 recyclerView.setAdapter(recyclerAdapter);
                                 Log.d("받아온거  확인", dataInfo.toString());
                             } else {
                                 dataInfo.clear();
-                                recyclerAdapter = new RecyclerAdapter(getApplicationContext(), dataInfo);
+                                recyclerAdapter = new SearchCosmeticRecyclerAdapter(getApplicationContext(), dataInfo);
                                 recyclerView.setAdapter(recyclerAdapter);
                                 Log.d("받아온거 없는경우다", dataInfo.toString());
                                 Toast.makeText(SearchCosmeticActivity.this, "검색결과없음", Toast.LENGTH_SHORT).show();
@@ -114,7 +104,5 @@ public class SearchCosmeticActivity extends AppCompatActivity {
                 });
             }
         });
-
-//        cosmeticArray.add(new SearchCosmeticData(R.drawable.ic_launcher_background, "name", "brand"));
     }
 }

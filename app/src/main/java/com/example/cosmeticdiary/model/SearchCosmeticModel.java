@@ -4,23 +4,23 @@ import com.google.gson.annotations.SerializedName;
 
 public class SearchCosmeticModel {
     @SerializedName("img")
-    int img;
+    String img;
     @SerializedName("name")
     String name;
-    @SerializedName("brand")
+    @SerializedName("make")
     String brand;
 
-    public SearchCosmeticModel(int img, String name, String brand) {
+    public SearchCosmeticModel(String img, String name, String brand) {
         this.img = img;
         this.name = name;
         this.brand = brand;
     }
 
-    public int getImg() {
+    public String getImg() {
         return img;
     }
 
-    public void setImg(int img) {
+    public void setImg(String img) {
         this.img = img;
     }
 
@@ -32,11 +32,12 @@ public class SearchCosmeticModel {
         this.name = name;
     }
 
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
     public String getBrand() {
         return brand;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
 }

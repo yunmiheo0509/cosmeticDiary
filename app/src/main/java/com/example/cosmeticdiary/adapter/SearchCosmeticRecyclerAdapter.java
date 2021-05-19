@@ -14,26 +14,26 @@ import com.example.cosmeticdiary.model.SearchCosmeticModel;
 
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>{
+public class SearchCosmeticRecyclerAdapter extends RecyclerView.Adapter<SearchCosmeticRecyclerAdapter.MyViewHolder>{
 
     private Context c;
     private List<SearchCosmeticModel> dataList;
 
-    public RecyclerAdapter(Context c, List<SearchCosmeticModel> dataList) {
+    public SearchCosmeticRecyclerAdapter(Context c, List<SearchCosmeticModel> dataList) {
         this.c = c;
         this.dataList = dataList;
     }
 
     @NonNull
     @Override
-    public RecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SearchCosmeticRecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(c).inflate(R.layout.item_search_cosmetic, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SearchCosmeticRecyclerAdapter.MyViewHolder holder, int position) {
 
         holder.name.setText(dataList.get(position).getName());
         holder.brand.setText("" + dataList.get(position).getBrand());
@@ -54,7 +54,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 //        ImageView img;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
             name = (TextView)itemView.findViewById(R.id.tv_cosmetic_name);
             brand = (TextView)itemView.findViewById(R.id.tv_brand);
 //            img = (TextView)itemView.findViewById(R.id.iv_cosmetic);
