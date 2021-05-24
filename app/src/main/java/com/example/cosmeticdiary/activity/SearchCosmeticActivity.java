@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.adapter.SearchCosmeticRecyclerAdapter;
 import com.example.cosmeticdiary.model.SearchCosmeticModel;
-import com.example.cosmeticdiary.model.SearchCosmeticResult;
+import com.example.cosmeticdiary.model.SearchResult;
 import com.example.cosmeticdiary.retrofit.RetrofitHelper;
 import com.example.cosmeticdiary.retrofit.RetrofitService;
 
@@ -32,7 +32,7 @@ public class SearchCosmeticActivity extends AppCompatActivity {
 
     SearchCosmeticRecyclerAdapter recyclerAdapter;
     final RetrofitService[] retrofitService = new RetrofitService[1];
-    SearchCosmeticResult dataList;
+    SearchResult dataList;
     List<SearchCosmeticModel> dataInfo;
 
     @Override
@@ -70,14 +70,14 @@ public class SearchCosmeticActivity extends AppCompatActivity {
             public void onClick(View view) {
                 retrofitService[0] = RetrofitHelper.getRetrofit().create(RetrofitService.class);
 
-                Call<SearchCosmeticResult> call = retrofitService[0].getSearchCosmetic(et_search.getText().toString());
+                Call<SearchResult> call = retrofitService[0].getSearchCosmetic(et_search.getText().toString());
 
-                call.enqueue(new Callback<SearchCosmeticResult>() {
+                call.enqueue(new Callback<SearchResult>() {
                     @Override
-                    public void onResponse(Call<SearchCosmeticResult> call, Response<SearchCosmeticResult> response) {
+                    public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
                         if (response.isSuccessful()) {
                             Log.d("연결 성공", response.message());
-                            SearchCosmeticResult searchCosmeticResult = response.body();
+                            SearchResult searchCosmeticResult = response.body();
                             Log.d("검색", searchCosmeticResult.toString());
                             dataList = response.body();
                             dataInfo = dataList.results;
@@ -98,7 +98,7 @@ public class SearchCosmeticActivity extends AppCompatActivity {
                         }
                     }
                     @Override
-                    public void onFailure(Call<SearchCosmeticResult> call, Throwable t) {
+                    public void onFailure(Call<SearchResult> call, Throwable t) {
                         Log.d("ssss", t.getMessage());
                     }
                 });

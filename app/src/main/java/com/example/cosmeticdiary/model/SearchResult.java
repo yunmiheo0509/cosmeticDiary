@@ -4,13 +4,15 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class SearchCosmeticResult {
+public class SearchResult {
     @SerializedName("code")
     public String code;
 
     @SerializedName("results")
     public List<SearchCosmeticModel> results;
 
+    @SerializedName("writing_results")
+    public List<SearchWritingModel> writing_results;
 
     public String getCode() {
         return code;

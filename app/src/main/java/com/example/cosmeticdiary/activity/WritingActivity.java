@@ -1,24 +1,19 @@
 package com.example.cosmeticdiary.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.example.cosmeticdiary.DialogCheckDelete;
-import com.example.cosmeticdiary.DialogCheckLogout;
 import com.example.cosmeticdiary.R;
 
 public class WritingActivity extends AppCompatActivity {
@@ -143,7 +138,7 @@ public class WritingActivity extends AppCompatActivity {
         btnsearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WritingActivity.this, SearchWritingActivity.class);
+                Intent intent = new Intent(WritingActivity.this, SearchCosmeticActivity.class);
                 startActivity(intent);
             }
         });

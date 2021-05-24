@@ -1,15 +1,12 @@
 package com.example.cosmeticdiary.retrofit;
 
 import com.example.cosmeticdiary.model.LoginModel;
-import com.example.cosmeticdiary.model.SearchCosmeticResult;
+import com.example.cosmeticdiary.model.SearchResult;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 public interface RetrofitService {
     @FormUrlEncoded
@@ -30,7 +27,11 @@ public interface RetrofitService {
 
     @FormUrlEncoded
     @POST(Common.SearchCosmeticURL)
-    Call<SearchCosmeticResult> getSearchCosmetic(@Field("name") String name);
+    Call<SearchResult> getSearchCosmetic(@Field("name") String name);
+
+    @FormUrlEncoded
+    @POST(Common.SearchWritingURL)
+    Call<SearchResult> getSearchWriting(@Field("title") String title);
 
 //    @GET(Common.LoginURL)
 //    Call<ArrayList<GenderCompositionModel>> getGenderComposition(@Query("pID") int pID);
