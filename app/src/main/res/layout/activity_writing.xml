@@ -183,7 +183,6 @@
                 android:id="@+id/tv_insert_ingredient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="주요성분 텍스트"
                 android:textSize="14dp"
                 app:layout_constraintStart_toEndOf="@+id/tv_ingredient"
                 app:layout_constraintTop_toTopOf="@+id/tv_ingredient" />

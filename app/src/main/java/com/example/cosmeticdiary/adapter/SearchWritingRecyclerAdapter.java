@@ -34,7 +34,7 @@ public class SearchWritingRecyclerAdapter extends RecyclerView.Adapter<SearchWri
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        // Item을 하나, 하나 보여주는(bind 되는) 함수입니다.
+        // Item을 하나, 하나 보여주는(bind 되는) 함수
 //        holder.onBind(listData.get(position));
 //        holder.img.setImageResource(searchWritingModel.get(position).getImg());
         holder.date.setText(dataList.get(position).getDate());
@@ -45,7 +45,7 @@ public class SearchWritingRecyclerAdapter extends RecyclerView.Adapter<SearchWri
 
     @Override
     public int getItemCount() {
-        // RecyclerView의 총 개수 입니다.
+        // RecyclerView의 총 개수
         return dataList.size();
     }
 
@@ -54,8 +54,8 @@ public class SearchWritingRecyclerAdapter extends RecyclerView.Adapter<SearchWri
         dataList.add(data);
     }
 
-    // RecyclerView의 핵심인 ViewHolder 입니다.
-    // 여기서 subView를 setting 해줍니다.
+    // RecyclerView의 핵심인 ViewHolder
+    // 여기서 subView를 setting
     class ItemViewHolder extends RecyclerView.ViewHolder {
         private ImageView img;
         private TextView date;

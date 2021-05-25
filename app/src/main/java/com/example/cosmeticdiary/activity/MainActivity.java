@@ -1,12 +1,15 @@
 package com.example.cosmeticdiary.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +29,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<WritingListData> writingListArray;
@@ -57,10 +61,25 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fabPlus = findViewById(R.id.fab_plus);
         FloatingActionButton fabSearch = findViewById(R.id.fab_search);
+        CalendarView calendarView = findViewById(R.id.calendarView);
+        final TextView tv_date = findViewById(R.id.tv_date);
 
         setOnclickListener();
 
+        tv_date.setText((Calendar.getInstance().get(Calendar.MONTH) + 1) + "월 "
+                + (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "일"));
+
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                tv_date.setText(String.format("%d월 %d일", month+1, dayOfMonth));
+
+                //서버연결(날짜에 맞는 데이터 가져오기
+            }
+        });
+
         recyclerView = findViewById(R.id.rv_main);
+        TextView tv_empty = findViewById(R.id.tv_empty);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -69,8 +88,16 @@ public class MainActivity extends AppCompatActivity {
         writingListAdapter = new WritingListAdapter(writingListArray,listener);
         recyclerView.setAdapter(writingListAdapter);
 
-        writingListArray.add(new WritingListData(R.drawable.ic_launcher_background, "name",
-                "condition", "satisfy"));
+        if (writingListArray.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            tv_empty.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            tv_empty.setVisibility(View.GONE);
+        }
+
+//        writingListArray.add(new WritingListData(R.drawable.ic_launcher_background, "name",
+//                "condition", "satisfy"));
 
         navigationView = findViewById(R.id.nav_view);
         // xml 파일에서 넣어놨던 header 선언
@@ -123,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v, int position) {
                 Intent intent = new Intent(getApplicationContext(), WritingActivity.class);
-                intent.putExtra("main", writingListArray.get(position).getName());
+                intent.putExtra("main", "edit");
                 startActivity(intent);
             }
         };
@@ -136,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 MenuItem menuItem = navigationView.getMenu().findItem(R.id.menu_alarm); // This is the menu item that contains your switch
                 Switch drawerSwitch = (Switch) menuItem.getActionView().findViewById(R.id.drawer_switch);
 
+                //이벤트 안먹음 수정해야됨.
                 drawerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

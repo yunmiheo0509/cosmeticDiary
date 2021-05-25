@@ -9,11 +9,22 @@ public class SearchCosmeticModel {
     String name;
     @SerializedName("make")
     String brand;
+    @SerializedName("ingredient")
+    String ingredient;
 
-    public SearchCosmeticModel(String img, String name, String brand) {
+    public SearchCosmeticModel(String img, String name, String brand, String ingredient) {
         this.img = img;
         this.name = name;
         this.brand = brand;
+        this.ingredient = ingredient;
+    }
+
+    public String getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(String ingredient) {
+        this.ingredient = ingredient;
     }
 
     public String getImg() {

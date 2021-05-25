@@ -104,5 +104,19 @@ public class SearchCosmeticActivity extends AppCompatActivity {
                 });
             }
         });
+
+        btnchoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("name", recyclerAdapter.choice().get(0));
+                intent.putExtra("ingredient", recyclerAdapter.choice().get(1));
+                setResult(RESULT_OK, intent);
+
+                Log.d("반환", recyclerAdapter.choice().get(0) +" "+ recyclerAdapter.choice().get(1));
+
+                finish();
+            }
+        });
     }
 }
