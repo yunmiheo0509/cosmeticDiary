@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cosmeticdiary.DialogCheckIdPw;
+import com.example.cosmeticdiary.MySharedPreferences;
 import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.model.LoginModel;
 import com.example.cosmeticdiary.retrofit.RetrofitHelper;
@@ -25,20 +26,37 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private DialogCheckIdPw dialogCheckIdPw;
+    private Button btnlogin;
+    private Button btnregist;
+    private TextView btnfindIdPw;
+    private EditText et_id;
+    private EditText et_password;
+
+    RetrofitService retrofitService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final RetrofitService[] retrofitService = new RetrofitService[1];
+        btnlogin = findViewById(R.id.btn_login);
+        btnregist = findViewById(R.id.btn_resgist);
+        btnfindIdPw = findViewById(R.id.tv_findID);
 
-        Button btnlogin = findViewById(R.id.btn_login);
-        Button btnregist = findViewById(R.id.btn_resgist);
-        TextView btnfindIdPw = findViewById(R.id.tv_findID);
+        et_id = findViewById(R.id.et_id);
+        et_password = findViewById(R.id.et_pw);
 
-        final EditText et_id = findViewById(R.id.et_id);
-        final EditText et_password = findViewById(R.id.et_pw);
+        // SharedPreferences 안에 값이 저장되어 있지 않을 때 -> Login
+        if(MySharedPreferences.getUserId(this) == null
+                || MySharedPreferences.getUserPass(this) == null) {
+            Login();
+        }
+        else { // SharedPreferences 안에 값이 저장되어 있을 때 -> MainActivity로 이동
+            Toast.makeText(this, MySharedPreferences.getUserId(this) + "님 자동 로그인 되었습니다.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         btnregist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,13 +73,15 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
+    private void Login() {
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                retrofitService[0] = RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
 
-                Call<LoginModel> call = retrofitService[0].getLoginCheck(et_id.getText().toString(),
+                Call<LoginModel> call = retrofitService.getLoginCheck(et_id.getText().toString(),
                         et_password.getText().toString());
 
                 call.enqueue(new Callback<LoginModel>() {
@@ -73,6 +93,8 @@ public class LoginActivity extends AppCompatActivity {
                             Log.v("code", loginModel.getCode());
                             Log.v("success", loginModel.getSuccess());
                             if (loginModel.getCode().equals("200")) {
+                                MySharedPreferences.setUserId(LoginActivity.this, et_id.getText().toString());
+
                                 Toast.makeText(LoginActivity.this, "로그인 되었습니다.".toString(), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);

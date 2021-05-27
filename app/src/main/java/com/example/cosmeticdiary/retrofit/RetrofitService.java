@@ -1,7 +1,8 @@
 package com.example.cosmeticdiary.retrofit;
 
 import com.example.cosmeticdiary.model.LoginModel;
-import com.example.cosmeticdiary.model.SearchResult;
+import com.example.cosmeticdiary.model.ProfileModel;
+import com.example.cosmeticdiary.model.SearchResultModel;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -27,11 +28,15 @@ public interface RetrofitService {
 
     @FormUrlEncoded
     @POST(Common.SearchCosmeticURL)
-    Call<SearchResult> getSearchCosmetic(@Field("name") String name);
+    Call<SearchResultModel> getSearchCosmetic(@Field("name") String name);
 
     @FormUrlEncoded
     @POST(Common.SearchWritingURL)
-    Call<SearchResult> getSearchWriting(@Field("title") String title);
+    Call<SearchResultModel> getSearchWriting(@Field("title") String title);
+
+    @FormUrlEncoded
+    @POST(Common.SearchProfileURL)
+    Call<ProfileModel> getSearchProfile(@Field("id") String userID);
 
 //    @GET(Common.LoginURL)
 //    Call<ArrayList<GenderCompositionModel>> getGenderComposition(@Query("pID") int pID);

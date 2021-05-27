@@ -70,11 +70,13 @@
                 android:id="@+id/et_cosmeticname"
                 android:layout_width="234dp"
                 android:layout_height="46dp"
-                android:textSize="18dp"
+                android:layout_marginTop="12dp"
+                android:hint="검색결과가 없는 경우 직접 입력해주세요"
+                android:textSize="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.041"
                 app:layout_constraintStart_toEndOf="@+id/tv_cosmetic"
-                app:layout_constraintTop_toTopOf="@+id/tv_cosmetic" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/btn_search"

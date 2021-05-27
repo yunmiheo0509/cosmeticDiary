@@ -1,8 +1,8 @@
 package com.example.cosmeticdiary.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -21,15 +21,29 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cosmeticdiary.DialogCheckIdPw;
 import com.example.cosmeticdiary.DialogCheckLogout;
+import com.example.cosmeticdiary.MySharedPreferences;
 import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.WritingListData;
+import com.example.cosmeticdiary.adapter.SearchCosmeticRecyclerAdapter;
 import com.example.cosmeticdiary.adapter.WritingListAdapter;
+import com.example.cosmeticdiary.model.LoginModel;
+import com.example.cosmeticdiary.model.ProfileModel;
+import com.example.cosmeticdiary.model.SearchCosmeticModel;
+import com.example.cosmeticdiary.model.SearchResultModel;
+import com.example.cosmeticdiary.retrofit.RetrofitHelper;
+import com.example.cosmeticdiary.retrofit.RetrofitService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<WritingListData> writingListArray;
@@ -37,11 +51,15 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DialogCheckLogout dialogCheckLogout;
+    WritingListAdapter.RecyclerViewClickListener listener;
 
     ActionBarDrawerToggle actionBarDrawerToggle;
-    NavigationView navigationView;
 
-    WritingListAdapter.RecyclerViewClickListener listener;
+    // header에 있는 리소스 가져오기
+    NavigationView navigationView = findViewById(R.id.nav_view);
+    View header = navigationView.getHeaderView(0);
+
+    RetrofitService retrofitService;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -64,7 +82,12 @@ public class MainActivity extends AppCompatActivity {
         CalendarView calendarView = findViewById(R.id.calendarView);
         final TextView tv_date = findViewById(R.id.tv_date);
 
+        Button btneditprofile = header.findViewById(R.id.btn_editprofile);
+
         setOnclickListener();
+
+        //user정보 서버검색
+        searchProfile();
 
         tv_date.setText((Calendar.getInstance().get(Calendar.MONTH) + 1) + "월 "
                 + (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "일"));
@@ -72,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                tv_date.setText(String.format("%d월 %d일", month+1, dayOfMonth));
+                tv_date.setText(String.format("%d월 %d일", month + 1, dayOfMonth));
 
                 //서버연결(날짜에 맞는 데이터 가져오기
             }
@@ -85,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
         writingListArray = new ArrayList<>();
 
-        writingListAdapter = new WritingListAdapter(writingListArray,listener);
+        writingListAdapter = new WritingListAdapter(writingListArray, listener);
         recyclerView.setAdapter(writingListAdapter);
 
         if (writingListArray.isEmpty()) {
@@ -98,12 +121,6 @@ public class MainActivity extends AppCompatActivity {
 
 //        writingListArray.add(new WritingListData(R.drawable.ic_launcher_background, "name",
 //                "condition", "satisfy"));
-
-        navigationView = findViewById(R.id.nav_view);
-        // xml 파일에서 넣어놨던 header 선언
-        View header = navigationView.getHeaderView(0);
-        // header에 있는 리소스 가져오기
-        Button btneditprofile = header.findViewById(R.id.btn_editprofile);
 
         this.InitializeLayout();
 
@@ -135,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        fabSearch.setOnClickListener(new View.OnClickListener(){
+        fabSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SearchWritingActivity.class);
@@ -144,6 +161,43 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //user정보 가져오
+    private void searchProfile() {
+//        retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
+//
+//        Call<ProfileModel> call = retrofitService.getSearchProfile(MySharedPreferences.getUserId(this).toString());
+//
+//        call.enqueue(new Callback<ProfileModel>() {
+//            @Override
+//            public void onResponse(Call<ProfileModel> call, Response<ProfileModel> response) {
+//                if (response.isSuccessful()) {
+//                    Log.d("연결 성공", response.message());
+//                    ProfileModel profileModel = response.body();
+////                    List<ProfileModel> profileList; 이렇게 저장해야되나?
+//
+//                    profileModel.getName();
+//                    TextView tv_profilename = header.findViewById(R.id.tv_profilename);
+//                    TextView tv_profilename = header.findViewById(R.id.tv_profilename);
+//                    tv_profilename.setText(MySharedPreferences.getUserId(this).toString());
+//
+//                } else {
+//                        Log.d("ssss", response.message());
+//                    }
+//
+//                } else if (response.code() == 404) {
+//                    Toast.makeText(MainActivity.this, "인터넷 연결을 확인해주세요"
+//                            , Toast.LENGTH_SHORT).show();
+//                    Log.d("ssss", response.message());
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ProfileModel> call, Throwable t) {
+//                Log.d("ssss", t.getMessage());
+//            }
+//        });
+    }
 
     private void setOnclickListener() {
         listener = new WritingListAdapter.RecyclerViewClickListener() {
@@ -163,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
                 MenuItem menuItem = navigationView.getMenu().findItem(R.id.menu_alarm); // This is the menu item that contains your switch
                 Switch drawerSwitch = (Switch) menuItem.getActionView().findViewById(R.id.drawer_switch);
 
-                //이벤트 안먹음 수정해야됨.
                 drawerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -216,10 +269,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.tv_ok :
+                case R.id.tv_ok:
                     // 로그아웃 진행
                     Toast.makeText(MainActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
-                case R.id.tv_cancel :
+                case R.id.tv_cancel:
                     dialogCheckLogout.dismiss();
             }
         }

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.adapter.SearchCosmeticRecyclerAdapter;
 import com.example.cosmeticdiary.model.SearchCosmeticModel;
-import com.example.cosmeticdiary.model.SearchResult;
+import com.example.cosmeticdiary.model.SearchResultModel;
 import com.example.cosmeticdiary.retrofit.RetrofitHelper;
 import com.example.cosmeticdiary.retrofit.RetrofitService;
 
@@ -32,7 +32,7 @@ public class SearchCosmeticActivity extends AppCompatActivity {
 
     SearchCosmeticRecyclerAdapter recyclerAdapter;
     final RetrofitService[] retrofitService = new RetrofitService[1];
-    SearchResult dataList;
+    SearchResultModel dataList;
     List<SearchCosmeticModel> dataInfo;
 
     @Override
@@ -45,18 +45,12 @@ public class SearchCosmeticActivity extends AppCompatActivity {
         final EditText et_search = findViewById(R.id.et_searchcosmetic);
         ImageView imgsearch = findViewById(R.id.img_search);
 
+
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SearchCosmeticActivity.this, WritingActivity.class);
                 startActivity(intent);
-            }
-        });
-
-        backbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 리사이클러뷰 선택완료 처리
             }
         });
 
@@ -70,14 +64,14 @@ public class SearchCosmeticActivity extends AppCompatActivity {
             public void onClick(View view) {
                 retrofitService[0] = RetrofitHelper.getRetrofit().create(RetrofitService.class);
 
-                Call<SearchResult> call = retrofitService[0].getSearchCosmetic(et_search.getText().toString());
+                Call<SearchResultModel> call = retrofitService[0].getSearchCosmetic(et_search.getText().toString());
 
-                call.enqueue(new Callback<SearchResult>() {
+                call.enqueue(new Callback<SearchResultModel>() {
                     @Override
-                    public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
+                    public void onResponse(Call<SearchResultModel> call, Response<SearchResultModel> response) {
                         if (response.isSuccessful()) {
                             Log.d("연결 성공", response.message());
-                            SearchResult searchCosmeticResult = response.body();
+                            SearchResultModel searchCosmeticResult = response.body();
                             Log.d("검색", searchCosmeticResult.toString());
                             dataList = response.body();
                             dataInfo = dataList.results;
@@ -98,7 +92,7 @@ public class SearchCosmeticActivity extends AppCompatActivity {
                         }
                     }
                     @Override
-                    public void onFailure(Call<SearchResult> call, Throwable t) {
+                    public void onFailure(Call<SearchResultModel> call, Throwable t) {
                         Log.d("ssss", t.getMessage());
                     }
                 });

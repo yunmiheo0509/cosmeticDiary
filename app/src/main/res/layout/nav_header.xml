@@ -26,7 +26,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <TextView
-        android:id="@+id/tv_name"
+        android:id="@+id/tv_profilename"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -42,13 +42,11 @@
         android:id="@+id/tv_skintype"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
         android:layout_marginTop="8dp"
-        android:text="복합성"
+        android:text="피부타입"
         android:textSize="14dp"
         app:layout_constraintStart_toStartOf="@+id/iv_profileimg"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_profilename"
         tools:ignore="MissingConstraints" />
 
     <TextView

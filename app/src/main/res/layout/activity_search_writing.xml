@@ -37,7 +37,7 @@
     <EditText
         android:id="@+id/et_searchwriting"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="45dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/edittext_border"

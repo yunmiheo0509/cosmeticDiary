@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class SearchResult {
+public class SearchResultModel {
     @SerializedName("code")
     public String code;
 
