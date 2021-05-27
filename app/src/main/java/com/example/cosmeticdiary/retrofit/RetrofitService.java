@@ -38,6 +38,11 @@ public interface RetrofitService {
     @POST(Common.SearchProfileURL)
     Call<ProfileModel> getSearchProfile(@Field("id") String userID);
 
+    @FormUrlEncoded
+    @POST(Common.FindIdURL)
+    Call<LoginModel> getFindId(@Field("name") String userID,
+                               @Field("email") String email);
+
 //    @GET(Common.LoginURL)
 //    Call<ArrayList<GenderCompositionModel>> getGenderComposition(@Query("pID") int pID);
 
