@@ -8,6 +8,7 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ public class SearchCosmeticRecyclerAdapter extends RecyclerView.Adapter<SearchCo
     private Context context;
     private List<SearchCosmeticModel> dataList;
     private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
+    Button btn_choice;
 
     public SearchCosmeticRecyclerAdapter(Context c, List<SearchCosmeticModel> dataList) {
         this.context = c;
@@ -39,6 +41,8 @@ public class SearchCosmeticRecyclerAdapter extends RecyclerView.Adapter<SearchCo
     @Override
     public SearchCosmeticRecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_search_cosmetic, parent, false);
+//        View activityview = LayoutInflater.from(context).inflate(R.layout.activity_search_cosmetic, parent, false);
+//        btn_choice = activityview.findViewById(R.id.btn_choice);
 
         return new MyViewHolder(view);
     }
@@ -85,7 +89,6 @@ public class SearchCosmeticRecyclerAdapter extends RecyclerView.Adapter<SearchCo
                     toggleItemSelected(position);
                 }
             });
-
         }
     }
 
@@ -93,9 +96,11 @@ public class SearchCosmeticRecyclerAdapter extends RecyclerView.Adapter<SearchCo
         if (mSelectedItems.get(position, false) == true) {
             mSelectedItems.delete(position);
             notifyItemChanged(position);
+//            btn_choice.setEnabled(false);
         } else if (mSelectedItems.size() < 1) {
             mSelectedItems.put(position, true);
             notifyItemChanged(position);
+//            btn_choice.setEnabled(true);
         }
     }
 

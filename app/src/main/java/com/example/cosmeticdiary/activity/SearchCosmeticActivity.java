@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,9 +32,10 @@ public class SearchCosmeticActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
 
     SearchCosmeticRecyclerAdapter recyclerAdapter;
-    final RetrofitService[] retrofitService = new RetrofitService[1];
     SearchResultModel dataList;
     List<SearchCosmeticModel> dataInfo;
+
+    RetrofitService retrofitService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +43,15 @@ public class SearchCosmeticActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_cosmetic);
 
         ImageView backbtn = findViewById(R.id.iv_back);
-        Button btnchoice = findViewById(R.id.btn_choice);
+        final Button btn_choice = findViewById(R.id.btn_choice);
         final EditText et_search = findViewById(R.id.et_searchcosmetic);
         ImageView imgsearch = findViewById(R.id.img_search);
-
+        final TextView nosearchresult = findViewById(R.id.tv_nosearchresult);
 
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SearchCosmeticActivity.this, WritingActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -62,33 +63,31 @@ public class SearchCosmeticActivity extends AppCompatActivity {
         imgsearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                retrofitService[0] = RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                recyclerAdapter = null;
+                retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
 
-                Call<SearchResultModel> call = retrofitService[0].getSearchCosmetic(et_search.getText().toString());
+                Call<SearchResultModel> call = retrofitService.getSearchCosmetic(et_search.getText().toString());
 
                 call.enqueue(new Callback<SearchResultModel>() {
                     @Override
                     public void onResponse(Call<SearchResultModel> call, Response<SearchResultModel> response) {
-                        if (response.isSuccessful()) {
-                            Log.d("연결 성공", response.message());
-                            SearchResultModel searchCosmeticResult = response.body();
-                            Log.d("검색", searchCosmeticResult.toString());
-                            dataList = response.body();
-                            dataInfo = dataList.results;
-                            if (response.body().getCode().equals("200")) {
-                                recyclerAdapter = new SearchCosmeticRecyclerAdapter(getApplicationContext(), dataInfo);
-                                recyclerView.setAdapter(recyclerAdapter);
-                                Log.d("받아온거  확인", dataInfo.toString());
-                            } else {
-                                dataInfo.clear();
-                                recyclerAdapter = new SearchCosmeticRecyclerAdapter(getApplicationContext(), dataInfo);
-                                recyclerView.setAdapter(recyclerAdapter);
-                                Log.d("받아온거 없는경우다", dataInfo.toString());
-                                Toast.makeText(SearchCosmeticActivity.this, "검색결과없음", Toast.LENGTH_SHORT).show();
-                            }
-
+                        Log.d("연결 성공", response.message());
+                        SearchResultModel searchCosmeticResult = response.body();
+                        Log.d("검색", searchCosmeticResult.toString());
+                        dataList = response.body();
+                        dataInfo = dataList.results;
+                        if (response.body().getCode().equals("200")) {
+                            recyclerAdapter = new SearchCosmeticRecyclerAdapter(getApplicationContext(), dataInfo);
+                            recyclerView.setAdapter(recyclerAdapter);
+                            Log.d("받아온거  확인", dataInfo.toString());
+                            nosearchresult.setVisibility(View.GONE);
+                            btn_choice.setEnabled(true);
                         } else {
-                            Log.d("ssss", response.message());
+                            dataInfo.clear();
+                            recyclerAdapter = new SearchCosmeticRecyclerAdapter(getApplicationContext(), dataInfo);
+                            recyclerView.setAdapter(recyclerAdapter);
+                            Log.d("받아온거 없는경우다", dataInfo.toString());
+                            nosearchresult.setVisibility(View.VISIBLE);
                         }
                     }
                     @Override
@@ -99,7 +98,9 @@ public class SearchCosmeticActivity extends AppCompatActivity {
             }
         });
 
-        btnchoice.setOnClickListener(new View.OnClickListener() {
+//        if (recyclerAdapter.)
+
+        btn_choice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();

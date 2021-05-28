@@ -7,20 +7,15 @@
     android:orientation="vertical"
     tools:context=".activity.EditProfileActivity">
 
-
     <FrameLayout
         android:id="@+id/frameLayout_write"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingVertical="7dp">
 
         <ImageView
             android:id="@+id/iv_back"
-            style="@style/BackBtn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            style="@style/BackBtn" />
 
         <TextView
             android:id="@+id/tv_editprofile"
@@ -30,9 +25,7 @@
             android:layout_marginTop="5dp"
             android:includeFontPadding="false"
             android:text="프로필 편집"
-            android:textSize="21dp"
-
-            tools:ignore="MissingConstraints" />
+            android:textSize="21dp"/>
 
         <Button
             android:id="@+id/btn_complete"
@@ -41,20 +34,13 @@
             android:layout_gravity="right"
             android:layout_marginTop="0dp"
             android:layout_marginRight="10dp"
-            android:text="완료"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.807"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="6dp" />
+            android:text="완료" />
     </FrameLayout>
 
     <View
         android:id="@+id/view"
         style="@style/divider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout_write" />
+        android:layout_marginTop="0dp"/>
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -116,19 +102,31 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_name"
                 tools:ignore="MissingConstraints" />
 
-            <RadioButton
-                android:id="@+id/radiobtn_female"
+            <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:text="여"
-                android:textSize="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:orientation="horizontal"
                 app:layout_constraintStart_toEndOf="@+id/tv_gender"
-                app:layout_constraintTop_toTopOf="@+id/tv_gender"
-                app:layout_constraintVertical_bias="0.0"
-                tools:ignore="MissingConstraints" />
+                app:layout_constraintTop_toTopOf="@+id/tv_gender">
+
+                <RadioButton
+                    android:id="@+id/radiobtn_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:text="남"
+                    android:textSize="16dp" />
+
+                <RadioButton
+                    android:id="@+id/radiobtn_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:text="여"
+                    android:textSize="16dp" />
+            </RadioGroup>
 
             <TextView
                 android:id="@+id/tv_age"
@@ -151,19 +149,6 @@
                 android:textSize="16dp"
                 app:layout_constraintStart_toEndOf="@+id/tv_age"
                 app:layout_constraintTop_toTopOf="@+id/tv_age"
-                tools:ignore="MissingConstraints" />
-
-
-            <RadioButton
-                android:id="@+id/radiobtn_male"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:text="남"
-                android:textSize="16dp"
-                app:layout_constraintStart_toEndOf="@+id/radiobtn_female"
-                app:layout_constraintTop_toTopOf="@+id/radiobtn_female"
                 tools:ignore="MissingConstraints" />
 
             <TextView
@@ -204,12 +189,11 @@
             <EditText
                 android:id="@+id/et_allergy1"
                 android:layout_width="130dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="1"
                 android:textSize="14dp"
+                android:inputType="textPersonName"
                 app:layout_constraintStart_toStartOf="@+id/tv_allergy"
                 app:layout_constraintTop_toBottomOf="@+id/tv_allergy"
                 tools:ignore="MissingConstraints" />
@@ -217,22 +201,20 @@
             <EditText
                 android:id="@+id/et_allergy3"
                 android:layout_width="130dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="3"
                 android:textSize="14dp"
+                android:inputType="textPersonName"
                 app:layout_constraintStart_toStartOf="@+id/et_allergy1"
                 app:layout_constraintTop_toBottomOf="@+id/et_allergy1" />
 
             <EditText
                 android:id="@+id/et_allergy4"
                 android:layout_width="130dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="4"
                 android:textSize="14dp"
+                android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="@+id/et_allergy2"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/et_allergy3"
@@ -242,13 +224,12 @@
             <EditText
                 android:id="@+id/et_allergy2"
                 android:layout_width="130dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="2"
                 android:textSize="14dp"
+                android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.181"
                 app:layout_constraintStart_toEndOf="@+id/et_allergy1"
@@ -308,16 +289,16 @@
                 android:id="@+id/et_name"
                 android:layout_width="119dp"
                 android:layout_height="40dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="96dp"
                 android:layout_marginRight="96dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="홍길동"
                 android:textSize="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.235"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/tv_name"
-                app:layout_constraintTop_toTopOf="@+id/tv_name" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_changepw" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </LinearLayout>

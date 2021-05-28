@@ -52,12 +52,12 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private DialogCheckLogout dialogCheckLogout;
     WritingListAdapter.RecyclerViewClickListener listener;
+    ProfileModel profileModel;
 
     ActionBarDrawerToggle actionBarDrawerToggle;
 
-    // header에 있는 리소스 가져오기
-    NavigationView navigationView = findViewById(R.id.nav_view);
-    View header = navigationView.getHeaderView(0);
+    NavigationView navigationView;
+    View header;
 
     RetrofitService retrofitService;
 
@@ -81,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fabSearch = findViewById(R.id.fab_search);
         CalendarView calendarView = findViewById(R.id.calendarView);
         final TextView tv_date = findViewById(R.id.tv_date);
+
+        // header에 있는 리소스 가져오기
+        navigationView = findViewById(R.id.nav_view);
+        header = navigationView.getHeaderView(0);
 
         Button btneditprofile = header.findViewById(R.id.btn_editprofile);
 
@@ -140,7 +144,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
+                intent.putExtra("name", profileModel.getName());
+//                intent.putExtra("ingredient", recyclerAdapter.choice().get(1));
+                intent.putExtra("allergy", profileModel.getAllergy());
+//                setResult(RESULT_OK, intent);
                 startActivity(intent);
+//                Log.d("반환", recyclerAdapter.choice().get(0) +" "+ recyclerAdapter.choice().get(1));
+                finish();
             }
         });
 
@@ -161,42 +171,46 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //user정보 가져오
+    //user정보 가져오기
     private void searchProfile() {
-//        retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
-//
-//        Call<ProfileModel> call = retrofitService.getSearchProfile(MySharedPreferences.getUserId(this).toString());
-//
-//        call.enqueue(new Callback<ProfileModel>() {
-//            @Override
-//            public void onResponse(Call<ProfileModel> call, Response<ProfileModel> response) {
-//                if (response.isSuccessful()) {
-//                    Log.d("연결 성공", response.message());
-//                    ProfileModel profileModel = response.body();
-////                    List<ProfileModel> profileList; 이렇게 저장해야되나?
-//
-//                    profileModel.getName();
-//                    TextView tv_profilename = header.findViewById(R.id.tv_profilename);
-//                    TextView tv_profilename = header.findViewById(R.id.tv_profilename);
-//                    tv_profilename.setText(MySharedPreferences.getUserId(this).toString());
-//
-//                } else {
-//                        Log.d("ssss", response.message());
-//                    }
-//
-//                } else if (response.code() == 404) {
-//                    Toast.makeText(MainActivity.this, "인터넷 연결을 확인해주세요"
-//                            , Toast.LENGTH_SHORT).show();
-//                    Log.d("ssss", response.message());
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ProfileModel> call, Throwable t) {
-//                Log.d("ssss", t.getMessage());
-//            }
-//        });
+        retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
+
+        Call<ProfileModel> call = retrofitService.getSearchProfile(MySharedPreferences.getUserId(this).toString());
+
+        call.enqueue(new Callback<ProfileModel>() {
+            @Override
+            public void onResponse(Call<ProfileModel> call, Response<ProfileModel> response) {
+                if (response.isSuccessful()) {
+                    if (response.isSuccessful()) {
+                        Log.d("연결 성공", response.message());
+                        profileModel = response.body();
+//                        dataList = response.body();
+//                        dataInfo = dataList.profile_results;
+//                            recyclerAdapter = new SearchCosmeticRecyclerAdapter(getApplicationContext(), dataInfo);
+//                            recyclerView.setAdapter(recyclerAdapter);
+
+                        System.out.println(profileModel.getName() + " / " + profileModel.getSkintype() + " / " + profileModel.getAllergy());
+//                    List<ProfileModel> profileList; 이렇게 저장해야되나?
+
+                        TextView tv_profilename = header.findViewById(R.id.tv_profilename);
+                        TextView tv_skintype = header.findViewById(R.id.tv_skintype);
+                        TextView tv_allergy = header.findViewById(R.id.tv_allergy);
+
+                        tv_profilename.setText(profileModel.getName());
+                        tv_skintype.setText(profileModel.getSkintype());
+                        tv_allergy.setText(profileModel.getAllergy());
+                    } else if (response.code() == 404) {
+                        Toast.makeText(MainActivity.this, "인터넷 연결을 확인해주세요", Toast.LENGTH_SHORT).show();
+                        Log.d("ssss", response.message());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProfileModel> call, Throwable t) {
+                Log.d("ssss", t.getMessage());
+            }
+        });
     }
 
     private void setOnclickListener() {
@@ -271,7 +285,11 @@ public class MainActivity extends AppCompatActivity {
             switch (v.getId()) {
                 case R.id.tv_ok:
                     // 로그아웃 진행
-                    Toast.makeText(MainActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
+                    MySharedPreferences.clearUser(getApplicationContext());
+
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
                 case R.id.tv_cancel:
                     dialogCheckLogout.dismiss();
             }

@@ -38,6 +38,7 @@
         android:id="@+id/btn_choice"
         android:layout_width="83dp"
         android:layout_height="43dp"
+        android:enabled="false"
         android:text="선택완료"
         app:layout_constraintBottom_toBottomOf="@+id/tv_result"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,20 +65,37 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginRight="10dp"
+        android:clickable="true"
         android:src="@drawable/ic_action_search"
         app:layout_constraintBottom_toBottomOf="@+id/et_searchcosmetic"
         app:layout_constraintEnd_toEndOf="@+id/et_searchcosmetic"
-        app:layout_constraintTop_toTopOf="@+id/et_searchcosmetic"
-        android:clickable="true"/>
+        app:layout_constraintTop_toTopOf="@+id/et_searchcosmetic" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_searchcosmetic"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_searchcosmetic" />
+        app:layout_constraintTop_toBottomOf="@+id/et_searchcosmetic">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_searchcosmetic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_nosearchresult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="검색결과가 존재하지 않습니다"
+            android:textSize="18dp"
+            android:layout_marginTop="40dp"
+            android:visibility="gone"/>
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

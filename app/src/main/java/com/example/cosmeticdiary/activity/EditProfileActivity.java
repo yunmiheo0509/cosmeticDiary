@@ -6,24 +6,39 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.cosmeticdiary.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfileActivity extends AppCompatActivity {
+    Button btn_changePw;
+    Button btn_complete;
+    CircleImageView iv_editimg;
+    EditText et_name, et_allergy1, et_allergy2, et_allergy3, et_allergy4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        Button btnchangePw = findViewById(R.id.btn_changepw);
-        Button btncomplete = findViewById(R.id.btn_complete);
-        CircleImageView editimg = findViewById(R.id.iv_editimg);
+        btn_changePw = findViewById(R.id.btn_changepw);
+        btn_complete = findViewById(R.id.btn_complete);
+        iv_editimg = findViewById(R.id.iv_editimg);
 
-        btnchangePw.setOnClickListener(new View.OnClickListener() {
+        et_name = findViewById(R.id.et_name);
+        et_allergy1 = findViewById(R.id.et_allergy1);
+        et_allergy2 = findViewById(R.id.et_allergy2);
+        et_allergy3 = findViewById(R.id.et_allergy3);
+        et_allergy4 = findViewById(R.id.et_allergy4);
+
+        et_name.setText(getIntent().getStringExtra("name"));
+        et_allergy1.setText(getIntent().getStringExtra("allergy"));
+
+        btn_changePw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EditProfileActivity.this, ChangePwActivity.class);
@@ -31,18 +46,23 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-        editimg.setOnClickListener(new View.OnClickListener() {
+        iv_editimg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 갤러리 이동
             }
        });
 
-        btncomplete.setOnClickListener(new View.OnClickListener() {
+        btn_complete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 버튼 클릭시 데이터 저장처리
+                editComplete();
             }
         });
+    }
+
+    // 버튼 클릭시 데이터 저장처리
+    private void editComplete() {
+
     }
 }

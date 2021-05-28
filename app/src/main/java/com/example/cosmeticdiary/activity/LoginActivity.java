@@ -47,8 +47,8 @@ public class LoginActivity extends AppCompatActivity {
         et_password = findViewById(R.id.et_pw);
 
         // SharedPreferences 안에 값이 저장되어 있지 않을 때 -> Login
-        if(MySharedPreferences.getUserId(this) == null
-                || MySharedPreferences.getUserPass(this) == null) {
+        if(MySharedPreferences.getUserId(this).isEmpty()
+                || MySharedPreferences.getUserPass(this).isEmpty()) {
             Login();
         }
         else { // SharedPreferences 안에 값이 저장되어 있을 때 -> MainActivity로 이동
@@ -94,10 +94,12 @@ public class LoginActivity extends AppCompatActivity {
                             Log.v("success", loginModel.getSuccess());
                             if (loginModel.getCode().equals("200")) {
                                 MySharedPreferences.setUserId(LoginActivity.this, et_id.getText().toString());
+                                MySharedPreferences.setUserPass(LoginActivity.this, et_password.getText().toString());
 
                                 Toast.makeText(LoginActivity.this, "로그인 되었습니다.".toString(), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
+                                finish();
 
 //                                appData.setPREF_LOGIN_ID(loginModel.getUserID());
 //                                appData.setPREF_LOGIN("y");

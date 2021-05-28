@@ -22,11 +22,10 @@ public class SearchResultModel {
         this.code = code;
     }
 
-    @Override
-    public String toString(){
-        return "results: "+results;
-    }
-
+//    @Override
+//    public String toString(){
+//        return "results: " + cosmetic_results;
+//    }
 }
 
 
