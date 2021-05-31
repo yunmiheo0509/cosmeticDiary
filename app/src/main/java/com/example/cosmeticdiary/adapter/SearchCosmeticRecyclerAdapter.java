@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cosmeticdiary.R;
+import com.example.cosmeticdiary.activity.WritingActivity;
 import com.example.cosmeticdiary.model.SearchCosmeticModel;
 
 import java.io.BufferedInputStream;

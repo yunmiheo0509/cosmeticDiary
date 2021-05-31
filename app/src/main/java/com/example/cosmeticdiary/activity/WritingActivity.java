@@ -57,9 +57,6 @@ public class WritingActivity extends AppCompatActivity {
     ScrollView scrollView;
     ConstraintLayout constraintLayout;
 
-    public WritingActivity() {
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,11 +90,15 @@ public class WritingActivity extends AppCompatActivity {
             }
         });
 
+        final RadioGroup radioGroup = findViewById(R.id.radiogp_satisfy);
+        final CheckBox chkJopssal = findViewById(R.id.checkbox_jopssal);
+
+        final ScrollView scrollView = findViewById(R.id.scrollview_writing);
+        final ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout_writing);
 
         Intent intent = getIntent();
         final String intentValue = intent.getStringExtra("main");
         final ArrayList intentArray = (ArrayList<String>) intent.getSerializableExtra("intentArray");
-
 
         // 글 작성
         if (intentValue.equals("plus")) {
@@ -259,6 +260,8 @@ public class WritingActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Intent intent = new Intent();
+        Bitmap bm;
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 // MainActivity 에서 요청할 때 보낸 요청 코드 (1000)
@@ -343,5 +346,3 @@ public class WritingActivity extends AppCompatActivity {
 //    }
 
 }
-
-

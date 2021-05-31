@@ -44,6 +44,12 @@ public interface RetrofitService {
                                @Field("email") String email);
 
     @FormUrlEncoded
+    @POST(Common.FindPwURL)
+    Call<LoginModel> getFindPw(@Field("id") String userID,
+                               @Field("password") String password,
+                               @Field("email") String email);
+
+    @FormUrlEncoded
     @POST(Common.SendWritingURL)
     Call<LoginModel> getWriting(@Field("id") String id,
                                 @Field("cosmetic") String cosmetic,

@@ -28,11 +28,12 @@ public class FindIdFragment extends Fragment {
     Button btn_findId;
     EditText et_name, et_email;
     DialogCheckUser dialogCheckUser;
+    RetrofitService retrofitService;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final RetrofitService[] retrofitService = new RetrofitService[1];
+//        final RetrofitService[] retrofitService = new RetrofitService[1];
         v = inflater.inflate(R.layout.fragment_find_id, container, false);
         et_name = v.findViewById(R.id.et_name);
         et_email = v.findViewById(R.id.et_email);
@@ -41,9 +42,9 @@ public class FindIdFragment extends Fragment {
         btn_findId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                retrofitService[0] = RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
 
-                Call<LoginModel> call = retrofitService[0].getFindId(et_name.getText().toString(),
+                Call<LoginModel> call = retrofitService.getFindId(et_name.getText().toString(),
                         et_email.getText().toString());
 
                 call.enqueue(new Callback<LoginModel>() {

@@ -32,11 +32,12 @@ public class RegisterActivity extends AppCompatActivity {
     ImageView backbtn;
     Button btndupcheck, btncomplete;
 
+    RetrofitService retrofitService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        final RetrofitService[] retrofitService = new RetrofitService[2];
 
         et_id = findViewById(R.id.et_id);
         et_password = findViewById(R.id.et_password);
@@ -64,9 +65,9 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 중복확인
-                retrofitService[0] = RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
                 Log.d("중복확인", "중복확인 버튼클릭");
-                Call<LoginModel> call = retrofitService[0].getDoubleCheck(et_id.getText().toString());
+                Call<LoginModel> call = retrofitService.getDoubleCheck(et_id.getText().toString());
                 call.enqueue(new Callback<LoginModel>() {
                     @Override
                     public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
@@ -123,6 +124,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+
         btncomplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,14 +166,15 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                retrofitService[1] = RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
 
-                Call<LoginModel> call2 = retrofitService[1].getRegister(
+                Call<LoginModel> call2 = retrofitService.getRegister(
                         et_id.getText().toString(),
                         et_password.getText().toString(),
                         et_name.getText().toString(),
                         et_email.getText().toString()
                 );
+
                 call2.enqueue(new Callback<LoginModel>() {
                     @Override
                     public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
