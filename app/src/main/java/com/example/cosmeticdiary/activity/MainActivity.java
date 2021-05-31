@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     ActionBarDrawerToggle actionBarDrawerToggle;
 
+    // header에 있는 리소스 가져오기
     NavigationView navigationView;
     View header;
 
@@ -77,14 +78,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        navigationView = findViewById(R.id.nav_view);
+        header = navigationView.getHeaderView(0);
+
         FloatingActionButton fabPlus = findViewById(R.id.fab_plus);
         FloatingActionButton fabSearch = findViewById(R.id.fab_search);
         CalendarView calendarView = findViewById(R.id.calendarView);
         final TextView tv_date = findViewById(R.id.tv_date);
 
-        // header에 있는 리소스 가져오기
-        navigationView = findViewById(R.id.nav_view);
-        header = navigationView.getHeaderView(0);
 
         Button btneditprofile = header.findViewById(R.id.btn_editprofile);
 

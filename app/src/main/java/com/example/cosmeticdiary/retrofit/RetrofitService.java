@@ -43,6 +43,25 @@ public interface RetrofitService {
     Call<LoginModel> getFindId(@Field("name") String userID,
                                @Field("email") String email);
 
+    @FormUrlEncoded
+    @POST(Common.SendWritingURL)
+    Call<LoginModel> getWriting(@Field("id") String id,
+                                @Field("cosmetic") String cosmetic,
+                                @Field("image") String image,
+                                @Field("satisfy") String satisfy,
+                                @Field("content") String content,
+                                @Field("ingredient") String ingredient,
+                                @Field("jopssal") String jopssal,
+                                @Field("dry") String dry,
+                                @Field("hwanongsung") String hwanongsung,
+                                @Field("good") String good,
+                                @Field("trouble") String trouble,
+                                @Field("etc") String etc
+    );
+
+//    @Multipart
+//    @POST(Common.SendWritingURL)
+//    Call<LoginModel> userEdit(@Part MultipartBody.Part postImg, @PartMap HashMap<String, RequestBody> data);
 //    @GET(Common.LoginURL)
 //    Call<ArrayList<GenderCompositionModel>> getGenderComposition(@Query("pID") int pID);
 

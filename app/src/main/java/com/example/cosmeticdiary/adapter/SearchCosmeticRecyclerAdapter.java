@@ -1,23 +1,28 @@
 package com.example.cosmeticdiary.adapter;
 
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cosmeticdiary.R;
-import com.example.cosmeticdiary.activity.WritingActivity;
 import com.example.cosmeticdiary.model.SearchCosmeticModel;
 
+import java.io.BufferedInputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,10 +53,27 @@ public class SearchCosmeticRecyclerAdapter extends RecyclerView.Adapter<SearchCo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchCosmeticRecyclerAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final SearchCosmeticRecyclerAdapter.MyViewHolder holder, final int position) {
         holder.name.setText(dataList.get(position).getName());
-        holder.brand.setText("" + dataList.get(position).getBrand());
+        holder.brand.setText(dataList.get(position).getBrand());
 //        holder.img.setText("" + dataList.get(position).getImg());
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try {
+                    URL url = new URL(dataList.get(position).getImg());
+                    URLConnection conn = url.openConnection();
+                    conn.connect();
+                    BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
+                    Bitmap bm = BitmapFactory.decodeStream(bis);
+                    bis.close();
+                    holder.img.setImageBitmap(bm);
+                } catch (Exception e) {
+                }
+                return null;
+            }
+        }.execute();
 
 //        holder.itemView.setSelected(isItemSelected(position));
         if (isItemSelected(position)) {
@@ -71,15 +93,14 @@ public class SearchCosmeticRecyclerAdapter extends RecyclerView.Adapter<SearchCo
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView brand;
-        TextView img;
-//        ImageView img;
+        ImageView img;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = (TextView) itemView.findViewById(R.id.tv_cosmetic_name);
             brand = (TextView) itemView.findViewById(R.id.tv_brand);
-//            img = (TextView)itemView.findViewById(R.id.iv_cosmetic);
+            img = (ImageView) itemView.findViewById(R.id.iv_cosmetic);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
