@@ -18,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cosmeticdiary.R;
-import com.example.cosmeticdiary.activity.WritingActivity;
 import com.example.cosmeticdiary.model.SearchCosmeticModel;
 
 import java.io.BufferedInputStream;
@@ -133,7 +132,6 @@ public class SearchCosmeticRecyclerAdapter extends RecyclerView.Adapter<SearchCo
     public List<String> choice() {
         int position;
         ArrayList<String> intentArray = new ArrayList<>();
-
         position = mSelectedItems.keyAt(0);
         mSelectedItems.put(position, false);
         notifyItemChanged(position);

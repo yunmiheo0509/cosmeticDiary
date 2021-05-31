@@ -146,13 +146,14 @@ public class WritingActivity extends AppCompatActivity {
                                 LoginModel loginModel = response.body();
                                 Log.v("code", loginModel.getCode());
                                 System.out.println(loginModel.getCode() + loginModel.getSuccess());
-                                if (loginModel.getCode().equals("100")) {
+                                if (loginModel.getCode().equals("200")) {
                                     Log.v("code", loginModel.getCode());
                                     System.out.println("success");
                                 } else {
                                     Log.d("ssss", response.message());
                                 }
-
+                                Intent intent = new Intent(WritingActivity.this, MainActivity.class);
+                                startActivity(intent);
                             } else if (response.code() == 404) {
                                 Toast.makeText(WritingActivity.this, "인터넷 연결을 확인해주세요"
                                         , Toast.LENGTH_SHORT).show();
@@ -160,15 +161,13 @@ public class WritingActivity extends AppCompatActivity {
 
                             }
                         }
-
                         @Override
                         public void onFailure(Call<LoginModel> call, Throwable t) {
                             Log.d("ssss", t.getMessage());
                         }
                     });
 
-                    Intent intent = new Intent(WritingActivity.this, MainActivity.class);
-                    startActivity(intent);
+
                 }
             });
         } else {

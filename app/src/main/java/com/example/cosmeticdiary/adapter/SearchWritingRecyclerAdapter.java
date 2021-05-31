@@ -1,6 +1,10 @@
 package com.example.cosmeticdiary.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.model.SearchWritingModel;
 
+import java.io.BufferedInputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 public class SearchWritingRecyclerAdapter extends RecyclerView.Adapter<SearchWritingRecyclerAdapter.ItemViewHolder> {
@@ -33,16 +40,39 @@ public class SearchWritingRecyclerAdapter extends RecyclerView.Adapter<SearchWri
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ItemViewHolder holder, final int position) {
         // Item을 하나, 하나 보여주는(bind 되는) 함수
 //        holder.onBind(listData.get(position));
-//        holder.img.setImageResource(searchWritingModel.get(position).getImg());
+        System.out.println("온바인드뷰홀더에 들어옴..");
+//        holder.img.setImageBitmap(StringToBitmap(dataList.get(position).getImg()));
         holder.date.setText(dataList.get(position).getDate());
         holder.cosmetic.setText(dataList.get(position).getCosmetic());
-        holder.brand.setText("("+ dataList.get(position).getBrand() +")");
-        holder.condition.setText(dataList.get(position).getCondition());
-    }
+        holder.satisfy.setText("(" + dataList.get(position).getSatisfy() + ")");
+        holder.content.setText(dataList.get(position).getContent());
 
+
+
+        new AsyncTask<Void, Void, Void>()
+    {
+        @Override
+        protected Void doInBackground (Void...voids){
+        try {
+            URL url = new URL(dataList.get(position).getImg());
+            Log.d("url주소", url.toString());
+            URLConnection conn = url.openConnection();
+            conn.connect();
+            BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
+            Bitmap bm = BitmapFactory.decodeStream(bis);
+            bis.close();
+            holder.img.setImageBitmap(bm);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return null;
+    }
+    }.execute();
+
+}
     @Override
     public int getItemCount() {
         // RecyclerView의 총 개수
@@ -60,25 +90,27 @@ public class SearchWritingRecyclerAdapter extends RecyclerView.Adapter<SearchWri
         private ImageView img;
         private TextView date;
         private TextView cosmetic;
-        private TextView brand;
-        private TextView condition;
+        private TextView satisfy;
+        private TextView content;
 
         ItemViewHolder(View itemView) {
             super(itemView);
 
-//            img = itemView.findViewById(R.id.iv_cosmetic);
+            img = itemView.findViewById(R.id.iv_cosmetic_image);
             date = itemView.findViewById(R.id.tv_date);
             cosmetic = itemView.findViewById(R.id.tv_cosmetic_name);
-            brand = itemView.findViewById(R.id.tv_brand);
-            condition = itemView.findViewById(R.id.tv_condition);
+            satisfy = itemView.findViewById(R.id.tv_satisfy);
+            content = itemView.findViewById(R.id.tv_content);
         }
 
         void onBind(SearchWritingModel data) {
-//            img.setImageResource(data.getImg());
+//            img.setImageBitmap(StringToBitmap(data.getImg()));
             date.setText(data.getDate());
             cosmetic.setText(data.getCosmetic());
-            brand.setText(data.getBrand());
-            condition.setText(data.getCondition());
+            satisfy.setText(data.getSatisfy());
+            content.setText(data.getContent());
+
         }
     }
+
 }

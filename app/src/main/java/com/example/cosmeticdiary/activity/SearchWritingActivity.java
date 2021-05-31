@@ -1,9 +1,5 @@
 package com.example.cosmeticdiary.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +7,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.adapter.SearchWritingRecyclerAdapter;
@@ -76,14 +76,13 @@ public class SearchWritingActivity extends AppCompatActivity {
                     public void onResponse(Call<SearchResultModel> call, Response<SearchResultModel> response) {
                         if (response.isSuccessful()) {
                             Log.d("연결 성공", response.message());
-                            SearchResultModel searchWritingResult = response.body();
-                            Log.d("검색", searchWritingResult.toString());
+//                            SearchResultModel searchWritingResult = response.body();
+//                            Log.d("검색", searchWritingResult.toString());
                             dataList = response.body();
                             dataInfo = dataList.writing_results;
                             if (response.body().getCode().equals("200")) {
                                 searchWritingAdapter= new SearchWritingRecyclerAdapter(getApplicationContext(), dataInfo);
                                 recyclerView.setAdapter(searchWritingAdapter);
-                                Log.d("받아온거  확인", dataInfo.toString());
                             } else {
                                 dataInfo.clear();
                                 searchWritingAdapter= new SearchWritingRecyclerAdapter(getApplicationContext(), dataInfo);

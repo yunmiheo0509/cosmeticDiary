@@ -6,7 +6,7 @@
     android:layout_centerVertical="true">
 
     <ImageView
-        android:id="@+id/iv_cosmetic"
+        android:id="@+id/iv_cosmetic_image"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_centerVertical="true"
@@ -40,25 +40,25 @@
             android:textSize="14dp" />
 
         <TextView
-            android:id="@+id/tv_brand"
+            android:id="@+id/tv_satisfy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_date"
             android:layout_toRightOf="@id/tv_cosmetic_name"
             android:layout_marginTop="6dp"
             android:includeFontPadding="false"
-            android:text="(브랜드명)"
+            android:text="(만족도)"
             android:textSize="14dp" />
 
         <TextView
-            android:id="@+id/tv_condition"
+            android:id="@+id/tv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_cosmetic_name"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="6dp"
             android:includeFontPadding="false"
-            android:text="피부상태"
+            android:text="content"
             android:textSize="14dp" />
     </RelativeLayout>
 

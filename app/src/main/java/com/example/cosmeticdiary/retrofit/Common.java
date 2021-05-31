@@ -3,7 +3,7 @@ package com.example.cosmeticdiary.retrofit;
 public class Common {
 
 //    public static final String BASE_SERVER_URL = "http://192.168.200.106:4000";
-    public static final String BASE_SERVER_URL = "https://d90315143a76.ngrok.io";
+    public static final String BASE_SERVER_URL = "https://847a194b5fdb.ngrok.io" ;
 
     public static final String RegisterURL = "/register"; //회원가입
     public static final String LoginURL = "/login"; //로그인
