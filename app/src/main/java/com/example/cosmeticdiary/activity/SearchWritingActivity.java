@@ -36,6 +36,7 @@ public class SearchWritingActivity extends AppCompatActivity {
 
     final RetrofitService[] retrofitService = new RetrofitService[1];
     SearchResultModel dataList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,11 +1,13 @@
 package com.example.cosmeticdiary.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -28,12 +30,16 @@ import androidx.loader.content.CursorLoader;
 import com.example.cosmeticdiary.DialogCheckDelete;
 import com.example.cosmeticdiary.MySharedPreferences;
 import com.example.cosmeticdiary.R;
+import com.example.cosmeticdiary.adapter.SearchWritingRecyclerAdapter;
 import com.example.cosmeticdiary.model.LoginModel;
 import com.example.cosmeticdiary.retrofit.RetrofitHelper;
 import com.example.cosmeticdiary.retrofit.RetrofitService;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -42,17 +48,13 @@ import retrofit2.Response;
 
 public class WritingActivity extends AppCompatActivity {
     private DialogCheckDelete dialogCheckDelete;
-    private TextView tv_ingredient;
-    private EditText et_name;
+    TextView tv_ingredient;
+    EditText et_name, et_write;
     RadioGroup radioGroup;
     ImageView iv_writephoto;
     RetrofitService retrofitService;
     String imageBase64;
-    Button btn_cancel;
-    Button btn_right;
-    Button btn_search;
-    Button btn_edit;
-    EditText et_write;
+    Button btn_cancel, btn_right, btn_search, btn_edit;
     CheckBox chkJopssal, chkDry, chkHwanongsung, chkGood, chkTrouble, chkEtc;
     ScrollView scrollView;
     ConstraintLayout constraintLayout;
@@ -96,148 +98,167 @@ public class WritingActivity extends AppCompatActivity {
         final ScrollView scrollView = findViewById(R.id.scrollview_writing);
         final ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout_writing);
 
-        Intent intent = getIntent();
-        final String intentValue = intent.getStringExtra("main");
-        final ArrayList intentArray = (ArrayList<String>) intent.getSerializableExtra("intentArray");
+        final Intent intent = getIntent();
+        int intentValue = intent.getIntExtra("writing", 0);
 
         // 글 작성
-        if (intentValue.equals("plus")) {
-            btn_edit.setVisibility(View.GONE);
-            btn_right.setText("저장");
-            btn_search.setVisibility(View.VISIBLE);
+        switch (intentValue) {
+            case 1000:
+                btn_edit.setVisibility(View.GONE);
+                btn_right.setText("저장");
+                btn_search.setVisibility(View.VISIBLE);
 
-            // 취소 처리
-            btn_cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(WritingActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
-            });
+                // 저장 처리
+                btn_right.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                        String id = MySharedPreferences.getUserId(WritingActivity.this);
+                        String cosmetic = et_name.getText().toString();
+                        int radioId = radioGroup.getCheckedRadioButtonId();
+                        RadioButton rb = (RadioButton) findViewById(radioId);
+                        //체크박스 설정.
+                        String satisfy = rb.getText().toString();
+                        String content = et_write.getText().toString();
+                        String ingredient = tv_ingredient.getText().toString();
+                        String jopssal = "false", dry = "false", hwanongsung = "false", good = "false", trouble = "false", etc = "false";
+                        if (chkJopssal.isChecked()) jopssal = "true";
+                        if (chkDry.isChecked()) dry = "true";
+                        if (chkHwanongsung.isChecked()) hwanongsung = "true";
+                        if (chkGood.isChecked()) good = "true";
+                        if (chkTrouble.isChecked()) trouble = "true";
+                        if (chkEtc.isChecked()) etc = "true";
 
-            // 저장 처리
-            btn_right.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
-                    String id = MySharedPreferences.getUserId(WritingActivity.this);
-                    String cosmetic = et_name.getText().toString();
-                    int radioId = radioGroup.getCheckedRadioButtonId();
-                    RadioButton rb = (RadioButton) findViewById(radioId);
-                    //체크박스 설정.
-                    String satisfy = rb.getText().toString();
-                    String content = et_write.getText().toString();
-                    String ingredient = tv_ingredient.getText().toString();
-                    String jopssal = "false", dry = "false", hwanongsung = "false", good = "false", trouble = "false", etc = "false";
-                    if (chkJopssal.isChecked()) jopssal = "true";
-                    if (chkDry.isChecked()) dry = "true";
-                    if (chkHwanongsung.isChecked()) hwanongsung = "true";
-                    if (chkGood.isChecked()) good = "true";
-                    if (chkTrouble.isChecked()) trouble = "true";
-                    if (chkEtc.isChecked()) etc = "true";
-
-                    Call<LoginModel> call = retrofitService.getWriting(id, cosmetic, imageBase64, satisfy, content,
-                            ingredient, jopssal, dry, hwanongsung, good, trouble, etc);
-                    call.enqueue(new Callback<LoginModel>() {
-                        @Override
-                        public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
-                            if (response.isSuccessful()) {
-                                Log.d("연결 성공", response.message());
-                                LoginModel loginModel = response.body();
-                                Log.v("code", loginModel.getCode());
-                                System.out.println(loginModel.getCode() + loginModel.getSuccess());
-                                if (loginModel.getCode().equals("200")) {
+                        Call<LoginModel> call = retrofitService.getWriting(id, cosmetic, imageBase64, satisfy, content,
+                                ingredient, jopssal, dry, hwanongsung, good, trouble, etc);
+                        call.enqueue(new Callback<LoginModel>() {
+                            @Override
+                            public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
+                                if (response.isSuccessful()) {
+                                    Log.d("연결 성공", response.message());
+                                    LoginModel loginModel = response.body();
                                     Log.v("code", loginModel.getCode());
-                                    System.out.println("success");
-                                } else {
+                                    System.out.println(loginModel.getCode() + loginModel.getSuccess());
+                                    if (loginModel.getCode().equals("200")) {
+                                        Log.v("code", loginModel.getCode());
+                                        System.out.println("success");
+                                    } else {
+                                        Log.d("ssss", response.message());
+                                    }
+                                    Intent intent = new Intent(WritingActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                } else if (response.code() == 404) {
+                                    Toast.makeText(WritingActivity.this, "인터넷 연결을 확인해주세요"
+                                            , Toast.LENGTH_SHORT).show();
                                     Log.d("ssss", response.message());
+
                                 }
-                                Intent intent = new Intent(WritingActivity.this, MainActivity.class);
-                                startActivity(intent);
-                            } else if (response.code() == 404) {
-                                Toast.makeText(WritingActivity.this, "인터넷 연결을 확인해주세요"
-                                        , Toast.LENGTH_SHORT).show();
-                                Log.d("ssss", response.message());
-
                             }
+
+                            @Override
+                            public void onFailure(Call<LoginModel> call, Throwable t) {
+                                Log.d("ssss", t.getMessage());
+                            }
+                        });
+                    }
+                });
+                break;
+            default:
+                btn_edit.setVisibility(View.VISIBLE);
+                btn_search.setVisibility(View.GONE);
+                btn_right.setText("삭제");
+
+                et_name.setText(intent.getStringExtra("cosmeticname"));
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+                        try {
+                            URL url = new URL(intent.getStringExtra("img"));
+                            Log.d("url주소", url.toString());
+                            URLConnection conn = url.openConnection();
+                            conn.connect();
+                            BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
+                            Bitmap bm = BitmapFactory.decodeStream(bis);
+                            bis.close();
+                            iv_writephoto.setImageBitmap(bm);
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
                         }
-                        @Override
-                        public void onFailure(Call<LoginModel> call, Throwable t) {
-                            Log.d("ssss", t.getMessage());
-                        }
-                    });
-
-
+                        return null;
+                    }
+                }.execute();
+                switch (intent.getStringExtra("satisfy")){
+                    case "상":
+                        radioGroup.check(R.id.radiobtn_good);
+                        break;
+                    case "중":
+                        radioGroup.check(R.id.radiobtn_mid);
+                        break;
+                    case "하":
+                        radioGroup.check(R.id.radiobtn_bad);
+                        break;
                 }
-            });
-        } else {
-            btn_edit.setVisibility(View.VISIBLE);
-            btn_search.setVisibility(View.GONE);
-            btn_right.setText("삭제");
+                et_write.setText(intent.getStringExtra("content"));
+                tv_ingredient.setText(intent.getStringExtra("ingredient"));
 
+                setCheckbox(chkJopssal, intent.getStringExtra("jopssal"));
+                setCheckbox(chkDry, intent.getStringExtra("dry"));
+                setCheckbox(chkHwanongsung, intent.getStringExtra("hwanongsung"));
+                setCheckbox(chkGood, intent.getStringExtra("good"));
+                setCheckbox(chkTrouble, intent.getStringExtra("trouble"));
+                setCheckbox(chkEtc, intent.getStringExtra("etc"));
 
-//            constraintLayout.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    return true;
-//                }
-//            });
-//            etname.setEnabled(false);
-//            etwrite.setEnabled(false);
-//            radioGroup.setEnabled(false);
-//            chkJopssal.setEnabled(false);
-
-            // 취소 처리
-            btn_right.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(WritingActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
-            });
-
-            // 수정
-            btn_edit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                // 수정
+                btn_edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 //                    etname.setEnabled(true);
 //                    etwrite.setEnabled(true);
 //                    radioGroup.setEnabled(true);
 //                    chkJopssal.setEnabled(true);
 
-                    btn_edit.setVisibility(View.GONE);
-                    btn_search.setVisibility(View.VISIBLE);
-                    btn_right.setText("저장");
+                        btn_edit.setVisibility(View.GONE);
+                        btn_search.setVisibility(View.VISIBLE);
+                        btn_right.setText("저장");
 
-                    // 취소 처리
-                    btn_right.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(WritingActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        }
-                    });
+                        // 취소 처리
+                        btn_right.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                finish();
+                            }
+                        });
 
-                    // 수정 후 저장
-                    btn_right.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // 저장 처리
-                            Toast.makeText(WritingActivity.this, "저장", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            });
+                        // 수정 후 저장
+                        btn_right.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // 저장 처리
+                                Toast.makeText(WritingActivity.this, "저장", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
 
-            // 삭제 처리
-            btn_right.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // 팝업창 확인 후 삭제
-                    dialogCheckDelete = new DialogCheckDelete(WritingActivity.this, dialogListener);
-                    dialogCheckDelete.show();
-                }
-            });
+                // 취소 처리
+                btn_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
+
+                // 삭제 처리
+                btn_right.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // 팝업창 확인 후 삭제
+                        dialogCheckDelete = new DialogCheckDelete(WritingActivity.this, dialogListener);
+                        dialogCheckDelete.show();
+                    }
+                });
+
+                break;
         }
 
         // 검색 처리
@@ -245,26 +266,18 @@ public class WritingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(WritingActivity.this, SearchCosmeticActivity.class);
-                startActivityForResult(intent, 1000);
-//                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
-
-//        if (intentArray != null) {
-//            et_name.setText(intentArray.get(0).toString());
-//            tv_ingredient.setText(intentArray.get(1).toString());
-//        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Intent intent = new Intent();
-        Bitmap bm;
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 // MainActivity 에서 요청할 때 보낸 요청 코드 (1000)
-                case 1000:
+                case 1:
                     et_name.setText(data.getStringExtra("name"));
                     tv_ingredient.setText(data.getStringExtra("ingredient"));
                     break;
@@ -292,12 +305,9 @@ public class WritingActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
             }
-
         }
     }
-
 
     //다이얼로그창
     private View.OnClickListener dialogListener = new View.OnClickListener() {
@@ -313,6 +323,11 @@ public class WritingActivity extends AppCompatActivity {
         }
     };
 
+    private void setCheckbox(CheckBox chkbox, String bool) {
+        if (bool.equals("true")) {
+            chkbox.setChecked(true);
+        } else chkbox.setChecked(false);
+    }
 
     private String getRealPathFromUri(Uri uri) {
         String[] proj = {MediaStore.Images.Media.DATA};
@@ -325,23 +340,4 @@ public class WritingActivity extends AppCompatActivity {
         cursor.close();
         return url;
     }
-//    // 바이너리 바이트 배열을 스트링으로
-//    public static String byteArrayToBinaryString(byte[] b) {
-//        StringBuilder sb = new StringBuilder();
-//        for (int i = 0; i < b.length; ++i) {
-//            sb.append(byteToBinaryString(b[i]));
-//        }
-//        return sb.toString();
-//    } // 바이너리 바이트를 스트링으로
-//
-//    public static String byteToBinaryString(byte n) {
-//        StringBuilder sb = new StringBuilder("00000000");
-//        for (int bit = 0; bit < 8; bit++) {
-//            if (((n >> bit) & 1) > 0) {
-//                sb.setCharAt(7 - bit, '1');
-//            }
-//        }
-//        return sb.toString();
-//    }
-
 }

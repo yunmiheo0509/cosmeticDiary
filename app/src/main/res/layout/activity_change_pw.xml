@@ -56,7 +56,7 @@
         android:layout_height="39dp"
         android:layout_marginTop="92dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
@@ -104,14 +104,14 @@
         android:layout_height="wrap_content"
         android:text="비밀번호 확인"
         android:textSize="18dp"
-        app:layout_constraintBottom_toTopOf="@+id/et_checkpw"
-        app:layout_constraintEnd_toEndOf="@+id/tv_newpw"
+        app:layout_constraintBottom_toTopOf="@+id/et_checknewpw"
+        app:layout_constraintEnd_toEndOf="@+id/et_checknewpw"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_newpw"
+        app:layout_constraintStart_toStartOf="@+id/et_checknewpw"
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/et_checkpw"
+        android:id="@+id/et_checknewpw"
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_marginTop="50dp"
@@ -130,7 +130,7 @@
         android:text="완료"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_checkpw"
+        app:layout_constraintTop_toBottomOf="@+id/et_checknewpw"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

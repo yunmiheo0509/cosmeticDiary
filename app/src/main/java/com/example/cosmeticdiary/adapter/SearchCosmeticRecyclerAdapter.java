@@ -30,7 +30,6 @@ public class SearchCosmeticRecyclerAdapter extends RecyclerView.Adapter<SearchCo
     private Context context;
     private List<SearchCosmeticModel> dataList;
     private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
-    Button btn_choice;
 
     public SearchCosmeticRecyclerAdapter(Context c, List<SearchCosmeticModel> dataList) {
         this.context = c;

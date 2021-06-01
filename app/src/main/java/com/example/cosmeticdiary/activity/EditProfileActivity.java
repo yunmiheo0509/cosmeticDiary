@@ -15,8 +15,8 @@ import com.example.cosmeticdiary.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfileActivity extends AppCompatActivity {
-    Button btn_changePw;
-    Button btn_complete;
+    Button btn_changePw, btn_complete;
+    ImageView iv_backbtn;
     CircleImageView iv_editimg;
     EditText et_name, et_allergy1, et_allergy2, et_allergy3, et_allergy4;
 
@@ -28,6 +28,7 @@ public class EditProfileActivity extends AppCompatActivity {
         btn_changePw = findViewById(R.id.btn_changepw);
         btn_complete = findViewById(R.id.btn_complete);
         iv_editimg = findViewById(R.id.iv_editimg);
+        iv_backbtn = findViewById(R.id.iv_back);
 
         et_name = findViewById(R.id.et_name);
         et_allergy1 = findViewById(R.id.et_allergy1);
@@ -52,6 +53,13 @@ public class EditProfileActivity extends AppCompatActivity {
                 // 갤러리 이동
             }
        });
+
+        iv_backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         btn_complete.setOnClickListener(new View.OnClickListener() {
             @Override

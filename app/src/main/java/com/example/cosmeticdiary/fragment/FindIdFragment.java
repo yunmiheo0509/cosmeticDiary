@@ -61,7 +61,7 @@ public class FindIdFragment extends Fragment {
                                 dialogCheckUser = new DialogCheckUser(getContext(), dialogListener,"회원아이디: "+loginModel.getSuccess());
                                 dialogCheckUser.show(getFragmentManager(), "CheckUserDialog");
                             } else {
-                                dialogCheckUser = new DialogCheckUser(getContext(), dialogListener2,"회원정보 존재하지 않음");
+                                dialogCheckUser = new DialogCheckUser(getContext(), dialogListener2,"회원정보가 존재하지 않습니다");
                                 dialogCheckUser.show(getFragmentManager(), "CheckUserDialog");
                                 Log.d("ssss", response.message());
                             }

@@ -50,6 +50,11 @@ public interface RetrofitService {
                                @Field("email") String email);
 
     @FormUrlEncoded
+    @POST(Common.ChangePwURL)
+    Call<LoginModel> getChangePw(@Field("id") String userID,
+                               @Field("password") String password);
+
+    @FormUrlEncoded
     @POST(Common.SendWritingURL)
     Call<LoginModel> getWriting(@Field("id") String id,
                                 @Field("cosmetic") String cosmetic,

@@ -13,6 +13,7 @@ import com.example.cosmeticdiary.adapter.FindIdPwAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class FindIdPwActivity extends AppCompatActivity {
+    ImageView iv_backbtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +28,12 @@ public class FindIdPwActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(vp);
 
-        ImageView backbtn = findViewById(R.id.iv_back);
+        iv_backbtn = findViewById(R.id.iv_back);
 
-        backbtn.setOnClickListener(new View.OnClickListener() {
+        iv_backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FindIdPwActivity.this, LoginActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
     }

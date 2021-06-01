@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
     private DialogCheckLogout dialogCheckLogout;
     WritingListAdapter.RecyclerViewClickListener listener;
     ProfileModel profileModel;
-
     ActionBarDrawerToggle actionBarDrawerToggle;
+    int pressedTime = 0;
 
     // header에 있는 리소스 가져오기
     NavigationView navigationView;
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, WritingActivity.class);
-                intent.putExtra("main", "plus");
+                intent.putExtra("writing", 1000);
                 startActivity(intent);
             }
         });
@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v, int position) {
                 Intent intent = new Intent(getApplicationContext(), WritingActivity.class);
-                intent.putExtra("main", "edit");
+                intent.putExtra("writing", 2000);
                 startActivity(intent);
             }
         };
@@ -269,15 +269,15 @@ public class MainActivity extends AppCompatActivity {
         drawLayout.addDrawerListener(actionBarDrawerToggle);
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawerLayout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        DrawerLayout drawer = findViewById(R.id.drawerLayout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
 
     //다이얼로그창
     private View.OnClickListener dialogListener = new View.OnClickListener() {
@@ -296,4 +296,22 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        if (pressedTime == 0) {
+            Toast.makeText(MainActivity.this, " 한 번 더 누르면 종료됩니다.", Toast.LENGTH_LONG).show();
+            pressedTime = (int) System.currentTimeMillis();
+        } else {
+            int seconds = (int) (System.currentTimeMillis() - pressedTime);
+
+            if (seconds > 2000) {
+                Toast.makeText(MainActivity.this, " 한 번 더 누르면 종료됩니다.", Toast.LENGTH_LONG).show();
+                pressedTime = 0;
+            } else {
+                super.onBackPressed();
+//                finish(); // app 종료 시키기
+            }
+        }
+    }
 }

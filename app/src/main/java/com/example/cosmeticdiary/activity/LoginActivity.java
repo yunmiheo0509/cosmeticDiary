@@ -23,12 +23,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
-    private DialogCheckIdPw dialogCheckIdPw;
-    private Button btnlogin;
-    private Button btnregist;
-    private TextView btnfindIdPw;
-    private EditText et_id;
-    private EditText et_password;
+    DialogCheckIdPw dialogCheckIdPw;
+    Button btn_login, btn_regist;
+    TextView btn_findIdPw;
+    EditText et_id, et_password;
+    int pressedTime = 0;
 
     RetrofitService retrofitService;
 
@@ -37,26 +36,25 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        btnlogin = findViewById(R.id.btn_login);
-        btnregist = findViewById(R.id.btn_resgist);
-        btnfindIdPw = findViewById(R.id.tv_findID);
+        btn_login = findViewById(R.id.btn_login);
+        btn_regist = findViewById(R.id.btn_resgist);
+        btn_findIdPw = findViewById(R.id.tv_findID);
 
         et_id = findViewById(R.id.et_id);
         et_password = findViewById(R.id.et_pw);
 
         // SharedPreferences 안에 값이 저장되어 있지 않을 때 -> Login
-        if(MySharedPreferences.getUserId(this).isEmpty()
+        if (MySharedPreferences.getUserId(this).isEmpty()
                 || MySharedPreferences.getUserPass(this).isEmpty()) {
             Login();
-        }
-        else { // SharedPreferences 안에 값이 저장되어 있을 때 -> MainActivity로 이동
+        } else { // SharedPreferences 안에 값이 저장되어 있을 때 -> MainActivity로 이동
             Toast.makeText(this, MySharedPreferences.getUserId(this) + "님 자동 로그인 되었습니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }
 
-        btnregist.setOnClickListener(new View.OnClickListener() {
+        btn_regist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -64,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        btnfindIdPw.setOnClickListener(new View.OnClickListener() {
+        btn_findIdPw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, FindIdPwActivity.class);
@@ -74,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void Login() {
-        btnlogin.setOnClickListener(new View.OnClickListener() {
+        btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
@@ -134,4 +132,24 @@ public class LoginActivity extends AppCompatActivity {
             dialogCheckIdPw.dismiss();
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        if ( pressedTime == 0 ) {
+            Toast.makeText(LoginActivity.this, " 한 번 더 누르면 종료됩니다." , Toast.LENGTH_LONG).show();
+            pressedTime = (int) System.currentTimeMillis();
+        }
+        else {
+            int seconds = (int) (System.currentTimeMillis() - pressedTime);
+
+            if ( seconds > 2000 ) {
+                Toast.makeText(LoginActivity.this, " 한 번 더 누르면 종료됩니다." , Toast.LENGTH_LONG).show();
+                pressedTime = 0 ;
+            }
+            else {
+                super.onBackPressed();
+//                finish(); // app 종료 시키기
+            }
+        }
+    }
 }
