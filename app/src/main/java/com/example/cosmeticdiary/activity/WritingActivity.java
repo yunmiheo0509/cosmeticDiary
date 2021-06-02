@@ -1,6 +1,5 @@
 package com.example.cosmeticdiary.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -30,7 +29,6 @@ import androidx.loader.content.CursorLoader;
 import com.example.cosmeticdiary.DialogCheckDelete;
 import com.example.cosmeticdiary.MySharedPreferences;
 import com.example.cosmeticdiary.R;
-import com.example.cosmeticdiary.adapter.SearchWritingRecyclerAdapter;
 import com.example.cosmeticdiary.model.LoginModel;
 import com.example.cosmeticdiary.retrofit.RetrofitHelper;
 import com.example.cosmeticdiary.retrofit.RetrofitService;
@@ -40,7 +38,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,7 +55,7 @@ public class WritingActivity extends AppCompatActivity {
     CheckBox chkJopssal, chkDry, chkHwanongsung, chkGood, chkTrouble, chkEtc;
     ScrollView scrollView;
     ConstraintLayout constraintLayout;
-
+    String date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +97,7 @@ public class WritingActivity extends AppCompatActivity {
 
         final Intent intent = getIntent();
         int intentValue = intent.getIntExtra("writing", 0);
-
+        date = intent.getStringExtra("date");
         // 글 작성
         switch (intentValue) {
             case 1000:
@@ -129,7 +126,7 @@ public class WritingActivity extends AppCompatActivity {
                         if (chkTrouble.isChecked()) trouble = "true";
                         if (chkEtc.isChecked()) etc = "true";
 
-                        Call<LoginModel> call = retrofitService.getWriting(id, cosmetic, imageBase64, satisfy, content,
+                        Call<LoginModel> call = retrofitService.getWriting(id, cosmetic, imageBase64, satisfy, content,date,
                                 ingredient, jopssal, dry, hwanongsung, good, trouble, etc);
                         call.enqueue(new Callback<LoginModel>() {
                             @Override
@@ -139,6 +136,7 @@ public class WritingActivity extends AppCompatActivity {
                                     LoginModel loginModel = response.body();
                                     Log.v("code", loginModel.getCode());
                                     System.out.println(loginModel.getCode() + loginModel.getSuccess());
+                                    Toast.makeText(WritingActivity.this, "등록 완료", Toast.LENGTH_SHORT).show();
                                     if (loginModel.getCode().equals("200")) {
                                         Log.v("code", loginModel.getCode());
                                         System.out.println("success");

@@ -32,7 +32,7 @@ public interface RetrofitService {
 
     @FormUrlEncoded
     @POST(Common.SearchWritingURL)
-    Call<SearchResultModel> getSearchWriting(@Field("title") String title);
+    Call<SearchResultModel> getSearchWriting(@Field("id") String userID,@Field("title") String title);
 
     @FormUrlEncoded
     @POST(Common.SearchProfileURL)
@@ -61,6 +61,7 @@ public interface RetrofitService {
                                 @Field("image") String image,
                                 @Field("satisfy") String satisfy,
                                 @Field("content") String content,
+                                @Field("date") String date,
                                 @Field("ingredient") String ingredient,
                                 @Field("jopssal") String jopssal,
                                 @Field("dry") String dry,

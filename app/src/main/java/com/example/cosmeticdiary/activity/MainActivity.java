@@ -21,17 +21,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cosmeticdiary.DialogCheckIdPw;
 import com.example.cosmeticdiary.DialogCheckLogout;
 import com.example.cosmeticdiary.MySharedPreferences;
 import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.WritingListData;
-import com.example.cosmeticdiary.adapter.SearchCosmeticRecyclerAdapter;
 import com.example.cosmeticdiary.adapter.WritingListAdapter;
-import com.example.cosmeticdiary.model.LoginModel;
 import com.example.cosmeticdiary.model.ProfileModel;
-import com.example.cosmeticdiary.model.SearchCosmeticModel;
-import com.example.cosmeticdiary.model.SearchResultModel;
 import com.example.cosmeticdiary.retrofit.RetrofitHelper;
 import com.example.cosmeticdiary.retrofit.RetrofitService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -39,7 +34,6 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     ProfileModel profileModel;
     ActionBarDrawerToggle actionBarDrawerToggle;
     int pressedTime = 0;
-
+    String selectDate;
     // header에 있는 리소스 가져오기
     NavigationView navigationView;
     View header;
@@ -101,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 tv_date.setText(String.format("%d월 %d일", month + 1, dayOfMonth));
-
+                selectDate = String.format("%d-%d-%d",year, month + 1, dayOfMonth);
                 //서버연결(날짜에 맞는 데이터 가져오기
             }
         });
@@ -158,8 +152,11 @@ public class MainActivity extends AppCompatActivity {
         fabPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(MainActivity.this, WritingActivity.class);
                 intent.putExtra("writing", 1000);
+                intent.putExtra("date",selectDate);
+//                Log.d("날짜",selectDate);
                 startActivity(intent);
             }
         });

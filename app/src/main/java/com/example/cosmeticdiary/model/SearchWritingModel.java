@@ -67,8 +67,8 @@ public class SearchWritingModel {
     }
 
     public String getImg() {
-        Log.d("getimg", BASE_SERVER_URL+"/"+img);
-        return BASE_SERVER_URL+"/"+img;
+        Log.d("getimg", BASE_SERVER_URL+img);
+        return BASE_SERVER_URL+img;
     }
 
     public void setImg(String img) {

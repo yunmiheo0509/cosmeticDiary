@@ -33,7 +33,7 @@ public class SearchCosmeticActivity extends AppCompatActivity {
     SearchCosmeticRecyclerAdapter recyclerAdapter;
     SearchResultModel dataList;
     List<SearchCosmeticModel> dataInfo;
-
+    EditText et_search;
     RetrofitService retrofitService;
 
     @Override
@@ -43,7 +43,7 @@ public class SearchCosmeticActivity extends AppCompatActivity {
 
         ImageView backbtn = findViewById(R.id.iv_back);
         final Button btn_choice = findViewById(R.id.btn_choice);
-        final EditText et_search = findViewById(R.id.et_searchcosmetic);
+        et_search = findViewById(R.id.et_searchcosmetic);
         ImageView imgsearch = findViewById(R.id.img_search);
         final TextView nosearchresult = findViewById(R.id.tv_nosearchresult);
 
@@ -64,9 +64,9 @@ public class SearchCosmeticActivity extends AppCompatActivity {
             public void onClick(View view) {
                 recyclerAdapter = null;
                 retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
-
-                Call<SearchResultModel> call = retrofitService.getSearchCosmetic(et_search.getText().toString());
-
+                String name = et_search.getText().toString();
+                Call<SearchResultModel> call = retrofitService.getSearchCosmetic(name);
+                Log.d("et_search에 입력된거",name);
                 call.enqueue(new Callback<SearchResultModel>() {
                     @Override
                     public void onResponse(Call<SearchResultModel> call, Response<SearchResultModel> response) {
