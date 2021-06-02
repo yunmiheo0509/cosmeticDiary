@@ -68,9 +68,23 @@ public interface RetrofitService {
                                 @Field("hwanongsung") String hwanongsung,
                                 @Field("good") String good,
                                 @Field("trouble") String trouble,
-                                @Field("etc") String etc
-    );
-
+                                @Field("etc") String etc);
+    @FormUrlEncoded
+    @POST(Common.EditWritingURL)
+    Call<LoginModel> EditWriting(@Field("id") String id,
+                                @Field("cosmetic") String cosmetic,
+                                @Field("image") String image,
+                                @Field("satisfy") String satisfy,
+                                @Field("content") String content,
+                                @Field("date") String date,
+                                @Field("ingredient") String ingredient,
+                                @Field("jopssal") String jopssal,
+                                @Field("dry") String dry,
+                                @Field("hwanongsung") String hwanongsung,
+                                @Field("good") String good,
+                                @Field("trouble") String trouble,
+                                @Field("etc") String etc,
+                                 @Field("cosmeticNameDB") String cosmeticNameDB);
 //    @Multipart
 //    @POST(Common.SendWritingURL)
 //    Call<LoginModel> userEdit(@Part MultipartBody.Part postImg, @PartMap HashMap<String, RequestBody> data);

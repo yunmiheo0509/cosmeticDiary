@@ -50,12 +50,12 @@ public class WritingActivity extends AppCompatActivity {
     RadioGroup radioGroup;
     ImageView iv_writephoto;
     RetrofitService retrofitService;
-    String imageBase64;
+    String imageBase64=null;
     Button btn_cancel, btn_right, btn_search, btn_edit;
     CheckBox chkJopssal, chkDry, chkHwanongsung, chkGood, chkTrouble, chkEtc;
     ScrollView scrollView;
     ConstraintLayout constraintLayout;
-    String date;
+    String dateMain,dateDB,cosmeticNameDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +97,7 @@ public class WritingActivity extends AppCompatActivity {
 
         final Intent intent = getIntent();
         int intentValue = intent.getIntExtra("writing", 0);
-        date = intent.getStringExtra("date");
+        dateMain = intent.getStringExtra("dateMain");
         // 글 작성
         switch (intentValue) {
             case 1000:
@@ -126,7 +126,7 @@ public class WritingActivity extends AppCompatActivity {
                         if (chkTrouble.isChecked()) trouble = "true";
                         if (chkEtc.isChecked()) etc = "true";
 
-                        Call<LoginModel> call = retrofitService.getWriting(id, cosmetic, imageBase64, satisfy, content,date,
+                        Call<LoginModel> call = retrofitService.getWriting(id, cosmetic, imageBase64, satisfy, content,dateMain,
                                 ingredient, jopssal, dry, hwanongsung, good, trouble, etc);
                         call.enqueue(new Callback<LoginModel>() {
                             @Override
@@ -145,6 +145,7 @@ public class WritingActivity extends AppCompatActivity {
                                     }
                                     Intent intent = new Intent(WritingActivity.this, MainActivity.class);
                                     startActivity(intent);
+                                    finish();
                                 } else if (response.code() == 404) {
                                     Toast.makeText(WritingActivity.this, "인터넷 연결을 확인해주세요"
                                             , Toast.LENGTH_SHORT).show();
@@ -165,8 +166,8 @@ public class WritingActivity extends AppCompatActivity {
                 btn_edit.setVisibility(View.VISIBLE);
                 btn_search.setVisibility(View.GONE);
                 btn_right.setText("삭제");
-
-                et_name.setText(intent.getStringExtra("cosmeticname"));
+                cosmeticNameDB =intent.getStringExtra("cosmeticname");
+                et_name.setText(cosmeticNameDB);
                 new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... voids) {
@@ -198,7 +199,7 @@ public class WritingActivity extends AppCompatActivity {
                 }
                 et_write.setText(intent.getStringExtra("content"));
                 tv_ingredient.setText(intent.getStringExtra("ingredient"));
-
+                dateDB = intent.getStringExtra("date");
                 setCheckbox(chkJopssal, intent.getStringExtra("jopssal"));
                 setCheckbox(chkDry, intent.getStringExtra("dry"));
                 setCheckbox(chkHwanongsung, intent.getStringExtra("hwanongsung"));
@@ -231,6 +232,55 @@ public class WritingActivity extends AppCompatActivity {
                         btn_right.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                                String id = MySharedPreferences.getUserId(WritingActivity.this);
+                                String cosmetic = et_name.getText().toString();
+                                int radioId = radioGroup.getCheckedRadioButtonId();
+                                RadioButton rb = (RadioButton) findViewById(radioId);
+                                //체크박스 설정.
+                                String satisfy = rb.getText().toString();
+                                String content = et_write.getText().toString();
+                                String ingredient = tv_ingredient.getText().toString();
+                                String jopssal = "false", dry = "false", hwanongsung = "false", good = "false", trouble = "false", etc = "false";
+                                if (chkJopssal.isChecked()) jopssal = "true";
+                                if (chkDry.isChecked()) dry = "true";
+                                if (chkHwanongsung.isChecked()) hwanongsung = "true";
+                                if (chkGood.isChecked()) good = "true";
+                                if (chkTrouble.isChecked()) trouble = "true";
+                                if (chkEtc.isChecked()) etc = "true";
+                                Log.d("nameiddate",cosmeticNameDB+"// "+id+" //"+dateDB);
+                                Call<LoginModel> call = retrofitService.EditWriting(id, cosmetic, imageBase64, satisfy, content,dateDB,
+                                        ingredient, jopssal, dry, hwanongsung, good, trouble, etc,cosmeticNameDB);
+                                call.enqueue(new Callback<LoginModel>() {
+                                    @Override
+                                    public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
+                                        if (response.isSuccessful()) {
+                                            Log.d("연결 성공", response.message());
+                                            LoginModel loginModel = response.body();
+                                            Log.v("code", loginModel.getCode());
+                                            System.out.println(loginModel.getCode() + loginModel.getSuccess());
+                                            Toast.makeText(WritingActivity.this, "수정 완료", Toast.LENGTH_SHORT).show();
+                                            if (loginModel.getCode().equals("200")) {
+                                                Log.v("code", loginModel.getCode());
+                                                System.out.println("success");
+                                            } else {
+                                                Log.d("ssss", response.message());
+                                            }
+                                            Intent intent = new Intent(WritingActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                        } else if (response.code() == 404) {
+                                            Toast.makeText(WritingActivity.this, "인터넷 연결을 확인해주세요"
+                                                    , Toast.LENGTH_SHORT).show();
+                                            Log.d("ssss", response.message());
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<LoginModel> call, Throwable t) {
+                                        Log.d("ssss", t.getMessage());
+                                    }
+                                });
                                 // 저장 처리
                                 Toast.makeText(WritingActivity.this, "저장", Toast.LENGTH_SHORT).show();
                             }

@@ -71,7 +71,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        selectDate=(Calendar.getInstance().get(Calendar.YEAR)) + "-"
+                + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "-"
+                + (Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         navigationView = findViewById(R.id.nav_view);
         header = navigationView.getHeaderView(0);
 
@@ -155,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MainActivity.this, WritingActivity.class);
                 intent.putExtra("writing", 1000);
-                intent.putExtra("date",selectDate);
+                intent.putExtra("dateMain",selectDate);
 //                Log.d("날짜",selectDate);
                 startActivity(intent);
             }
