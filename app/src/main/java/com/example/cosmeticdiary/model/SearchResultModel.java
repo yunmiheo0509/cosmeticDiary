@@ -14,6 +14,9 @@ public class SearchResultModel {
     @SerializedName("writing_results")
     public List<SearchWritingModel> writing_results;
 
+    @SerializedName("calender_results")
+    public List<SearchWritingModel> calender_results;
+
     public String getCode() {
         return code;
     }
@@ -22,10 +25,10 @@ public class SearchResultModel {
         this.code = code;
     }
 
-//    @Override
-//    public String toString(){
-//        return "results: " + cosmetic_results;
-//    }
+    @Override
+    public String toString(){
+        return "results: " + calender_results;
+    }
 }
 
 

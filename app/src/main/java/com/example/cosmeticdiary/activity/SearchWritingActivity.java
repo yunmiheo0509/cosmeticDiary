@@ -26,52 +26,42 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//import com.example.cosmeticdiary.SearchCosmeticData;
-//import com.example.cosmeticdiary.adapter.SearchCosmeticAdapter;
-
 public class SearchWritingActivity extends AppCompatActivity {
     private List<SearchWritingModel> dataInfo;
     private SearchWritingRecyclerAdapter searchWritingAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+    ImageView imgsearch, backBtn;
 
-    final RetrofitService[] retrofitService = new RetrofitService[1];
+    RetrofitService retrofitService;
     SearchResultModel dataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_writing);
-        ImageView imgsearch = findViewById(R.id.img_search);
+        imgsearch = findViewById(R.id.img_search);
         final EditText et_search = findViewById(R.id.et_searchwriting);
-        ImageView backbtn = findViewById(R.id.iv_back);
+        backBtn = findViewById(R.id.iv_back);
 
-        backbtn.setOnClickListener(new View.OnClickListener() {
+        backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SearchWritingActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
         recyclerView = findViewById(R.id.rv_searchwriting);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-//
-//        dataInfo = new ArrayList<>();
-//
-//        searchWritingAdapter = new SearchWritingRecyclerAdapter(dataInfo);
-//        recyclerView.setAdapter(searchWritingAdapter);
-//
-//        writingArray.add(new SearchWritingData(R.drawable.ic_launcher_background, "2021.05.21",
-//                "name", "brand", "condition"));
+
         //검색 실행
         imgsearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                retrofitService[0] = RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
                 String id = MySharedPreferences.getUserId(SearchWritingActivity.this);
-                Call<SearchResultModel> call = retrofitService[0].getSearchWriting(id,et_search.getText().toString());
+                Call<SearchResultModel> call = retrofitService.getSearchWriting(id,et_search.getText().toString());
                 call.enqueue(new Callback<SearchResultModel>() {
                     @Override
                     public void onResponse(Call<SearchResultModel> call, Response<SearchResultModel> response) {

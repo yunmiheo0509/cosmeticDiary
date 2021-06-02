@@ -32,7 +32,6 @@ import java.util.List;
 public class SearchWritingRecyclerAdapter extends RecyclerView.Adapter<SearchWritingRecyclerAdapter.ItemViewHolder> {
     private Context c;
     private List<SearchWritingModel> dataList;
-//    private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
 
     public SearchWritingRecyclerAdapter(Context c, List<SearchWritingModel> dataList) {
         this.c = c;
@@ -82,11 +81,11 @@ public class SearchWritingRecyclerAdapter extends RecyclerView.Adapter<SearchWri
         return dataList.size();
     }
 
-    //??
-    void addItem(SearchWritingModel data) {
-        // 외부에서 item을 추가시킬 함수입니다.
-        dataList.add(data);
-    }
+//    //??
+//    void addItem(SearchWritingModel data) {
+//        // 외부에서 item을 추가시킬 함수입니다.
+//        dataList.add(data);
+//    }
 
     // RecyclerView의 핵심인 ViewHolder
     // 여기서 subView를 setting
@@ -129,15 +128,6 @@ public class SearchWritingRecyclerAdapter extends RecyclerView.Adapter<SearchWri
                     v.getContext().startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 }
             });
-        }
-
-        void onBind(SearchWritingModel data) {
-//            img.setImageBitmap(StringToBitmap(data.getImg()));
-            date.setText(data.getDate());
-            cosmetic.setText(data.getCosmetic());
-            satisfy.setText(data.getSatisfy());
-            content.setText(data.getContent());
-
         }
     }
 

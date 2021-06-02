@@ -55,6 +55,8 @@ public class WritingActivity extends AppCompatActivity {
     CheckBox chkJopssal, chkDry, chkHwanongsung, chkGood, chkTrouble, chkEtc;
     ScrollView scrollView;
     ConstraintLayout constraintLayout;
+    String date;
+
     String dateMain,dateDB,cosmeticNameDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

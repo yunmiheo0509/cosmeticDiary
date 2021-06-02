@@ -24,9 +24,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cosmeticdiary.DialogCheckLogout;
 import com.example.cosmeticdiary.MySharedPreferences;
 import com.example.cosmeticdiary.R;
-import com.example.cosmeticdiary.WritingListData;
 import com.example.cosmeticdiary.adapter.WritingListAdapter;
 import com.example.cosmeticdiary.model.ProfileModel;
+import com.example.cosmeticdiary.model.SearchResultModel;
+import com.example.cosmeticdiary.model.SearchWritingModel;
 import com.example.cosmeticdiary.retrofit.RetrofitHelper;
 import com.example.cosmeticdiary.retrofit.RetrofitService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,22 +35,26 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    private ArrayList<WritingListData> writingListArray;
-    private WritingListAdapter writingListAdapter;
-    private RecyclerView recyclerView;
-    private LinearLayoutManager linearLayoutManager;
-    private DialogCheckLogout dialogCheckLogout;
-    WritingListAdapter.RecyclerViewClickListener listener;
+    WritingListAdapter writingListAdapter;
+    List<SearchWritingModel> dataInfo;
+    SearchResultModel dataList;
+    RecyclerView recyclerView;
+    LinearLayoutManager linearLayoutManager;
+    DialogCheckLogout dialogCheckLogout;
+    //    WritingListAdapter.RecyclerViewClickListener listener;
     ProfileModel profileModel;
     ActionBarDrawerToggle actionBarDrawerToggle;
+    TextView tv_date, tv_empty;
     int pressedTime = 0;
     String selectDate;
+
     // header에 있는 리소스 가져오기
     NavigationView navigationView;
     View header;
@@ -80,45 +85,48 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fabPlus = findViewById(R.id.fab_plus);
         FloatingActionButton fabSearch = findViewById(R.id.fab_search);
         CalendarView calendarView = findViewById(R.id.calendarView);
-        final TextView tv_date = findViewById(R.id.tv_date);
-
+        tv_date = findViewById(R.id.tv_date);
 
         Button btneditprofile = header.findViewById(R.id.btn_editprofile);
 
-        setOnclickListener();
+        recyclerView = findViewById(R.id.rv_main);
+        tv_empty = findViewById(R.id.tv_empty);
+        linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+//        dataInfo = new ArrayList<>();
+
+//        recyclerView.setAdapter(writingListAdapter);
 
         //user정보 서버검색
         searchProfile();
 
+        //날짜에 맞는 글 목록 띄우기
         tv_date.setText((Calendar.getInstance().get(Calendar.MONTH) + 1) + "월 "
                 + (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "일"));
+
+        searchCalender(Calendar.getInstance().get(Calendar.YEAR) + "-"
+                + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "-"
+                + Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 tv_date.setText(String.format("%d월 %d일", month + 1, dayOfMonth));
-                selectDate = String.format("%d-%d-%d",year, month + 1, dayOfMonth);
+                selectDate = String.format("%d-%d-%d", year, month + 1, dayOfMonth);
+
                 //서버연결(날짜에 맞는 데이터 가져오기
+                searchCalender(String.format("%d-%d-%d", year, month + 1, dayOfMonth));
             }
         });
 
-        recyclerView = findViewById(R.id.rv_main);
-        TextView tv_empty = findViewById(R.id.tv_empty);
-        linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        writingListArray = new ArrayList<>();
-
-        writingListAdapter = new WritingListAdapter(writingListArray, listener);
-        recyclerView.setAdapter(writingListAdapter);
-
-        if (writingListArray.isEmpty()) {
-            recyclerView.setVisibility(View.GONE);
-            tv_empty.setVisibility(View.VISIBLE);
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            tv_empty.setVisibility(View.GONE);
-        }
+//        if (dataInfo.isEmpty()) {
+//            recyclerView.setVisibility(View.GONE);
+//            tv_empty.setVisibility(View.VISIBLE);
+//        } else {
+//            recyclerView.setVisibility(View.VISIBLE);
+//            tv_empty.setVisibility(View.GONE);
+//        }
 
 //        writingListArray.add(new WritingListData(R.drawable.ic_launcher_background, "name",
 //                "condition", "satisfy"));
@@ -171,6 +179,44 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void searchCalender(String date) {
+        retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
+
+        Call<SearchResultModel> call = retrofitService.getSearchCalender(
+                MySharedPreferences.getUserId(MainActivity.this), date);
+
+        call.enqueue(new Callback<SearchResultModel>() {
+            @Override
+            public void onResponse(Call<SearchResultModel> call, Response<SearchResultModel> response) {
+                Log.d("연결 성공", response.message());
+//                SearchResultModel searchResultModel = response.body();
+//                Log.d("검색", searchResultModel.calender_results.get(0).getName());
+                dataList = response.body();
+                Log.d("검색 ", dataList.toString());
+                dataInfo = dataList.calender_results;
+                if (response.body().getCode().equals("200")) {
+                    writingListAdapter = new WritingListAdapter(getApplicationContext(), dataInfo);
+                    recyclerView.setAdapter(writingListAdapter);
+//                    recyclerView.setVisibility(View.GONE);
+                    tv_empty.setVisibility(View.GONE);
+//                    Log.d("받아온거  확인", dataInfo.toString());
+                } else {
+                    dataInfo.clear();
+                    writingListAdapter = new WritingListAdapter(getApplicationContext(), dataInfo);
+                    recyclerView.setAdapter(writingListAdapter);
+//                    recyclerView.setVisibility(View.GONE);
+                    tv_empty.setVisibility(View.VISIBLE);
+//                    Log.d("받아온거 없는경우다", dataInfo.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SearchResultModel> call, Throwable t) {
+                Log.d("ssss", t.getMessage());
+            }
+        });
+    }
+
     //user정보 가져오기
     private void searchProfile() {
         retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
@@ -213,16 +259,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setOnclickListener() {
-        listener = new WritingListAdapter.RecyclerViewClickListener() {
-            @Override
-            public void onClick(View v, int position) {
-                Intent intent = new Intent(getApplicationContext(), WritingActivity.class);
-                intent.putExtra("writing", 2000);
-                startActivity(intent);
-            }
-        };
-    }
 
     // 메뉴 항목 이벤트
     private void switchScreen(int id) {
