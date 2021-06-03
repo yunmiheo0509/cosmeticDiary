@@ -1,7 +1,6 @@
 package com.example.cosmeticdiary.activity;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -43,21 +42,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
 public class WritingActivity extends AppCompatActivity {
-    private DialogCheckDelete dialogCheckDelete;
+    DialogCheckDelete dialogCheckDelete;
     TextView tv_ingredient;
     EditText et_name, et_write;
     RadioGroup radioGroup;
     ImageView iv_writephoto;
     RetrofitService retrofitService;
-    String imageBase64=null;
+    String imageBase64 = null;
     Button btn_cancel, btn_right, btn_search, btn_edit;
     CheckBox chkJopssal, chkDry, chkHwanongsung, chkGood, chkTrouble, chkEtc;
     ScrollView scrollView;
     ConstraintLayout constraintLayout;
     String date;
 
-    String dateMain,dateDB,cosmeticNameDB;
+    String dateMain, dateDB, cosmeticNameDB, content;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,7 +129,7 @@ public class WritingActivity extends AppCompatActivity {
                         if (chkTrouble.isChecked()) trouble = "true";
                         if (chkEtc.isChecked()) etc = "true";
 
-                        Call<LoginModel> call = retrofitService.getWriting(id, cosmetic, imageBase64, satisfy, content,dateMain,
+                        Call<LoginModel> call = retrofitService.getWriting(id, cosmetic, imageBase64, satisfy, content, dateMain,
                                 ingredient, jopssal, dry, hwanongsung, good, trouble, etc);
                         call.enqueue(new Callback<LoginModel>() {
                             @Override
@@ -168,7 +169,7 @@ public class WritingActivity extends AppCompatActivity {
                 btn_edit.setVisibility(View.VISIBLE);
                 btn_search.setVisibility(View.GONE);
                 btn_right.setText("삭제");
-                cosmeticNameDB =intent.getStringExtra("cosmeticname");
+                cosmeticNameDB = intent.getStringExtra("cosmeticname");
                 et_name.setText(cosmeticNameDB);
                 new AsyncTask<Void, Void, Void>() {
                     @Override
@@ -188,7 +189,7 @@ public class WritingActivity extends AppCompatActivity {
                         return null;
                     }
                 }.execute();
-                switch (intent.getStringExtra("satisfy")){
+                switch (intent.getStringExtra("satisfy")) {
                     case "상":
                         radioGroup.check(R.id.radiobtn_good);
                         break;
@@ -199,9 +200,10 @@ public class WritingActivity extends AppCompatActivity {
                         radioGroup.check(R.id.radiobtn_bad);
                         break;
                 }
-                et_write.setText(intent.getStringExtra("content"));
-                tv_ingredient.setText(intent.getStringExtra("ingredient"));
                 dateDB = intent.getStringExtra("date");
+                content = intent.getStringExtra("content");
+                et_write.setText(content);
+                tv_ingredient.setText(intent.getStringExtra("ingredient"));
                 setCheckbox(chkJopssal, intent.getStringExtra("jopssal"));
                 setCheckbox(chkDry, intent.getStringExtra("dry"));
                 setCheckbox(chkHwanongsung, intent.getStringExtra("hwanongsung"));
@@ -250,9 +252,9 @@ public class WritingActivity extends AppCompatActivity {
                                 if (chkGood.isChecked()) good = "true";
                                 if (chkTrouble.isChecked()) trouble = "true";
                                 if (chkEtc.isChecked()) etc = "true";
-                                Log.d("nameiddate",cosmeticNameDB+"// "+id+" //"+dateDB);
-                                Call<LoginModel> call = retrofitService.EditWriting(id, cosmetic, imageBase64, satisfy, content,dateDB,
-                                        ingredient, jopssal, dry, hwanongsung, good, trouble, etc,cosmeticNameDB);
+
+                                Call<LoginModel> call = retrofitService.EditWriting(id, cosmetic, imageBase64, satisfy, content, dateDB,
+                                        ingredient, jopssal, dry, hwanongsung, good, trouble, etc, cosmeticNameDB);
                                 call.enqueue(new Callback<LoginModel>() {
                                     @Override
                                     public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
@@ -260,11 +262,9 @@ public class WritingActivity extends AppCompatActivity {
                                             Log.d("연결 성공", response.message());
                                             LoginModel loginModel = response.body();
                                             Log.v("code", loginModel.getCode());
-                                            System.out.println(loginModel.getCode() + loginModel.getSuccess());
                                             Toast.makeText(WritingActivity.this, "수정 완료", Toast.LENGTH_SHORT).show();
                                             if (loginModel.getCode().equals("200")) {
                                                 Log.v("code", loginModel.getCode());
-                                                System.out.println("success");
                                             } else {
                                                 Log.d("ssss", response.message());
                                             }
@@ -283,8 +283,6 @@ public class WritingActivity extends AppCompatActivity {
                                         Log.d("ssss", t.getMessage());
                                     }
                                 });
-                                // 저장 처리
-                                Toast.makeText(WritingActivity.this, "저장", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -302,9 +300,10 @@ public class WritingActivity extends AppCompatActivity {
                 btn_right.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // 팝업창 확인 후 삭제
+//                         팝업창 확인 후 삭제
                         dialogCheckDelete = new DialogCheckDelete(WritingActivity.this, dialogListener);
                         dialogCheckDelete.show();
+
                     }
                 });
 
@@ -341,14 +340,11 @@ public class WritingActivity extends AppCompatActivity {
                         Bitmap img = BitmapFactory.decodeStream(in);
                         in.close();
                         // 이미지 표시
-
                         Bitmap resized = Bitmap.createScaledBitmap(img, 256, 256, true);
                         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                        resized.compress(Bitmap.CompressFormat.JPEG, 60, byteArrayOutputStream);
-
+                        resized.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
                         byte[] byteArray = byteArrayOutputStream.toByteArray();
                         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-                        Resources res = getResources();
                         imageBase64 = Base64.encodeToString(byteArray, Base64.NO_WRAP);
 
                         iv_writephoto.setImageBitmap(img);
@@ -365,9 +361,42 @@ public class WritingActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.tv_ok:
-                    // 로그아웃 진행
-                    Toast.makeText(WritingActivity.this, "삭제", Toast.LENGTH_SHORT).show();
+                    // 글 내용 db에서 삭제
+                    Log.d("다이얼로그뜸", "tv_ok선택함");
+                    String id = MySharedPreferences.getUserId(WritingActivity.this);
+                    Log.d("다이얼로그뜸", id+content+dateDB+cosmeticNameDB);
+                    retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                    Call<LoginModel> call = retrofitService.deleteWriting(id, content, dateDB, cosmeticNameDB);
+                    call.enqueue(new Callback<LoginModel>() {
+                        @Override
+                        public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
+                            if (response.isSuccessful()) {
+                                Log.d("연결 성공", response.message());
+                                LoginModel loginModel = response.body();
+                                Log.v("code", loginModel.getCode());
+                                if (loginModel.getCode().equals("200")) {
+                                    Log.v("code", loginModel.getCode());
+                                } else {
+                                    Log.d("ssss", response.message());
+                                }
+                                Toast.makeText(WritingActivity.this, "삭제되었습니다", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(WritingActivity.this, MainActivity.class);
+                                startActivity(intent);
+
+                            } else if (response.code() == 404) {
+                                Toast.makeText(WritingActivity.this, "인터넷 연결을 확인해주세요"
+                                        , Toast.LENGTH_SHORT).show();
+                                Log.d("ssss", response.message());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<LoginModel> call, Throwable t) {
+                            Log.d("ssss", t.getMessage());
+                        }
+                    });
                 case R.id.tv_cancel:
+                    Log.d("다이얼로그뜸", "tv_cancel 선택함");
                     dialogCheckDelete.dismiss();
             }
         }

@@ -30,4 +30,6 @@ public class DialogCheckDelete extends Dialog {
         super(context);
         this.dialogListener = dialogListener;
     }
+
+
 }

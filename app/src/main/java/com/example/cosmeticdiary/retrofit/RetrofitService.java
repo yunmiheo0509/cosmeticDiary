@@ -75,6 +75,7 @@ public interface RetrofitService {
                                 @Field("good") String good,
                                 @Field("trouble") String trouble,
                                 @Field("etc") String etc);
+
     @FormUrlEncoded
     @POST(Common.EditWritingURL)
     Call<LoginModel> EditWriting(@Field("id") String id,
@@ -92,11 +93,10 @@ public interface RetrofitService {
                                  @Field("etc") String etc,
                                  @Field("cosmeticNameDB") String cosmeticNameDB);
 
-
-//    @Multipart
-//    @POST(Common.SendWritingURL)
-//    Call<LoginModel> userEdit(@Part MultipartBody.Part postImg, @PartMap HashMap<String, RequestBody> data);
-//    @GET(Common.LoginURL)
-//    Call<ArrayList<GenderCompositionModel>> getGenderComposition(@Query("pID") int pID);
-
+    @FormUrlEncoded
+    @POST(Common.DeleteWritingURL)
+    Call<LoginModel> deleteWriting(@Field("id") String id,
+                                   @Field("content") String content,
+                                   @Field("date") String date,
+                                   @Field("cosmeticNameDB") String cosmeticNameDB);
 }

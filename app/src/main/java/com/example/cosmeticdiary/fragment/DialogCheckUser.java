@@ -21,6 +21,7 @@ public class DialogCheckUser extends DialogFragment {
     private TextView tv_resultId;
     private View.OnClickListener dialogListener;
     String id;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -29,22 +30,24 @@ public class DialogCheckUser extends DialogFragment {
         Dialog dialog = getDialog();
 
         tvOk = v.findViewById(R.id.tv_ok);
-        tv_resultId=v.findViewById(R.id.tv_resultId);
+        tv_resultId = v.findViewById(R.id.tv_resultId);
         tv_resultId.setText(id);
         tvOk.setOnClickListener(dialogListener);
 
         return v;
     }
 
-    public DialogCheckUser(@NonNull Context context, View.OnClickListener dialogListener,String id) {
+    public DialogCheckUser(@NonNull Context context, View.OnClickListener dialogListener, String id) {
         super.onAttach(context);
         this.dialogListener = dialogListener;
         this.id = id;
     }
+
     public DialogCheckUser(@NonNull Context context, View.OnClickListener dialogListener) {
         super.onAttach(context);
         this.dialogListener = dialogListener;
     }
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);

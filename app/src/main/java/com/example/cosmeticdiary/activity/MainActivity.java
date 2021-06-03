@@ -33,7 +33,6 @@ import com.example.cosmeticdiary.retrofit.RetrofitService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -192,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
 //                SearchResultModel searchResultModel = response.body();
 //                Log.d("검색", searchResultModel.calender_results.get(0).getName());
                 dataList = response.body();
-                Log.d("검색 ", dataList.toString());
+//                Log.d("검색 ", dataList.toString());
                 dataInfo = dataList.calender_results;
                 if (response.body().getCode().equals("200")) {
                     writingListAdapter = new WritingListAdapter(getApplicationContext(), dataInfo);
