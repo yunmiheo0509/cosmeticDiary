@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -50,14 +51,14 @@ public class WritingActivity extends AppCompatActivity {
     RadioGroup radioGroup;
     ImageView iv_writephoto;
     RetrofitService retrofitService;
-    String imageBase64=null;
+    String imageBase64 = null;
     Button btn_cancel, btn_right, btn_search, btn_edit;
     CheckBox chkJopssal, chkDry, chkHwanongsung, chkGood, chkTrouble, chkEtc;
     ScrollView scrollView;
     ConstraintLayout constraintLayout;
-    String date;
 
-    String dateMain,dateDB,cosmeticNameDB;
+    String dateMain, dateDB, cosmeticNameDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,7 +129,7 @@ public class WritingActivity extends AppCompatActivity {
                         if (chkTrouble.isChecked()) trouble = "true";
                         if (chkEtc.isChecked()) etc = "true";
 
-                        Call<LoginModel> call = retrofitService.getWriting(id, cosmetic, imageBase64, satisfy, content,dateMain,
+                        Call<LoginModel> call = retrofitService.getWriting(id, cosmetic, imageBase64, satisfy, content, dateMain,
                                 ingredient, jopssal, dry, hwanongsung, good, trouble, etc);
                         call.enqueue(new Callback<LoginModel>() {
                             @Override
@@ -167,8 +168,14 @@ public class WritingActivity extends AppCompatActivity {
             default:
                 btn_edit.setVisibility(View.VISIBLE);
                 btn_search.setVisibility(View.GONE);
+
+                for (int i = 0; i < constraintLayout.getChildCount(); i++) {
+                    View child = constraintLayout.getChildAt(i);
+                    child.setEnabled(false);
+                }
+
                 btn_right.setText("삭제");
-                cosmeticNameDB =intent.getStringExtra("cosmeticname");
+                cosmeticNameDB = intent.getStringExtra("cosmeticname");
                 et_name.setText(cosmeticNameDB);
                 new AsyncTask<Void, Void, Void>() {
                     @Override
@@ -188,7 +195,7 @@ public class WritingActivity extends AppCompatActivity {
                         return null;
                     }
                 }.execute();
-                switch (intent.getStringExtra("satisfy")){
+                switch (intent.getStringExtra("satisfy")) {
                     case "상":
                         radioGroup.check(R.id.radiobtn_good);
                         break;
@@ -217,6 +224,10 @@ public class WritingActivity extends AppCompatActivity {
 //                    etwrite.setEnabled(true);
 //                    radioGroup.setEnabled(true);
 //                    chkJopssal.setEnabled(true);
+                        for (int i = 0; i < constraintLayout.getChildCount(); i++) {
+                            View child = constraintLayout.getChildAt(i);
+                            child.setEnabled(true);
+                        }
 
                         btn_edit.setVisibility(View.GONE);
                         btn_search.setVisibility(View.VISIBLE);
@@ -250,9 +261,9 @@ public class WritingActivity extends AppCompatActivity {
                                 if (chkGood.isChecked()) good = "true";
                                 if (chkTrouble.isChecked()) trouble = "true";
                                 if (chkEtc.isChecked()) etc = "true";
-                                Log.d("nameiddate",cosmeticNameDB+"// "+id+" //"+dateDB);
-                                Call<LoginModel> call = retrofitService.EditWriting(id, cosmetic, imageBase64, satisfy, content,dateDB,
-                                        ingredient, jopssal, dry, hwanongsung, good, trouble, etc,cosmeticNameDB);
+                                Log.d("nameiddate", cosmeticNameDB + "// " + id + " //" + dateDB);
+                                Call<LoginModel> call = retrofitService.EditWriting(id, cosmetic, imageBase64, satisfy, content, dateDB,
+                                        ingredient, jopssal, dry, hwanongsung, good, trouble, etc, cosmeticNameDB);
                                 call.enqueue(new Callback<LoginModel>() {
                                     @Override
                                     public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {

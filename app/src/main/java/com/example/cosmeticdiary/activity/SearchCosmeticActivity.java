@@ -36,16 +36,20 @@ public class SearchCosmeticActivity extends AppCompatActivity {
     EditText et_search;
     RetrofitService retrofitService;
 
+    ImageView backbtn, imgsearch;
+    Button btn_choice;
+    TextView nosearchresult;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_cosmetic);
 
-        ImageView backbtn = findViewById(R.id.iv_back);
-        final Button btn_choice = findViewById(R.id.btn_choice);
+        backbtn = findViewById(R.id.iv_back);
+        btn_choice = findViewById(R.id.btn_choice);
         et_search = findViewById(R.id.et_searchcosmetic);
-        ImageView imgsearch = findViewById(R.id.img_search);
-        final TextView nosearchresult = findViewById(R.id.tv_nosearchresult);
+        imgsearch = findViewById(R.id.img_search);
+        nosearchresult = findViewById(R.id.tv_nosearchresult);
 
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override

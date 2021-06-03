@@ -28,8 +28,8 @@ import java.util.List;
 public class WritingListAdapter extends RecyclerView.Adapter<WritingListAdapter.ItemViewHolder> {
     private Context c;
     private List<SearchWritingModel> dataList;
-    ArrayList<String> conditionArray = new ArrayList<>();
-    String conditionString = "";
+    ArrayList<String> conditionArray;
+    String conditionString;
 
     public WritingListAdapter(Context c, List<SearchWritingModel> dataList) {
         this.c = c;
@@ -69,6 +69,9 @@ public class WritingListAdapter extends RecyclerView.Adapter<WritingListAdapter.
             }
         }.execute();
 
+        conditionArray = new ArrayList<>();
+        conditionString = "";
+
         holder.name.setText(dataList.get(position).getCosmetic());
 
         if (dataList.get(position).getJopssal().equals("true")) conditionArray.add("좁쌀");
@@ -76,13 +79,15 @@ public class WritingListAdapter extends RecyclerView.Adapter<WritingListAdapter.
         if (dataList.get(position).getHwanongsung().equals("true")) conditionArray.add("화농성여드름");
         if (dataList.get(position).getGood().equals("true")) conditionArray.add("좋음");
         if (dataList.get(position).getTrouble().equals("true")) conditionArray.add("트러블");
-        if (dataList.get(position).getGood().equals("true")) conditionArray.add("기타");
+        if (dataList.get(position).getEtc().equals("true")) conditionArray.add("기타");
 
         for (int i = 0; i < conditionArray.size(); i++) {
             conditionString += conditionArray.get(i);
             if (i != conditionArray.size() - 1)
                 conditionString += ", ";
         }
+
+        System.out.println(conditionArray.size() + " ㅠㅠ " + conditionString);
         holder.condition.setText(conditionString);
         holder.satisfy.setText(dataList.get(position).getSatisfy());
     }

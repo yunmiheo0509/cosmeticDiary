@@ -74,9 +74,8 @@ public class SearchCosmeticRecyclerAdapter extends RecyclerView.Adapter<SearchCo
             }
         }.execute();
 
-//        holder.itemView.setSelected(isItemSelected(position));
         if (isItemSelected(position)) {
-            holder.itemView.setBackgroundColor(Color.GREEN);
+            holder.itemView.setBackgroundColor(Color.parseColor("#EAEAEA"));
         } else {
             holder.itemView.setBackgroundColor(Color.TRANSPARENT);
         }

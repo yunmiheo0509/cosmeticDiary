@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,21 +29,24 @@ import retrofit2.Response;
 
 public class SearchWritingActivity extends AppCompatActivity {
     private List<SearchWritingModel> dataInfo;
+    private SearchResultModel dataList;
     private SearchWritingRecyclerAdapter searchWritingAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    ImageView imgsearch, backBtn;
 
+    ImageView imgsearch, backBtn;
+    EditText et_search;
+    TextView nosearchresult;
     RetrofitService retrofitService;
-    SearchResultModel dataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_writing);
         imgsearch = findViewById(R.id.img_search);
-        final EditText et_search = findViewById(R.id.et_searchwriting);
+        et_search = findViewById(R.id.et_searchwriting);
         backBtn = findViewById(R.id.iv_back);
+        nosearchresult = findViewById(R.id.tv_nosearchresult);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,12 +78,13 @@ public class SearchWritingActivity extends AppCompatActivity {
                             if (response.body().getCode().equals("200")) {
                                 searchWritingAdapter= new SearchWritingRecyclerAdapter(getApplicationContext(), dataInfo);
                                 recyclerView.setAdapter(searchWritingAdapter);
+                                nosearchresult.setVisibility(View.GONE);
                             } else {
                                 dataInfo.clear();
                                 searchWritingAdapter= new SearchWritingRecyclerAdapter(getApplicationContext(), dataInfo);
                                 recyclerView.setAdapter(searchWritingAdapter);
                                 Log.d("받아온거 없는경우다", dataInfo.toString());
-                                Toast.makeText(SearchWritingActivity.this, "검색결과없음", Toast.LENGTH_SHORT).show();
+                                nosearchresult.setVisibility(View.VISIBLE);
                             }
 
                         } else {

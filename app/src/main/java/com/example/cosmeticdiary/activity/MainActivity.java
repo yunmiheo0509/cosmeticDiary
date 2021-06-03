@@ -120,17 +120,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        if (dataInfo.isEmpty()) {
-//            recyclerView.setVisibility(View.GONE);
-//            tv_empty.setVisibility(View.VISIBLE);
-//        } else {
-//            recyclerView.setVisibility(View.VISIBLE);
-//            tv_empty.setVisibility(View.GONE);
-//        }
-
-//        writingListArray.add(new WritingListData(R.drawable.ic_launcher_background, "name",
-//                "condition", "satisfy"));
-
         this.InitializeLayout();
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -197,14 +186,12 @@ public class MainActivity extends AppCompatActivity {
                 if (response.body().getCode().equals("200")) {
                     writingListAdapter = new WritingListAdapter(getApplicationContext(), dataInfo);
                     recyclerView.setAdapter(writingListAdapter);
-//                    recyclerView.setVisibility(View.GONE);
                     tv_empty.setVisibility(View.GONE);
 //                    Log.d("받아온거  확인", dataInfo.toString());
                 } else {
                     dataInfo.clear();
                     writingListAdapter = new WritingListAdapter(getApplicationContext(), dataInfo);
                     recyclerView.setAdapter(writingListAdapter);
-//                    recyclerView.setVisibility(View.GONE);
                     tv_empty.setVisibility(View.VISIBLE);
 //                    Log.d("받아온거 없는경우다", dataInfo.toString());
                 }
