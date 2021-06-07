@@ -20,6 +20,8 @@ import com.example.cosmeticdiary.model.LoginModel;
 import com.example.cosmeticdiary.retrofit.RetrofitHelper;
 import com.example.cosmeticdiary.retrofit.RetrofitService;
 
+import java.util.regex.Pattern;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -108,16 +110,22 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String pw1=et_password.getText().toString();
-                if (s.toString().equals(pw1)) {
-                    tv_passwordCheckMsg.setText("일치합니다");
-                    tv_passwordCheckMsg.setTextColor(Color.BLUE);
-                    flag_pw = true;
+                if (Pattern.matches("^(?=.*[a-zA-Z0-9])(?=.*[a-zA-Z!@#$%^&*])(?=.*[0-9!@#$%^&*]).{8,15}$", s.toString())) {
+                    if (s.toString().equals(pw1)) {
+                        tv_passwordCheckMsg.setText("일치합니다");
+                        tv_passwordCheckMsg.setTextColor(Color.BLUE);
+                        flag_pw = true;
+                    } else {
+                        tv_passwordCheckMsg.setText("비밀번호 확인이 필요합니다");
+                        tv_passwordCheckMsg.setTextColor(Color.RED);
+                        flag_pw = false;
+                        Log.d("pw1", pw1);
+                        Log.d("pw2", s.toString());
+                    }
                 } else {
-                    tv_passwordCheckMsg.setText("비밀번호 확인이 필요합니다");
+                    tv_passwordCheckMsg.setText("비밀번호 조건을 확인해주세요");
                     tv_passwordCheckMsg.setTextColor(Color.RED);
                     flag_pw = false;
-                    Log.d("pw1", pw1);
-                    Log.d("pw2", s.toString());
                 }
             }
             @Override

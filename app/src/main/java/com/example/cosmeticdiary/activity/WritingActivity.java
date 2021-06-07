@@ -5,8 +5,11 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -22,6 +25,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.loader.content.CursorLoader;
@@ -35,6 +39,7 @@ import com.example.cosmeticdiary.retrofit.RetrofitService;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -101,6 +106,7 @@ public class WritingActivity extends AppCompatActivity {
         final Intent intent = getIntent();
         int intentValue = intent.getIntExtra("writing", 0);
         dateMain = intent.getStringExtra("dateMain");
+
         // 글 작성
         switch (intentValue) {
             case 1000:
@@ -146,8 +152,6 @@ public class WritingActivity extends AppCompatActivity {
                                     } else {
                                         Log.d("ssss", response.message());
                                     }
-                                    Intent intent = new Intent(WritingActivity.this, MainActivity.class);
-                                    startActivity(intent);
                                     finish();
                                 } else if (response.code() == 404) {
                                     Toast.makeText(WritingActivity.this, "인터넷 연결을 확인해주세요"
@@ -280,8 +284,7 @@ public class WritingActivity extends AppCompatActivity {
                                             } else {
                                                 Log.d("ssss", response.message());
                                             }
-                                            Intent intent = new Intent(WritingActivity.this, MainActivity.class);
-                                            startActivity(intent);
+                                            finish();
                                         } else if (response.code() == 404) {
                                             Toast.makeText(WritingActivity.this, "인터넷 연결을 확인해주세요"
                                                     , Toast.LENGTH_SHORT).show();
@@ -331,6 +334,7 @@ public class WritingActivity extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -344,20 +348,24 @@ public class WritingActivity extends AppCompatActivity {
                 case 2:
                     try {
                         // 선택한 이미지에서 비트맵 생성
-                        String imageUrl = getRealPathFromUri(data.getData());
-                        Uri uri = data.getData();
                         InputStream in = getContentResolver().openInputStream(data.getData());
-
                         Bitmap img = BitmapFactory.decodeStream(in);
                         in.close();
                         // 이미지 표시
-
                         Bitmap resized = Bitmap.createScaledBitmap(img, 256, 256, true);
                         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                         resized.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
                         byte[] byteArray = byteArrayOutputStream.toByteArray();
-                        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
                         imageBase64 = Base64.encodeToString(byteArray, Base64.NO_WRAP);
+//
+//                        ExifInterface exif = null;
+//                        try {
+//                            exif = new ExifInterface(in); // path 파일 uri
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+//                        Bitmap bmRotated = rotateBitmap(resized, orientation);
 
                         iv_writephoto.setImageBitmap(img);
                     } catch (Exception e) {
@@ -367,7 +375,50 @@ public class WritingActivity extends AppCompatActivity {
         }
     }
 
-    //다이얼로그창
+    public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
+        Matrix matrix = new Matrix();
+        switch (orientation) {
+//            case ExifInterface.ORIENTATION_NORMAL:
+//                return bitmap;
+//            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+//                matrix.setScale(-1, 1);
+//                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+//            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+//                matrix.setRotate(180);
+//                matrix.postScale(-1, 1);
+//                break;
+//            case ExifInterface.ORIENTATION_TRANSPOSE:
+//                matrix.setRotate(90);
+//                matrix.postScale(-1, 1);
+//                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+//            case ExifInterface.ORIENTATION_TRANSVERSE:
+//                matrix.setRotate(-90);
+//                matrix.postScale(-1, 1);
+//                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+            default:
+                return bitmap;
+        }
+        try {
+            Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            bitmap.recycle();
+            return bmRotated;
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    //삭제 다이얼로그창
     private View.OnClickListener dialogListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -376,7 +427,7 @@ public class WritingActivity extends AppCompatActivity {
                     // 글 내용 db에서 삭제
                     Log.d("다이얼로그뜸", "tv_ok선택함");
                     String id = MySharedPreferences.getUserId(WritingActivity.this);
-                    Log.d("다이얼로그뜸", id+content+dateDB+cosmeticNameDB);
+                    Log.d("다이얼로그뜸", id + content + dateDB + cosmeticNameDB);
                     retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
                     Call<LoginModel> call = retrofitService.deleteWriting(id, content, dateDB, cosmeticNameDB);
                     call.enqueue(new Callback<LoginModel>() {
@@ -392,9 +443,7 @@ public class WritingActivity extends AppCompatActivity {
                                     Log.d("ssss", response.message());
                                 }
                                 Toast.makeText(WritingActivity.this, "삭제되었습니다", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(WritingActivity.this, MainActivity.class);
-                                startActivity(intent);
-
+                                finish();
                             } else if (response.code() == 404) {
                                 Toast.makeText(WritingActivity.this, "인터넷 연결을 확인해주세요"
                                         , Toast.LENGTH_SHORT).show();

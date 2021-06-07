@@ -87,7 +87,6 @@ public class WritingListAdapter extends RecyclerView.Adapter<WritingListAdapter.
                 conditionString += ", ";
         }
 
-        System.out.println(conditionArray.size() + " ㅠㅠ " + conditionString);
         holder.condition.setText(conditionString);
         holder.satisfy.setText(dataList.get(position).getSatisfy());
     }

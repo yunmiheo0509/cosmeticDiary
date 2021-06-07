@@ -53,4 +53,5 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.android.support:design:26.1.0'
 
+    implementation 'androidx.exifinterface:exifinterface:1.1.0'
 }

@@ -47,12 +47,13 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     DialogCheckLogout dialogCheckLogout;
+    CalendarView calendarView;
     //    WritingListAdapter.RecyclerViewClickListener listener;
     ProfileModel profileModel;
     ActionBarDrawerToggle actionBarDrawerToggle;
     TextView tv_date, tv_empty;
     int pressedTime = 0;
-    String selectDate;
+    String selectDate, deafaultDate;
 
     // header에 있는 리소스 가져오기
     NavigationView navigationView;
@@ -75,15 +76,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        selectDate=(Calendar.getInstance().get(Calendar.YEAR)) + "-"
+        selectDate = (Calendar.getInstance().get(Calendar.YEAR)) + "-"
                 + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "-"
                 + (Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        deafaultDate = (Calendar.getInstance().get(Calendar.MONTH) + 1) + "월 "
+                + (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "일");
         navigationView = findViewById(R.id.nav_view);
         header = navigationView.getHeaderView(0);
 
         FloatingActionButton fabPlus = findViewById(R.id.fab_plus);
         FloatingActionButton fabSearch = findViewById(R.id.fab_search);
-        CalendarView calendarView = findViewById(R.id.calendarView);
+        calendarView = findViewById(R.id.calendarView);
         tv_date = findViewById(R.id.tv_date);
 
         Button btneditprofile = header.findViewById(R.id.btn_editprofile);
@@ -100,24 +103,25 @@ public class MainActivity extends AppCompatActivity {
         //user정보 서버검색
         searchProfile();
 
-        //날짜에 맞는 글 목록 띄우기
-        tv_date.setText((Calendar.getInstance().get(Calendar.MONTH) + 1) + "월 "
-                + (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "일"));
-
-        searchCalender(Calendar.getInstance().get(Calendar.YEAR) + "-"
-                + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "-"
-                + Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                tv_date.setText(String.format("%d월 %d일", month + 1, dayOfMonth));
-                selectDate = String.format("%d-%d-%d", year, month + 1, dayOfMonth);
-
-                //서버연결(날짜에 맞는 데이터 가져오기
-                searchCalender(String.format("%d-%d-%d", year, month + 1, dayOfMonth));
-            }
-        });
+//        //날짜에 맞는 글 목록 띄우기
+//        tv_date.setText((Calendar.getInstance().get(Calendar.MONTH) + 1) + "월 "
+//                + (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "일"));
+//
+//        searchCalender(Calendar.getInstance().get(Calendar.YEAR) + "-"
+//                + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "-"
+//                + Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+//
+//        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+//            @Override
+//            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+//                tv_date.setText(String.format("%d월 %d일", month + 1, dayOfMonth));
+//                deafaultDate = String.format("%d월 %d일", month + 1, dayOfMonth);
+//
+//                selectDate = String.format("%d-%d-%d", year, month + 1, dayOfMonth);
+//                //서버연결(날짜에 맞는 데이터 가져오기
+//                searchCalender(String.format("%d-%d-%d", year, month + 1, dayOfMonth));
+//            }
+//        });
 
         this.InitializeLayout();
 
@@ -163,6 +167,28 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SearchWritingActivity.class);
                 startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+//        날짜에 맞는 글 목록 띄우기
+        tv_date.setText(deafaultDate);
+
+        searchCalender(selectDate);
+
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                tv_date.setText(String.format("%d월 %d일", month + 1, dayOfMonth));
+                deafaultDate = String.format("%d월 %d일", month + 1, dayOfMonth);
+
+                selectDate = String.format("%d-%d-%d", year, month + 1, dayOfMonth);
+                //서버연결(날짜에 맞는 데이터 가져오기
+                searchCalender(selectDate);
             }
         });
     }

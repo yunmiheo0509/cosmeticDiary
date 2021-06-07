@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginLeft="4dp"
-                android:text="(알파벳 숫자 혼합 8자 이상)"
+                android:text="(숫자, 문자, 특수문자 혼합 8-15자)"
                 android:textSize="13dp"
                 app:layout_constraintBottom_toTopOf="@+id/et_password"
                 app:layout_constraintEnd_toEndOf="@+id/tv_id"
