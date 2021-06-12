@@ -14,11 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.cosmeticdiary.GmailSender;
+import com.example.cosmeticdiary.util.GmailSender;
 import com.example.cosmeticdiary.R;
+import com.example.cosmeticdiary.dialog.DialogCheckUser;
+import com.example.cosmeticdiary.dialog.DialogSendEmail;
 import com.example.cosmeticdiary.model.LoginModel;
-import com.example.cosmeticdiary.retrofit.RetrofitHelper;
-import com.example.cosmeticdiary.retrofit.RetrofitService;
+import com.example.cosmeticdiary.util.retrofit.RetrofitHelper;
+import com.example.cosmeticdiary.util.retrofit.RetrofitService;
 
 import java.util.Random;
 
@@ -68,9 +70,6 @@ public class FindPwFragment extends Fragment {
                                 dialogSendEmail = new DialogSendEmail(getContext(), dialogListener);
                                 dialogSendEmail.show(getFragmentManager(), "SendEmailDialog");
 
-
-//                    sendResultOk = true;
-//                    button.setEnabled(false);
                             } catch (SendFailedException e) {
                                 Toast.makeText(getContext(), "이메일 형식이 잘못되었습니다", Toast.LENGTH_SHORT).show();
                             } catch (MessagingException e) {
@@ -93,8 +92,6 @@ public class FindPwFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
-
-
 
     public static String getRandomPassword(int length) {
         String[] passwords = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",

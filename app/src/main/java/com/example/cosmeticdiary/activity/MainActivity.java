@@ -21,15 +21,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cosmeticdiary.DialogCheckLogout;
-import com.example.cosmeticdiary.MySharedPreferences;
+import com.example.cosmeticdiary.dialog.DialogCheckLogout;
+import com.example.cosmeticdiary.util.MySharedPreferences;
 import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.adapter.WritingListAdapter;
 import com.example.cosmeticdiary.model.ProfileModel;
 import com.example.cosmeticdiary.model.SearchResultModel;
 import com.example.cosmeticdiary.model.SearchWritingModel;
-import com.example.cosmeticdiary.retrofit.RetrofitHelper;
-import com.example.cosmeticdiary.retrofit.RetrofitService;
+import com.example.cosmeticdiary.util.retrofit.RetrofitHelper;
+import com.example.cosmeticdiary.util.retrofit.RetrofitService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 

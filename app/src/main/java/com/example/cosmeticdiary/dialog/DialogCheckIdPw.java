@@ -1,4 +1,4 @@
-package com.example.cosmeticdiary;
+package com.example.cosmeticdiary.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
+import com.example.cosmeticdiary.R;
 
 public class DialogCheckIdPw extends Dialog {
     private TextView tvOk;

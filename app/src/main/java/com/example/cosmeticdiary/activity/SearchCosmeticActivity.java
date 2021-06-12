@@ -17,8 +17,8 @@ import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.adapter.SearchCosmeticRecyclerAdapter;
 import com.example.cosmeticdiary.model.SearchCosmeticModel;
 import com.example.cosmeticdiary.model.SearchResultModel;
-import com.example.cosmeticdiary.retrofit.RetrofitHelper;
-import com.example.cosmeticdiary.retrofit.RetrofitService;
+import com.example.cosmeticdiary.util.retrofit.RetrofitHelper;
+import com.example.cosmeticdiary.util.retrofit.RetrofitService;
 
 import java.util.List;
 

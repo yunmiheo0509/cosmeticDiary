@@ -1,4 +1,4 @@
-package com.example.cosmeticdiary.retrofit;
+package com.example.cosmeticdiary.util.retrofit;
 
 import com.example.cosmeticdiary.model.LoginModel;
 import com.example.cosmeticdiary.model.ProfileModel;

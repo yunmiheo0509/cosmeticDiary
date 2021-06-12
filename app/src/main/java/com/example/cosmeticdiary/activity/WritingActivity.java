@@ -1,7 +1,6 @@
 package com.example.cosmeticdiary.activity;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,16 +29,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.loader.content.CursorLoader;
 
-import com.example.cosmeticdiary.DialogCheckDelete;
-import com.example.cosmeticdiary.MySharedPreferences;
+import com.example.cosmeticdiary.dialog.DialogCheckDelete;
+import com.example.cosmeticdiary.util.MySharedPreferences;
 import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.model.LoginModel;
-import com.example.cosmeticdiary.retrofit.RetrofitHelper;
-import com.example.cosmeticdiary.retrofit.RetrofitService;
+import com.example.cosmeticdiary.util.retrofit.RetrofitHelper;
+import com.example.cosmeticdiary.util.retrofit.RetrofitService;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;

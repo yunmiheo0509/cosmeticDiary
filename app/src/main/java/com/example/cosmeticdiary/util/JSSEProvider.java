@@ -1,4 +1,4 @@
-package com.example.cosmeticdiary;
+package com.example.cosmeticdiary.util;
 
 import java.security.AccessController;
 import java.security.Provider;

@@ -1,25 +1,23 @@
 package com.example.cosmeticdiary.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cosmeticdiary.MySharedPreferences;
+import com.example.cosmeticdiary.util.MySharedPreferences;
 import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.adapter.SearchWritingRecyclerAdapter;
 import com.example.cosmeticdiary.model.SearchResultModel;
 import com.example.cosmeticdiary.model.SearchWritingModel;
-import com.example.cosmeticdiary.retrofit.RetrofitHelper;
-import com.example.cosmeticdiary.retrofit.RetrofitService;
+import com.example.cosmeticdiary.util.retrofit.RetrofitHelper;
+import com.example.cosmeticdiary.util.retrofit.RetrofitService;
 
 import java.util.List;
 

@@ -15,9 +15,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.activity.LoginActivity;
+import com.example.cosmeticdiary.dialog.DialogCheckUser;
 import com.example.cosmeticdiary.model.LoginModel;
-import com.example.cosmeticdiary.retrofit.RetrofitHelper;
-import com.example.cosmeticdiary.retrofit.RetrofitService;
+import com.example.cosmeticdiary.util.retrofit.RetrofitHelper;
+import com.example.cosmeticdiary.util.retrofit.RetrofitService;
 
 import retrofit2.Call;
 import retrofit2.Callback;

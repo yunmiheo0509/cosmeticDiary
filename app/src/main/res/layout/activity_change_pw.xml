@@ -107,7 +107,7 @@
         app:layout_constraintBottom_toTopOf="@+id/et_checknewpw"
         app:layout_constraintEnd_toEndOf="@+id/et_checknewpw"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/et_checknewpw"
+        app:layout_constraintStart_toStartOf="@+id/tv_newpw"
         tools:ignore="MissingConstraints" />
 
     <EditText

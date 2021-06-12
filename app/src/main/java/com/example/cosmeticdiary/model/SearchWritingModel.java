@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 
-import static com.example.cosmeticdiary.retrofit.Common.BASE_SERVER_URL;
+import static com.example.cosmeticdiary.util.retrofit.Common.BASE_SERVER_URL;
 
 public class SearchWritingModel {
     @SerializedName("id")

@@ -2,7 +2,6 @@ package com.example.cosmeticdiary.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,12 +10,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.cosmeticdiary.MySharedPreferences;
+import com.example.cosmeticdiary.util.MySharedPreferences;
 import com.example.cosmeticdiary.R;
-import com.example.cosmeticdiary.fragment.DialogCheckUser;
 import com.example.cosmeticdiary.model.LoginModel;
-import com.example.cosmeticdiary.retrofit.RetrofitHelper;
-import com.example.cosmeticdiary.retrofit.RetrofitService;
+import com.example.cosmeticdiary.util.retrofit.RetrofitHelper;
+import com.example.cosmeticdiary.util.retrofit.RetrofitService;
 
 import retrofit2.Call;
 import retrofit2.Callback;

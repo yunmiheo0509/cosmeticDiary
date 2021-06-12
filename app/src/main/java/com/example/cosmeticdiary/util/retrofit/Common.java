@@ -1,8 +1,8 @@
-package com.example.cosmeticdiary.retrofit;
+package com.example.cosmeticdiary.util.retrofit;
 
 public class Common {
 //
-    public static final String BASE_SERVER_URL = "http://192.168.200.106:4000";
+    public static final String BASE_SERVER_URL = "http://192.168.219.106:4000";
 //    public static final String BASE_SERVER_URL = "https://6b40d6e985af.ngrok.io";
 
     public static final String RegisterURL = "/register"; //회원가입

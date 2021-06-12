@@ -1,4 +1,4 @@
-package com.example.cosmeticdiary.retrofit;
+package com.example.cosmeticdiary.util.retrofit;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

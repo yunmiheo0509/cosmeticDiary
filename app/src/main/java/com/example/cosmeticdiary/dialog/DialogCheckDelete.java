@@ -1,4 +1,4 @@
-package com.example.cosmeticdiary;
+package com.example.cosmeticdiary.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -8,7 +8,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-public class DialogCheckLogout extends Dialog {
+import com.example.cosmeticdiary.R;
+
+public class DialogCheckDelete extends Dialog {
     private TextView tvOk;
     private TextView tvCancel;
 
@@ -17,7 +19,7 @@ public class DialogCheckLogout extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_check_logout);
+        setContentView(R.layout.dialog_check_delete);
 
         tvCancel = findViewById(R.id.tv_cancel);
         tvOk = findViewById(R.id.tv_ok);
@@ -26,8 +28,10 @@ public class DialogCheckLogout extends Dialog {
         tvOk.setOnClickListener(dialogListener);
     }
 
-    public DialogCheckLogout(@NonNull Context context, View.OnClickListener dialogListener) {
+    public DialogCheckDelete(@NonNull Context context, View.OnClickListener dialogListener) {
         super(context);
         this.dialogListener = dialogListener;
     }
+
+
 }

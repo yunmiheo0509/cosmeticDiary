@@ -1,8 +1,5 @@
-package com.example.cosmeticdiary;
+package com.example.cosmeticdiary.util;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
