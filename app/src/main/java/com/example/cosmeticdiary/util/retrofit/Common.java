@@ -2,8 +2,7 @@ package com.example.cosmeticdiary.util.retrofit;
 
 public class Common {
 
-    public static final String BASE_SERVER_URL = "http://192.168.219.104:4000";
-//    public static final String BASE_SERVER_URL = "https://6b40d6e985af.ngrok.io";
+    public static final String BASE_SERVER_URL = "https://6b40d6e985af.ngrok.io";
 
     public static final String RegisterURL = "/register"; //회원가입
     public static final String LoginURL = "/login"; //로그인
@@ -21,5 +20,4 @@ public class Common {
     public static final String EditWritingURL ="/edit_writing";//글수정
     public static final String DeleteWritingURL ="/delete_writing";//글삭제
     public static final String EditProfileURL = "/edit_profile"; //프로필수정
-
 }
