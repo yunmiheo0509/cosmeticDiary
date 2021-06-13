@@ -25,6 +25,9 @@ public interface RetrofitService {
                                  @Field("password") String password,
                                  @Field("name") String name,
                                  @Field("email") String email);
+    @FormUrlEncoded
+    @POST(Common.SearchProfileURL)
+    Call<ProfileModel> getSearchProfile(@Field("id") String userID);
 
     @FormUrlEncoded
     @POST(Common.SearchCosmeticURL)
@@ -39,10 +42,6 @@ public interface RetrofitService {
     @POST(Common.SearchCalenderURL)
     Call<SearchResultModel> getSearchCalender(@Field("id") String userID,
                                               @Field("date") String date);
-
-    @FormUrlEncoded
-    @POST(Common.SearchProfileURL)
-    Call<ProfileModel> getSearchProfile(@Field("id") String userID);
 
     @FormUrlEncoded
     @POST(Common.FindIdURL)
@@ -99,4 +98,13 @@ public interface RetrofitService {
                                    @Field("content") String content,
                                    @Field("date") String date,
                                    @Field("cosmeticNameDB") String cosmeticNameDB);
+
+    @FormUrlEncoded
+    @POST(Common.EditProfileURL)
+    Call<LoginModel> EditProfile(@Field("id") String id,
+                                 @Field("name") String name,
+                                 @Field("gender") String gender,
+                                 @Field("age") String age,
+                                 @Field("skintype") String skintype,
+                                 @Field("allergy") String allergy);
 }

@@ -5,25 +5,29 @@ import com.google.gson.annotations.SerializedName;
 public class ProfileModel {
     @SerializedName("id")
     String id;
+
     @SerializedName("name")
     String name;
 
     @SerializedName("gender")
-    int gender;
+    String gender;
+
     @SerializedName("age")
-    int age;
+    String age;
 
     @SerializedName("image")
     String image;
+
     @SerializedName("skintype")
     String skintype;
+
     @SerializedName("allergy")
     String allergy;
 
     @SerializedName("alarm")
     int alarm;
 
-    public ProfileModel(String id, String name, int gender, int age, String image, String skintype, String allergy, int alarm) {
+    public ProfileModel(String id, String name, String gender, String age, String image, String skintype, String allergy, int alarm) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -50,19 +54,19 @@ public class ProfileModel {
         this.name = name;
     }
 
-    public int getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(int gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 

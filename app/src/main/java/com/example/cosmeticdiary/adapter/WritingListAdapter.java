@@ -97,11 +97,6 @@ public class WritingListAdapter extends RecyclerView.Adapter<WritingListAdapter.
         return dataList.size();
     }
 
-//    void addItem(SearchWritingModel data) {
-//        // 외부에서 item을 추가시킬 함수
-//        data.add(data);
-//    }
-
     // RecyclerView의 핵심인 ViewHolder
     // 여기서 subView를 setting
     class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -143,8 +138,4 @@ public class WritingListAdapter extends RecyclerView.Adapter<WritingListAdapter.
             });
         }
     }
-
-//    public interface RecyclerViewClickListener{
-//        void onClick(View v, int position);
-//    }
 }

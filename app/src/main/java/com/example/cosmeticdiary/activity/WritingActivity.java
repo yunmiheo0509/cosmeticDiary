@@ -225,10 +225,6 @@ public class WritingActivity extends AppCompatActivity {
                 btn_edit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                    etname.setEnabled(true);
-//                    etwrite.setEnabled(true);
-//                    radioGroup.setEnabled(true);
-//                    chkJopssal.setEnabled(true);
                         for (int i = 0; i < constraintLayout.getChildCount(); i++) {
                             View child = constraintLayout.getChildAt(i);
                             child.setEnabled(true);
@@ -464,17 +460,5 @@ public class WritingActivity extends AppCompatActivity {
         if (bool.equals("true")) {
             chkbox.setChecked(true);
         } else chkbox.setChecked(false);
-    }
-
-    private String getRealPathFromUri(Uri uri) {
-        String[] proj = {MediaStore.Images.Media.DATA};
-        CursorLoader cursorLoader = new CursorLoader(this, uri, proj, null, null, null);
-        Cursor cursor = cursorLoader.loadInBackground();
-
-        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String url = cursor.getString(columnIndex);
-        cursor.close();
-        return url;
     }
 }

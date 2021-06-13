@@ -54,7 +54,7 @@ public class FindPwFragment extends Fragment {
         btn_findPw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final GmailSender gMailSender = new GmailSender("cwd9447@gmail.com", "backupchl6372");
+                final GmailSender gMailSender = new GmailSender("발신자 이메일주소 입력", "발신자 이메일 비밀번호 입력");
                 randomPw = getRandomPassword(10);
                 changePw(et_id.getText().toString(), randomPw, et_email.getText().toString());
                 if(check) {
@@ -62,7 +62,6 @@ public class FindPwFragment extends Fragment {
                         @Override
                         public Void doInBackground(Void... voids) {
                             try {
-                                //GMailSender.sendMail(제목, 본문내용, 받는사람);
 
                                 gMailSender.sendMail("[CosmeticDiary] 새로운 비밀번호",
                                         "당신의 새로운 비밀번호 입니다. 로그인 후 꼭 비밀번호를 변경해주세요.\n" + randomPw,
@@ -84,7 +83,6 @@ public class FindPwFragment extends Fragment {
                 }
             }
         });
-
         return v;
     }
 

@@ -56,40 +56,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <CheckBox
-                android:id="@+id/checkbox_dry"
+            <RadioGroup
+                android:id="@+id/radiogrp_skintype"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginTop="8dp"
-                android:text="건성"
-                android:textSize="14dp"
                 app:layout_constraintStart_toStartOf="@+id/tv_skintype"
-                app:layout_constraintTop_toBottomOf="@+id/tv_skintype"
-                tools:ignore="MissingConstraints" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_skintype">
 
-            <CheckBox
-                android:id="@+id/checkbox_sensitive"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginLeft="12dp"
-                android:text="민감성"
-                android:textSize="14dp"
-                app:layout_constraintStart_toEndOf="@+id/checkbox_combination"
-                app:layout_constraintTop_toTopOf="@+id/checkbox_oily"
-                tools:ignore="MissingConstraints" />
+                <RadioButton
+                    android:id="@+id/radiobtn_dry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="건성"
+                    android:textSize="14dp" />
 
-            <CheckBox
-                android:id="@+id/checkbox_combination"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginLeft="12dp"
-                android:text="복합성"
-                android:textSize="14dp"
-                app:layout_constraintStart_toEndOf="@+id/checkbox_oily"
-                app:layout_constraintTop_toTopOf="@+id/checkbox_sensitive"
-                tools:ignore="MissingConstraints" />
+                <RadioButton
+                    android:id="@+id/radiobtn_oily"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:text="지성"
+                    android:textSize="14dp" />
+
+                <RadioButton
+                    android:id="@+id/radiobtn_combination"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:text="복합성"
+                    android:textSize="14dp" />
+
+                <RadioButton
+                    android:id="@+id/radiobtn_sensitive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:text="민감성"
+                    android:textSize="14dp" />
+
+            </RadioGroup>
 
             <TextView
                 android:id="@+id/tv_gender"
@@ -103,6 +113,7 @@
                 tools:ignore="MissingConstraints" />
 
             <RadioGroup
+                android:id="@+id/radiogrp_gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -110,7 +121,7 @@
                 app:layout_constraintTop_toTopOf="@+id/tv_gender">
 
                 <RadioButton
-                    android:id="@+id/radiobtn_female"
+                    android:id="@+id/radiobtn_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -119,7 +130,7 @@
                     android:textSize="16dp" />
 
                 <RadioButton
-                    android:id="@+id/radiobtn_male"
+                    android:id="@+id/radiobtn_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -139,13 +150,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_gender"
                 tools:ignore="MissingConstraints" />
 
-            <TextView
-                android:id="@+id/tv_userage"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/et_userage"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginLeft="4dp"
-                android:text="24"
+                android:inputType="number"
                 android:textSize="16dp"
                 app:layout_constraintStart_toEndOf="@+id/tv_age"
                 app:layout_constraintTop_toTopOf="@+id/tv_age"
@@ -163,18 +174,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_age" />
 
-            <CheckBox
-                android:id="@+id/checkbox_oily"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginLeft="12dp"
-                android:text="지성"
-                android:textSize="14dp"
-                app:layout_constraintStart_toEndOf="@+id/checkbox_dry"
-                app:layout_constraintTop_toTopOf="@+id/checkbox_dry"
-                tools:ignore="MissingConstraints" />
-
             <TextView
                 android:id="@+id/tv_allergy"
                 android:layout_width="wrap_content"
@@ -183,7 +182,7 @@
                 android:text="알러지"
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="@+id/tv_skintype"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_dry"
+                app:layout_constraintTop_toBottomOf="@+id/radiogrp_skintype"
                 tools:ignore="MissingConstraints" />
 
             <EditText
@@ -192,9 +191,9 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="8dp"
                 android:ems="10"
-                android:textSize="14dp"
                 android:inputType="textPersonName"
-                app:layout_constraintStart_toStartOf="@+id/tv_allergy"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="@+id/radiogrp_skintype"
                 app:layout_constraintTop_toBottomOf="@+id/tv_allergy"
                 tools:ignore="MissingConstraints" />
 
@@ -203,8 +202,8 @@
                 android:layout_width="130dp"
                 android:layout_height="40dp"
                 android:ems="10"
-                android:textSize="14dp"
                 android:inputType="textPersonName"
+                android:textSize="14dp"
                 app:layout_constraintStart_toStartOf="@+id/et_allergy1"
                 app:layout_constraintTop_toBottomOf="@+id/et_allergy1" />
 
@@ -213,8 +212,8 @@
                 android:layout_width="130dp"
                 android:layout_height="40dp"
                 android:ems="10"
-                android:textSize="14dp"
                 android:inputType="textPersonName"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="@+id/et_allergy2"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/et_allergy3"
@@ -228,8 +227,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
                 android:ems="10"
-                android:textSize="14dp"
                 android:inputType="textPersonName"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.181"
                 app:layout_constraintStart_toEndOf="@+id/et_allergy1"

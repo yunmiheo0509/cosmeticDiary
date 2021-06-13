@@ -22,7 +22,6 @@ public class GmailSender extends javax.mail.Authenticator {
     private String user ;
     private String password ;
     private Session session;
-//    private String emailCode;
 
     static {
         Security.addProvider(new JSSEProvider());
@@ -31,7 +30,6 @@ public class GmailSender extends javax.mail.Authenticator {
     public GmailSender(String user, String password) {
         this.user = user;
         this.password = password;
-//        emailCode = createEmailCode();
 
         Properties props = new Properties();
         props.setProperty("mail.transport.protocol", "smtp");
@@ -44,26 +42,9 @@ public class GmailSender extends javax.mail.Authenticator {
         props.put("mail.smtp.socketFactory.fallback", "false");
         props.setProperty("mail.smtp.quitwait", "false");
 
-        //구글에서 지원하는 smtp 정보를 받아와 MimeMessage 객체에 전달해준다.
+        // 구글에서 지원하는 smtp 정보를 받아와 MimeMessage 객체에 전달
         session = Session.getDefaultInstance(props, this);
     }
-
-//    public String getEmailCode() {
-//        return emailCode;
-//    } //생성된 이메일 인증코드 반환
-
-//    private String createEmailCode() { //이메일 인증코드 생성
-//        String[] str = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
-//                "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
-//        String newCode = new String();
-//
-//        for (int x = 0; x < 8; x++) {
-//            int random = (int) (Math.random() * str.length);
-//            newCode += str[random];
-//        }
-//
-//        return newCode;
-//    }
 
     protected PasswordAuthentication getPasswordAuthentication() {
         //해당 메서드에서 사용자의 계정(id & password)을 받아 인증받으며 인증 실패시 기본값으로 반환됨.
@@ -72,7 +53,7 @@ public class GmailSender extends javax.mail.Authenticator {
 
     public synchronized void sendMail(String subject, String body, String recipients) throws Exception {
         MimeMessage message = new MimeMessage(session);
-        DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain")); //본문 내용을 byte단위로 쪼개어 전달
+        DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain")); // 본문 내용을 byte단위로 쪼개어 전달
         message.setSender(new InternetAddress(user));  //본인 이메일 설정
         message.setSubject(subject); //해당 이메일의 본문 설정
         message.setDataHandler(handler);

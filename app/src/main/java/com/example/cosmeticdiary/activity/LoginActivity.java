@@ -43,11 +43,13 @@ public class LoginActivity extends AppCompatActivity {
         et_id = findViewById(R.id.et_id);
         et_password = findViewById(R.id.et_pw);
 
-        // SharedPreferences 안에 값이 저장되어 있지 않을 때 -> Login
+        // SharedPreferences 안에 값이 저장되어 있지 않을 때 -> LoginActivity
         if (MySharedPreferences.getUserId(this).isEmpty()
                 || MySharedPreferences.getUserPass(this).isEmpty()) {
             Login();
-        } else { // SharedPreferences 안에 값이 저장되어 있을 때 -> MainActivity로 이동
+        }
+        // SharedPreferences 안에 값이 저장되어 있을 때 -> MainActivity
+        else {
             Toast.makeText(this, MySharedPreferences.getUserId(this) + "님 자동 로그인 되었습니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);

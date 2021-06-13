@@ -2,6 +2,7 @@ package com.example.cosmeticdiary.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,29 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
 //        recyclerView.setAdapter(writingListAdapter);
 
-        //user정보 서버검색
-        searchProfile();
-
-//        //날짜에 맞는 글 목록 띄우기
-//        tv_date.setText((Calendar.getInstance().get(Calendar.MONTH) + 1) + "월 "
-//                + (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "일"));
-//
-//        searchCalender(Calendar.getInstance().get(Calendar.YEAR) + "-"
-//                + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "-"
-//                + Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-//
-//        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-//            @Override
-//            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-//                tv_date.setText(String.format("%d월 %d일", month + 1, dayOfMonth));
-//                deafaultDate = String.format("%d월 %d일", month + 1, dayOfMonth);
-//
-//                selectDate = String.format("%d-%d-%d", year, month + 1, dayOfMonth);
-//                //서버연결(날짜에 맞는 데이터 가져오기
-//                searchCalender(String.format("%d-%d-%d", year, month + 1, dayOfMonth));
-//            }
-//        });
-
         this.InitializeLayout();
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -142,12 +120,22 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
                 intent.putExtra("name", profileModel.getName());
-//                intent.putExtra("ingredient", recyclerAdapter.choice().get(1));
-                intent.putExtra("allergy", profileModel.getAllergy());
+                if (!TextUtils.isEmpty(profileModel.getGender())) {
+                    intent.putExtra("gender", profileModel.getGender());
+                }
+                if (!TextUtils.isEmpty(profileModel.getAge())) {
+                    intent.putExtra("age", profileModel.getAge());
+                }
+//                intent.putExtra("image", profileModel.getImage());
+                if (!TextUtils.isEmpty(profileModel.getSkintype())) {
+                    intent.putExtra("skintype", profileModel.getSkintype());
+                }
+                if (!TextUtils.isEmpty(profileModel.getAllergy())) {
+                    intent.putExtra("allergy", profileModel.getAllergy());
+                };
 //                setResult(RESULT_OK, intent);
                 startActivity(intent);
 //                Log.d("반환", recyclerAdapter.choice().get(0) +" "+ recyclerAdapter.choice().get(1));
-                finish();
             }
         });
 
@@ -174,6 +162,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        //user정보 서버검색
+        searchProfile();
 
 //        날짜에 맞는 글 목록 띄우기
         tv_date.setText(deafaultDate);
@@ -242,13 +233,12 @@ public class MainActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         Log.d("연결 성공", response.message());
                         profileModel = response.body();
-//                        dataList = response.body();
-//                        dataInfo = dataList.profile_results;
+
+//                        dataInfo = profileModel.profile_results;
 //                            recyclerAdapter = new SearchCosmeticRecyclerAdapter(getApplicationContext(), dataInfo);
 //                            recyclerView.setAdapter(recyclerAdapter);
 
-                        System.out.println(profileModel.getName() + " / " + profileModel.getSkintype() + " / " + profileModel.getAllergy());
-//                    List<ProfileModel> profileList; 이렇게 저장해야되나?
+                        List<ProfileModel> profileList;
 
                         TextView tv_profilename = header.findViewById(R.id.tv_profilename);
                         TextView tv_skintype = header.findViewById(R.id.tv_skintype);
