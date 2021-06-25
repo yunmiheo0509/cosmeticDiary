@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,19 +29,22 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cosmeticdiary.DialogCheckLogout;
-import com.example.cosmeticdiary.GpsTracker;
-import com.example.cosmeticdiary.MySharedPreferences;
 import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.adapter.WritingListAdapter;
+import com.example.cosmeticdiary.dialog.DialogCheckLogout;
 import com.example.cosmeticdiary.model.ProfileModel;
 import com.example.cosmeticdiary.model.SearchResultModel;
 import com.example.cosmeticdiary.model.SearchWritingModel;
-import com.example.cosmeticdiary.retrofit.RetrofitHelper;
-import com.example.cosmeticdiary.retrofit.RetrofitService;
+import com.example.cosmeticdiary.util.GpsTracker;
+import com.example.cosmeticdiary.util.MySharedPreferences;
+import com.example.cosmeticdiary.util.retrofit.RetrofitHelper;
+import com.example.cosmeticdiary.util.retrofit.RetrofitService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.List;
@@ -67,12 +71,14 @@ public class MainActivity extends AppCompatActivity {
     int pressedTime = 0;
     String selectDate, deafaultDate;
 
+
     // header에 있는 리소스 가져오기
     NavigationView navigationView;
     View header;
 
     RetrofitService retrofitService;
-
+//날씨 정보
+    double humidity=0,maxTemp=0,minTemp=0;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         navigationView.setCheckedItem(R.id.menu_alarm);
@@ -116,25 +122,6 @@ public class MainActivity extends AppCompatActivity {
         //user정보 서버검색
         searchProfile();
 
-//        //날짜에 맞는 글 목록 띄우기
-//        tv_date.setText((Calendar.getInstance().get(Calendar.MONTH) + 1) + "월 "
-//                + (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "일"));
-//
-//        searchCalender(Calendar.getInstance().get(Calendar.YEAR) + "-"
-//                + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "-"
-//                + Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-//
-//        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-//            @Override
-//            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-//                tv_date.setText(String.format("%d월 %d일", month + 1, dayOfMonth));
-//                deafaultDate = String.format("%d월 %d일", month + 1, dayOfMonth);
-//
-//                selectDate = String.format("%d-%d-%d", year, month + 1, dayOfMonth);
-//                //서버연결(날짜에 맞는 데이터 가져오기
-//                searchCalender(String.format("%d-%d-%d", year, month + 1, dayOfMonth));
-//            }
-//        });
 
         this.InitializeLayout();
 
@@ -155,8 +142,19 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
                 intent.putExtra("name", profileModel.getName());
-//                intent.putExtra("ingredient", recyclerAdapter.choice().get(1));
-                intent.putExtra("allergy", profileModel.getAllergy());
+                if (!TextUtils.isEmpty(profileModel.getGender())) {
+                    intent.putExtra("gender", profileModel.getGender());
+                }
+                if (!TextUtils.isEmpty(profileModel.getAge())) {
+                    intent.putExtra("age", profileModel.getAge());
+                }
+//                intent.putExtra("image", profileModel.getImage());
+                if (!TextUtils.isEmpty(profileModel.getSkintype())) {
+                    intent.putExtra("skintype", profileModel.getSkintype());
+                }
+                if (!TextUtils.isEmpty(profileModel.getAllergy())) {
+                    intent.putExtra("allergy", profileModel.getAllergy());
+                };
 //                setResult(RESULT_OK, intent);
                 startActivity(intent);
 //                Log.d("반환", recyclerAdapter.choice().get(0) +" "+ recyclerAdapter.choice().get(1));
@@ -187,6 +185,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        //user정보 서버검색
+        searchProfile();
 
 //        날짜에 맞는 글 목록 띄우기
         tv_date.setText(deafaultDate);
@@ -220,19 +221,23 @@ public class MainActivity extends AppCompatActivity {
 //                Log.d("검색", searchResultModel.calender_results.get(0).getName());
                 dataList = response.body();
 //                Log.d("검색 ", dataList.toString());
-                dataInfo = dataList.calender_results;
-                if (response.body().getCode().equals("200")) {
-                    writingListAdapter = new WritingListAdapter(getApplicationContext(), dataInfo);
-                    recyclerView.setAdapter(writingListAdapter);
-                    tv_empty.setVisibility(View.GONE);
+                if (response.body() != null) {
+                    Log.d("로로로그그그",response.body().code);
+                    if (response.body().getCode().equals("200")) {
+                        dataInfo = dataList.calender_results;
+                        writingListAdapter = new WritingListAdapter(getApplicationContext(), dataInfo);
+                        recyclerView.setAdapter(writingListAdapter);
+                        tv_empty.setVisibility(View.GONE);
 //                    Log.d("받아온거  확인", dataInfo.toString());
-                } else {
-                    dataInfo.clear();
-                    writingListAdapter = new WritingListAdapter(getApplicationContext(), dataInfo);
-                    recyclerView.setAdapter(writingListAdapter);
-                    tv_empty.setVisibility(View.VISIBLE);
+                    } else {
+                        dataInfo.clear();
+                        writingListAdapter = new WritingListAdapter(getApplicationContext(), dataInfo);
+                        recyclerView.setAdapter(writingListAdapter);
+                        tv_empty.setVisibility(View.VISIBLE);
 //                    Log.d("받아온거 없는경우다", dataInfo.toString());
+                    }
                 }
+
             }
 
             @Override
@@ -260,8 +265,7 @@ public class MainActivity extends AppCompatActivity {
 //                            recyclerAdapter = new SearchCosmeticRecyclerAdapter(getApplicationContext(), dataInfo);
 //                            recyclerView.setAdapter(recyclerAdapter);
 
-                        System.out.println(profileModel.getName() + " / " + profileModel.getSkintype() + " / " + profileModel.getAllergy());
-//                    List<ProfileModel> profileList; 이렇게 저장해야되나?
+                        List<ProfileModel> profileList;
 
                         TextView tv_profilename = header.findViewById(R.id.tv_profilename);
                         TextView tv_skintype = header.findViewById(R.id.tv_skintype);
@@ -394,8 +398,22 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                String jsonObj = response.body().toString();
-                Log.d("날씨정보",jsonObj);
+                if(response.body().toString()!=null) {
+                   String jsonObj = response.body().toString();
+                    try {
+                        JSONObject jsonObject = new JSONObject(jsonObj);
+                        maxTemp = Double.parseDouble(jsonObject.getJSONObject("main").getString("temp_max"))-273.15;
+                        minTemp = Double.parseDouble(jsonObject.getJSONObject("main").getString("temp_min"))-273.15;
+                        humidity = Double.parseDouble(jsonObject.getJSONObject("main").getString("humidity"));
+
+                        Log.d("날씨정보", jsonObj);
+                        Log.d("날씨파싱","최고"+ maxTemp+"도 최저 "+minTemp+"도 습도  "+humidity+"%");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
             }
 
             @Override

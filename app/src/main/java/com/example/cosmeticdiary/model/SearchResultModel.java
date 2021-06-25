@@ -25,6 +25,10 @@ public class SearchResultModel {
         this.code = code;
     }
 
+    public SearchResultModel(String code) {
+        this.code = code;
+    }
+
     @Override
     public String toString(){
         return "results: " + calender_results;

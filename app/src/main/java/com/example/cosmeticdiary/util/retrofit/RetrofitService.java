@@ -1,4 +1,4 @@
-package com.example.cosmeticdiary.retrofit;
+package com.example.cosmeticdiary.util.retrofit;
 
 import com.example.cosmeticdiary.model.LoginModel;
 import com.example.cosmeticdiary.model.ProfileModel;
@@ -46,9 +46,6 @@ public interface RetrofitService {
     Call<SearchResultModel> getSearchCalender(@Field("id") String userID,
                                               @Field("date") String date);
 
-    @FormUrlEncoded
-    @POST(Common.SearchProfileURL)
-    Call<ProfileModel> getSearchProfile(@Field("id") String userID);
 
     @FormUrlEncoded
     @POST(Common.FindIdURL)
