@@ -1,13 +1,16 @@
-package com.example.cosmeticdiary.util.retrofit;
+package com.example.cosmeticdiary.retrofit;
 
 import com.example.cosmeticdiary.model.LoginModel;
 import com.example.cosmeticdiary.model.ProfileModel;
 import com.example.cosmeticdiary.model.SearchResultModel;
+import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface RetrofitService {
     @FormUrlEncoded
@@ -42,6 +45,10 @@ public interface RetrofitService {
     @POST(Common.SearchCalenderURL)
     Call<SearchResultModel> getSearchCalender(@Field("id") String userID,
                                               @Field("date") String date);
+
+    @FormUrlEncoded
+    @POST(Common.SearchProfileURL)
+    Call<ProfileModel> getSearchProfile(@Field("id") String userID);
 
     @FormUrlEncoded
     @POST(Common.FindIdURL)
@@ -98,6 +105,12 @@ public interface RetrofitService {
                                    @Field("content") String content,
                                    @Field("date") String date,
                                    @Field("cosmeticNameDB") String cosmeticNameDB);
+
+
+    @GET("weather?")
+    Call<JsonObject> getWeather(@Query("lat") String lat,
+                                @Query("lon") String lon,
+                                @Query("APPID") String APPID);
 
     @FormUrlEncoded
     @POST(Common.EditProfileURL)

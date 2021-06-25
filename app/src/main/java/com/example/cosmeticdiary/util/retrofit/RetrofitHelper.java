@@ -15,4 +15,13 @@ public class RetrofitHelper {
         }
         return retrofit;
     }
+    public static Retrofit getWeatherRetrofit(){
+        if(retrofit == null){
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(Common.Weather_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofit;
+    }
 }

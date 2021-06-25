@@ -1,8 +1,10 @@
-package com.example.cosmeticdiary.util.retrofit;
+package com.example.cosmeticdiary.retrofit;
 
 public class Common {
-
-    public static final String BASE_SERVER_URL = "https://6b40d6e985af.ngrok.io";
+//
+//    public static final String BASE_SERVER_URL = "http://192.168.200.106:4000";
+    public static final String BASE_SERVER_URL = "https://43b47963296f.ngrok.io";
+    public static final String Weather_URL="http://api.openweathermap.org/data/2.5/";
 
     public static final String RegisterURL = "/register"; //회원가입
     public static final String LoginURL = "/login"; //로그인
