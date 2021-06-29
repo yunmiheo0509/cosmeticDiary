@@ -27,7 +27,8 @@ public interface RetrofitService {
     Call<LoginModel> getRegister(@Field("id") String userID,
                                  @Field("password") String password,
                                  @Field("name") String name,
-                                 @Field("email") String email);
+                                 @Field("email") String email,
+                                 @Field("alarm") int alarm);
     @FormUrlEncoded
     @POST(Common.SearchProfileURL)
     Call<ProfileModel> getSearchProfile(@Field("id") String userID);
@@ -117,4 +118,10 @@ public interface RetrofitService {
                                  @Field("age") String age,
                                  @Field("skintype") String skintype,
                                  @Field("allergy") String allergy);
+
+    @FormUrlEncoded
+    @POST(Common.SetAlarmURL)
+    Call<LoginModel> SetAlarm(@Field("id") String id,
+                              @Field("alarm") int alarm);
+
 }

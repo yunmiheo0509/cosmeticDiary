@@ -5,7 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Layout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -32,6 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cosmeticdiary.R;
 import com.example.cosmeticdiary.adapter.WritingListAdapter;
 import com.example.cosmeticdiary.dialog.DialogCheckLogout;
+import com.example.cosmeticdiary.model.LoginModel;
 import com.example.cosmeticdiary.model.ProfileModel;
 import com.example.cosmeticdiary.model.SearchResultModel;
 import com.example.cosmeticdiary.model.SearchWritingModel;
@@ -64,26 +69,31 @@ public class MainActivity extends AppCompatActivity {
     LinearLayoutManager linearLayoutManager;
     DialogCheckLogout dialogCheckLogout;
     CalendarView calendarView;
-    //    WritingListAdapter.RecyclerViewClickListener listener;
     ProfileModel profileModel;
-    ActionBarDrawerToggle actionBarDrawerToggle;
-    TextView tv_date, tv_empty;
+    ActionBarDrawerToggle alarmToggle;
+    TextView tv_date, tv_empty, tv_maxtemp, tv_mintemp, tv_humadity, tv_dust;
     int pressedTime = 0;
     String selectDate, deafaultDate;
-
-
+    double latitude, longitude;
+    String slatitude, slongitude;
     // header에 있는 리소스 가져오기
     NavigationView navigationView;
     View header;
 
+    //Menu
+    MenuItem menuItem;
+    Switch drawerSwitch;
+//    int alarm;
+
     RetrofitService retrofitService;
-//날씨 정보
-    double humidity=0,maxTemp=0,minTemp=0;
+    //날씨 정보
+    double humidity = 0, maxTemp = 0, minTemp = 0;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         navigationView.setCheckedItem(R.id.menu_alarm);
         navigationView.getMenu().performIdentifierAction(R.id.menu_alarm, 0);
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+        if (alarmToggle.onOptionsItemSelected(item)) {
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -106,6 +116,10 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fabSearch = findViewById(R.id.fab_search);
         calendarView = findViewById(R.id.calendarView);
         tv_date = findViewById(R.id.tv_date);
+        tv_maxtemp = header.findViewById(R.id.tv_maxtemp);
+        tv_mintemp = header.findViewById(R.id.tv_mintemp);
+        tv_humadity = header.findViewById(R.id.tv_humidity);
+        tv_dust = header.findViewById(R.id.tv_dust);
 
         Button btneditprofile = header.findViewById(R.id.btn_editprofile);
 
@@ -114,14 +128,71 @@ public class MainActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        getWeather();
-//        dataInfo = new ArrayList<>();
+        menuItem = navigationView.getMenu().findItem(R.id.menu_alarm);
+        drawerSwitch = (Switch) menuItem.getActionView().findViewById(R.id.drawer_switch);
 
-//        recyclerView.setAdapter(writingListAdapter);
+        GpsTracker gpsTracker = new GpsTracker(MainActivity.this);
+        latitude = gpsTracker.getLatitude(); // 위도
+        longitude = gpsTracker.getLongitude(); //경도
+        slatitude = Double.toString(latitude);
+        slongitude = Double.toString(longitude);
+        Log.d("경도,위도", slatitude + "  " + slongitude);
 
-        //user정보 서버검색
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try {
+
+                    if (checkLocationServicesStatus()) {
+                        checkRunTimePermission();
+                    } else {
+                        showDialogForLocationServiceSetting();
+                    }
+
+                    retrofitService = RetrofitHelper.getWeatherRetrofit().create(RetrofitService.class);
+                    Call<JsonObject> call = retrofitService.getWeather(slatitude, slongitude, "54b1ec64882548adfec17e7ea7afca02");
+
+                    call.enqueue(new Callback<JsonObject>() {
+                        @Override
+                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                            if (response.body() != null) {
+                                String jsonObj = response.body().toString();
+                                try {
+                                    JSONObject jsonObject = new JSONObject(jsonObj);
+                                    maxTemp = Math.round((Double.parseDouble(jsonObject.getJSONObject("main").getString("temp_max")) - 273.15) * 10) / 10.0;
+                                    minTemp = Math.round((Double.parseDouble(jsonObject.getJSONObject("main").getString("temp_min")) - 273.15) * 10) / 10.0;
+                                    humidity = Double.parseDouble(jsonObject.getJSONObject("main").getString("humidity"));
+
+                                    Log.d("날씨정보", jsonObj);
+                                    Log.d("날씨파싱", "최고" + maxTemp + "도 최저 " + minTemp + "도 습도  " + humidity + "%");
+
+                                    tv_maxtemp.setText(maxTemp + "°C");
+                                    tv_mintemp.setText(minTemp + "°C");
+                                    tv_humadity.setText(humidity + "%");
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+
+                                }
+                            } else {
+                                Log.d("날씨파싱", "최고" + maxTemp);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<JsonObject> call, Throwable t) {
+                            Log.d("ssss", t.getMessage());
+                        }
+                    });
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
+
+        // user정보 서버검색
         searchProfile();
-
 
         this.InitializeLayout();
 
@@ -136,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
 
         btneditprofile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,10 +226,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (!TextUtils.isEmpty(profileModel.getAllergy())) {
                     intent.putExtra("allergy", profileModel.getAllergy());
-                };
+                }
+                ;
 //                setResult(RESULT_OK, intent);
                 startActivity(intent);
-//                Log.d("반환", recyclerAdapter.choice().get(0) +" "+ recyclerAdapter.choice().get(1));
+
                 finish();
             }
         });
@@ -186,10 +259,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        //user정보 서버검색
+        // user정보 서버검색
         searchProfile();
 
-//        날짜에 맞는 글 목록 띄우기
+        //날짜에 맞는 글 목록 띄우기
         tv_date.setText(deafaultDate);
 
         searchCalender(selectDate);
@@ -217,27 +290,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SearchResultModel> call, Response<SearchResultModel> response) {
                 Log.d("연결 성공", response.message());
-//                SearchResultModel searchResultModel = response.body();
-//                Log.d("검색", searchResultModel.calender_results.get(0).getName());
                 dataList = response.body();
-//                Log.d("검색 ", dataList.toString());
+
                 if (response.body() != null) {
-                    Log.d("로로로그그그",response.body().code);
+                    dataInfo = dataList.calender_results;
                     if (response.body().getCode().equals("200")) {
-                        dataInfo = dataList.calender_results;
                         writingListAdapter = new WritingListAdapter(getApplicationContext(), dataInfo);
                         recyclerView.setAdapter(writingListAdapter);
                         tv_empty.setVisibility(View.GONE);
-//                    Log.d("받아온거  확인", dataInfo.toString());
                     } else {
-                        dataInfo.clear();
                         writingListAdapter = new WritingListAdapter(getApplicationContext(), dataInfo);
                         recyclerView.setAdapter(writingListAdapter);
                         tv_empty.setVisibility(View.VISIBLE);
-//                    Log.d("받아온거 없는경우다", dataInfo.toString());
                     }
                 }
-
             }
 
             @Override
@@ -260,12 +326,12 @@ public class MainActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         Log.d("연결 성공", response.message());
                         profileModel = response.body();
-//                        dataList = response.body();
-//                        dataInfo = dataList.profile_results;
-//                            recyclerAdapter = new SearchCosmeticRecyclerAdapter(getApplicationContext(), dataInfo);
-//                            recyclerView.setAdapter(recyclerAdapter);
 
                         List<ProfileModel> profileList;
+
+                        if (profileModel.getAlarm() == 1) {
+                            drawerSwitch.setChecked(true);
+                        } else drawerSwitch.setChecked(false);
 
                         TextView tv_profilename = header.findViewById(R.id.tv_profilename);
                         TextView tv_skintype = header.findViewById(R.id.tv_skintype);
@@ -288,21 +354,52 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // 버튼 클릭시 데이터 저장처리
+    private void setAlarm(int onOff) {
+        retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
+
+        Call<LoginModel> call = retrofitService.SetAlarm(MySharedPreferences.getUserId(MainActivity.this), onOff);
+
+        call.enqueue(new Callback<LoginModel>() {
+            @Override
+            public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
+                if (response.isSuccessful()) {
+                    Log.d("연결 성공", response.message());
+                    LoginModel loginModel = response.body();
+
+                    if (loginModel.getCode().equals("200")) {
+                        Log.v("code", loginModel.getCode());
+                    } else
+                        Log.d("ssss", response.message());
+                    finish();
+                } else if (response.code() == 404) {
+                    Toast.makeText(MainActivity.this, "인터넷 연결을 확인해주세요", Toast.LENGTH_SHORT).show();
+                    Log.d("ssss", response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginModel> call, Throwable t) {
+                Log.d("ssss", t.getMessage());
+            }
+
+        });
+    }
 
     // 메뉴 항목 이벤트
     private void switchScreen(int id) {
         switch (id) {
             case R.id.menu_alarm:
-                MenuItem menuItem = navigationView.getMenu().findItem(R.id.menu_alarm); // This is the menu item that contains your switch
-                Switch drawerSwitch = (Switch) menuItem.getActionView().findViewById(R.id.drawer_switch);
-
                 drawerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked) {
-                            Toast.makeText(MainActivity.this, "Switch turned on", Toast.LENGTH_SHORT).show();
+                            setAlarm(1);
+                            Toast.makeText(MainActivity.this, "푸시알림을 켰습니다", Toast.LENGTH_SHORT).show();
+
                         } else {
-                            Toast.makeText(MainActivity.this, "Switch turned off", Toast.LENGTH_SHORT).show();
+                            setAlarm(0);
+                            Toast.makeText(MainActivity.this, "푸시알림을 껐습니다", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -327,21 +424,11 @@ public class MainActivity extends AppCompatActivity {
 
         DrawerLayout drawLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawLayout,
+        alarmToggle = new ActionBarDrawerToggle(this, drawLayout,
                 toolbar, R.string.open, R.string.closed);
 
-        drawLayout.addDrawerListener(actionBarDrawerToggle);
+        drawLayout.addDrawerListener(alarmToggle);
     }
-
-//    @Override
-//    public void onBackPressed() {
-//        DrawerLayout drawer = findViewById(R.id.drawerLayout);
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
 
     //다이얼로그창
     private View.OnClickListener dialogListener = new View.OnClickListener() {
@@ -379,52 +466,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getWeather() {
-        if (checkLocationServicesStatus()) {
-            checkRunTimePermission();
-        } else {
-            showDialogForLocationServiceSetting();
-        }
-        GpsTracker gpsTracker = new GpsTracker(MainActivity.this);
-        double latitude = gpsTracker.getLatitude(); // 위도
-        double longitude = gpsTracker.getLongitude(); //경도
-        String slatitude = Double.toString(latitude);
-        String slongitude = Double.toString(longitude);
-        Log.d("경도,위도", slatitude + "  " + slongitude);
-
-        retrofitService = RetrofitHelper.getWeatherRetrofit().create(RetrofitService.class);
-        Call<JsonObject> call = retrofitService.getWeather(slatitude,slongitude,"54b1ec64882548adfec17e7ea7afca02");
-
-        call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if(response.body().toString()!=null) {
-                   String jsonObj = response.body().toString();
-                    try {
-                        JSONObject jsonObject = new JSONObject(jsonObj);
-                        maxTemp = Double.parseDouble(jsonObject.getJSONObject("main").getString("temp_max"))-273.15;
-                        minTemp = Double.parseDouble(jsonObject.getJSONObject("main").getString("temp_min"))-273.15;
-                        humidity = Double.parseDouble(jsonObject.getJSONObject("main").getString("humidity"));
-
-                        Log.d("날씨정보", jsonObj);
-                        Log.d("날씨파싱","최고"+ maxTemp+"도 최저 "+minTemp+"도 습도  "+humidity+"%");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d("ssss", t.getMessage());
-            }
-        });
-    }
-
-
-
     @Override
     public void onRequestPermissionsResult(int permsRequestCode,
                                            @NonNull String[] permissions,
@@ -435,7 +476,6 @@ public class MainActivity extends AppCompatActivity {
             // 요청 코드가 PERMISSIONS_REQUEST_CODE 이고, 요청한 퍼미션 개수만큼 수신되었다면
 
             boolean check_result = true;
-
 
             // 모든 퍼미션을 허용했는지 체크합니다.
 
@@ -448,9 +488,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             if (check_result) {
-
                 //위치 값을 가져올 수 있음
-                ;
             } else {
                 // 거부한 퍼미션이 있다면 앱을 사용할 수 없는 이유를 설명해주고 앱을 종료합니다.2 가지 경우가 있습니다.
 
@@ -462,9 +500,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 } else {
-
                     Toast.makeText(MainActivity.this, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
-
                 }
             }
 
@@ -472,7 +508,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void checkRunTimePermission() {
-
         //런타임 퍼미션 처리
         // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(MainActivity.this,
@@ -514,8 +549,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //여기부터는 GPS 활성화를 위한 메소드들
-
+    //GPS 활성화를 위한 메소드들
     private void showDialogForLocationServiceSetting() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("위치 서비스 비활성화");
@@ -553,6 +587,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
     public boolean checkLocationServicesStatus() {
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 

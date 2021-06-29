@@ -180,7 +180,8 @@ public class RegisterActivity extends AppCompatActivity {
                         et_id.getText().toString(),
                         et_password.getText().toString(),
                         et_name.getText().toString(),
-                        et_email.getText().toString()
+                        et_email.getText().toString(),
+                        0
                 );
 
                 call2.enqueue(new Callback<LoginModel>() {

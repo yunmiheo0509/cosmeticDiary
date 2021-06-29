@@ -4,7 +4,8 @@
 
     <item android:id="@+id/menu_alarm"
         android:title="알림설정"
-        app:actionLayout="@layout/layout_switch"/>
+        app:actionLayout="@layout/layout_switch" />
+<!--    app:actionViewClass="android.widget.Switch"-->
 
     <item android:id="@+id/menu_logout"
         android:title="로그아웃" />

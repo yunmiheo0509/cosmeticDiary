@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cosmeticdiary.R;
@@ -94,7 +95,7 @@ public class WritingListAdapter extends RecyclerView.Adapter<WritingListAdapter.
     @Override
     public int getItemCount() {
         // RecyclerView의 총 개수
-        return dataList.size();
+        return dataList == null ? 0 : dataList.size();
     }
 
     // RecyclerView의 핵심인 ViewHolder
